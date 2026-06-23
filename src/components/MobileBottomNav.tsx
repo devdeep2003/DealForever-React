@@ -105,7 +105,7 @@ export default function MobileBottomNav() {
             {categoryList.map((cat) => (
               <Link
                 key={cat}
-                to={`/categories?cat=${cat.toLowerCase().replace(/\s+/g, '-')}`}
+                to={`/categories/${cat.toLowerCase().replace(/\s+/g, '-')}`}
                 onClick={() => setActiveSheet(null)}
                 className="block px-4 py-3 bg-[#faf8f5] rounded-lg text-sm font-medium text-[#555] hover:text-[#aa8453] hover:bg-[#f5f3ef] transition-colors"
               >

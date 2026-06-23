@@ -260,7 +260,7 @@ export default function BusinessOpportunity() {
           </div>
 
           {/* How it works — 3 step strip */}
-          <div className="grid grid-cols-3 gap-4 mb-10">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
             {[
               { step: '01', label: 'Register Free', detail: 'Sign up online in minutes at no cost.' },
               { step: '02', label: 'Build Your Network', detail: 'Refer others and grow a team under you.' },

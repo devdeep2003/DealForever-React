@@ -11,7 +11,7 @@ export default function TermsAndConditionsModal({ isOpen, onClose }: TermsAndCon
   return (
     <div className="fixed inset-0 z-[120] flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-black/60" onClick={onClose} />
-      <div className="relative bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col animate-scale-in">
+      <div className="relative bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden animate-scale-in">
         {/* Header */}
         <div className="relative gradient-gold px-6 py-5 rounded-t-2xl flex-shrink-0">
           <button onClick={onClose} className="absolute top-4 right-4 text-white/80 hover:text-white transition-colors">

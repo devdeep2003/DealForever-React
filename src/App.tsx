@@ -23,6 +23,7 @@ import Compliance from './pages/Compliance';
 import Team from './pages/Team';
 import SuccessStories from './pages/SuccessStories';
 import StartBusiness from './pages/StartABusiness';
+import CategoryDetail from './pages/CategoryDetail';
 
 export default function App() {
   return (
@@ -52,6 +53,7 @@ export default function App() {
           <Route path="/testimonials" element={<Testimonials />} />
           <Route path="/grievance" element={<Grievance />} />
           <Route path="/start-a-business" element={<StartBusiness/>} />
+          <Route path="/categories/:slug" element={<CategoryDetail />} />
         </Route>
       </Routes>
     </BrowserRouter>

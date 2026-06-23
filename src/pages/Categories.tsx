@@ -65,12 +65,14 @@ export default function Categories() {
                   </div>
                   <h3 className="text-2xl font-bold text-white mb-2">{cat.name}</h3>
                   <p className="text-white/70 text-sm mb-4 line-clamp-2">{cat.description}</p>
-                  <Link
-                    to={`/brands?cat=${cat.name.toLowerCase().replace(/\s+/g, '-')}`}
-                    className="inline-flex items-center gap-2  text-[#aa8453] font-semibold text-sm hover:underline"
-                  >
-                    View Products <ArrowRight size={16} />
-                  </Link>
+                  <div className="flex items-center justify-end">
+                    <Link
+                      to={`/categories/${cat.name.toLowerCase().replace(/\s+/g, '-')}`}
+                      className="inline-flex items-center gap-2 text-[#aa8453] font-semibold text-sm hover:underline"
+                    >
+                      View Products <ArrowRight size={16} />
+                    </Link>
+                  </div>
                 </div>
               </div>
             ))}

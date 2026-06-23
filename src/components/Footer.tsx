@@ -23,7 +23,7 @@ export default function Footer() {
     <footer className="bg-[#191717] text-white">
       {/* Connect Section */}
       <div className="border-b border-white/10">
-        <div className="p-16 bg-[#333333]">
+        <div className="p-6 sm:p-10 lg:p-16 bg-[#333333]">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-10">
             {/* Left Side */}
             <div className="w-full lg:w-auto lg:max-w-md">
@@ -59,18 +59,18 @@ export default function Footer() {
             <div className="border-r border-white/10 hidden lg:block self-stretch"></div>
 
             {/* Right Side Trust Badges */}
-            <div className="grid grid-cols-3 gap-10 w-full lg:w-auto">
+            <div className="grid grid-cols-3 gap-3 sm:gap-6 lg:gap-10 w-full lg:w-auto">
               {trustBadges.map((badge) => (
                 <div
                   key={badge.label}
-                  className="flex flex-col items-center text-center gap-2 text-white/70 w-28"
+                  className="flex flex-col items-center text-center gap-2 text-white/70 w-full max-w-[100px] sm:max-w-[112px] mx-auto"
                 >
                   <img
                     src={badge.icon}
                     alt={badge.label}
-                    className="w-16 h-16 object-contain"
+                    className="w-12 h-12 sm:w-16 sm:h-16 object-contain"
                   />
-                  <span className="text-sm leading-snug">{badge.label}</span>
+                  <span className="text-xs sm:text-sm leading-snug">{badge.label}</span>
                 </div>
               ))}
             </div>
@@ -300,14 +300,14 @@ export default function Footer() {
 
       {/* Bottom Bar */}
       <div className="border-t border-white/10">
-        <div className="py-4 px-16 flex flex-col sm:flex-row items-center justify-between gap-2 bg-[#333333]">
+        <div className="py-4 px-4 sm:px-8 lg:px-16 flex flex-col sm:flex-row items-center justify-between gap-3 bg-[#333333]">
           <div className="flex items-center gap-2">
             <div className="w-[50px] h-[50px] bg-gradient-to-br from-[#D4B483] to-[#B8915E] rounded-xl flex items-center justify-center text-white font-extrabold text-xl shadow-md">
               DF
             </div>
             <p className="text-xs text-white/40">{siteConfig.copyright}</p>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center flex-wrap justify-center gap-4">
             <Link
               to="/policy/privacy"
               className="text-xs text-white/40 hover:text-[#aa8453] transition-colors"

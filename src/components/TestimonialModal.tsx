@@ -27,7 +27,7 @@ export default function TestimonialModal({ testimonial, isOpen, onClose }: Testi
       />
 
       {/* Modal */}
-      <div className="relative bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col animate-scale-in">
+      <div className="relative bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden animate-scale-in">
         {/* Close Button */}
         <button
           onClick={onClose}
