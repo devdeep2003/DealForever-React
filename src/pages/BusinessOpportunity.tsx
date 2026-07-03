@@ -3,7 +3,35 @@ import PageBanner from "../components/PageBanner";
 import { useState } from "react";
 import { X } from "lucide-react";
 
-const IMG = "https://dealforever25.netlify.app/images/";
+const IMG = import.meta.env.VITE_BASE_URL + "/images/";
+const BUSINESS_IMG = `${IMG}BusinessOpportunity/`;
+
+const SALES_IMG = `${BUSINESS_IMG}Sales.jpeg`;
+const PULSE_CIRCLE_IMG = `${BUSINESS_IMG}pulse-circle.jpeg`;
+
+const TABLE1_IMG = `${BUSINESS_IMG}table1.jpeg`;
+const TABLE2_IMG = `${BUSINESS_IMG}table2.jpeg`;
+const TABLE3_IMG = `${BUSINESS_IMG}table3.jpeg`;
+const TABLE4_IMG = `${BUSINESS_IMG}table4.jpeg`;
+
+const SUPPORT_IMG = `${BUSINESS_IMG}support.jpeg`;
+const FLOW_IMG = `${BUSINESS_IMG}flow.jpeg`;
+const MEDIA_IMG = `${BUSINESS_IMG}media.jpeg`;
+const TEAM_IMG = `${BUSINESS_IMG}team.jpeg`;
+
+const WARNING_IMG = `${BUSINESS_IMG}warning.jpeg`;
+const CASH_IMG = `${BUSINESS_IMG}cash.jpeg`;
+const SPONSOR_NETWORK_IMG = `${BUSINESS_IMG}sponsornetwork.jpeg`;
+const ECART_IMG = `${BUSINESS_IMG}ecart.jpeg`;
+
+const PLACEMENT_NETWORK_IMG = `${BUSINESS_IMG}placementnetwork.jpeg`;
+const BUSINESS_PLAN_IMG = `${BUSINESS_IMG}businessPlan.jpeg`;
+const SPILLOVER_IMG = `${BUSINESS_IMG}spillover.jpeg`;
+
+const BUSINESS_OPPORTUNITY_IMG = `${BUSINESS_IMG}businessopp.jpeg`;
+const BUILDING_IMG = `${BUSINESS_IMG}building.jpeg`;
+const BUSINESS_FLOW_IMG = `${BUSINESS_IMG}businessflow.jpeg`;
+const THINKING_IMG = `${BUSINESS_IMG}thinking.jpeg`;
 
 // ─── data ────────────────────────────────────────────────────────────────────
 
@@ -113,6 +141,29 @@ const planBenefits = [
     icon: "icons/icons8-balance-64 (1).png",
     title: "Equal Opportunities",
     desc: "The same plan applies fairly to every distributor.",
+  },
+];
+
+const compensationTables = [
+  {
+    img: TABLE1_IMG,
+    title: "Team Building Bonus Slabs",
+    desc: "Breaks down the Team Building Bonus percentage payout at each qualifying business volume slab, showing how your earnings scale as your team's combined volume grows.",
+  },
+  {
+    img: TABLE2_IMG,
+    title: "Performance Bonus Structure",
+    desc: "Shows the exact performance bonus percentage tied to each monthly business volume tier, helping you plan realistic monthly income targets.",
+  },
+  {
+    img: TABLE3_IMG,
+    title: "Leadership Rank Requirements",
+    desc: "Lists the personal and group volume requirements needed to qualify for each leadership rank, from Team Coordinator up through Executive levels.",
+  },
+  {
+    img: TABLE4_IMG,
+    title: "Profit Share Distribution",
+    desc: "Shows how the Yearly Profit Share pool of 5% is distributed proportionally across qualifying ranks.",
   },
 ];
 
@@ -504,9 +555,10 @@ function ContainedImage({
 // ─── component ───────────────────────────────────────────────────────────────
 
 export default function BusinessOpportunity() {
-  const [selectedFinancialItem, setSelectedFinancialItem] = useState<
-    (typeof financialItems)[number] | null
-  >(null);
+type FinancialItem = (typeof financialItems)[number];
+
+const [selectedFinancialItem, setSelectedFinancialItem] =
+  useState<FinancialItem | null>(null);
   const [isFinancialModalOpen, setIsFinancialModalOpen] = useState(false);
 
   const openFinancialModal = (item: (typeof financialItems)[number]) => {
@@ -560,28 +612,35 @@ export default function BusinessOpportunity() {
 
           {/* Question + Quote + Stat strip */}
           <div className="grid md:grid-cols-2 gap-8 mb-12">
-            <div className="bg-[#faf8f5] rounded-xl p-6 flex gap-4 items-start border border-gray-200">
-              <div className="w-9 h-9 rounded-full bg-white border border-gray-200 flex items-center justify-center shrink-0 mt-0.5">
-                <img
-                  src={`${IMG}icons8-question-mark-50.png`}
-                  alt="Question"
-                  className="w-5 h-5 object-contain"
-                />
-              </div>
+            <div className="bg-[#faf8f5] rounded-xl p-6 flex flex-col border border-gray-200">
+              <div className="flex gap-4 items-start mb-4">
+                <div className="w-9 h-9 rounded-full bg-white border border-gray-200 flex items-center justify-center shrink-0 mt-0.5">
+                  <img
+                    src={`${IMG}icons8-question-mark-50.png`}
+                    alt="Question"
+                    className="w-5 h-5 object-contain"
+                  />
+                </div>
 
-              <div>
-                <p className="text-[#333] leading-relaxed font-medium mb-2">
-                  What's the probability of your current job allowing you to
-                  achieve your life goals?
-                </p>
+                <div>
+                  <p className="text-[#333] leading-relaxed font-medium mb-2">
+                    What's the probability of your current job allowing you to
+                    achieve your life goals?
+                  </p>
 
-                <p className="text-sm text-[#777] leading-relaxed">
-                  Most people trade 40+ years of their prime time for a fixed
-                  salary that never quite covers their dreams. Deal Forever
-                  offers a different equation — one where your input directly
-                  determines your output.
-                </p>
+                  <p className="text-sm text-[#777] leading-relaxed">
+                    Most people trade 40+ years of their prime time for a fixed
+                    salary that never quite covers their dreams. Deal Forever
+                    offers a different equation — one where your input directly
+                    determines your output.
+                  </p>
+                </div>
               </div>
+              <img
+                src={THINKING_IMG}
+                alt="Think about your future"
+                className="w-full h-28 object-cover rounded-lg"
+              />
             </div>
 
             <div className="bg-[#191717] rounded-xl p-6 flex flex-col items-center justify-center gap-4">
@@ -609,7 +668,7 @@ export default function BusinessOpportunity() {
           </div>
 
           {/* How it Works */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-16">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
             {[
               {
                 step: "01",
@@ -642,6 +701,21 @@ export default function BusinessOpportunity() {
                 </p>
               </div>
             ))}
+          </div>
+
+          {/* Flow banner */}
+          <div className="mb-16 rounded-2xl overflow-hidden border border-gray-200">
+            <img
+              src={FLOW_IMG}
+              alt="How the Deal Forever business flow works"
+              className="w-full h-56 object-cover"
+            />
+            <div className="bg-[#faf8f5] p-4 text-center">
+              <p className="text-sm text-[#888]">
+                From registration to residual income — see the complete
+                business flow at a glance.
+              </p>
+            </div>
           </div>
 
           {/* Benefits */}
@@ -726,14 +800,10 @@ export default function BusinessOpportunity() {
                 ))}
               </div>
             </div>
-            {/* <ContainedImage
-              src={``}
-              alt="Business Opportunities"
-            /> */}
             <div className="relative">
               <img
-                src="https://images.pexels.com/photos/3184405/pexels-photo-3184405.jpeg?auto=compress&cs=tinysrgb&w=800"
-                alt="About Deal Forever"
+                src={BUSINESS_OPPORTUNITY_IMG}
+                alt="Deal Forever Business Opportunity"
                 className="rounded-2xl shadow-2xl w-full object-cover h-[450px]"
               />
               <div className="absolute -bottom-6 -right-6 bg-[#aa8453] text-white p-6 rounded-xl shadow-lg">
@@ -766,7 +836,7 @@ export default function BusinessOpportunity() {
               </div>
               <div className="w-full lg:w-[45%] flex justify-end">
                 <ContainedImage
-                  src={`${IMG}resource/about-main-image.png`}
+                  src={BUSINESS_PLAN_IMG}
                   alt="Compensation Plan"
                   className="rounded-xl shadow-xl"
                 />
@@ -804,9 +874,16 @@ export default function BusinessOpportunity() {
         <section className="section-padding bg-white">
           <div className="container-custom">
             <div className="mb-16">
-              <h3 className="text-2xl font-bold text-center mb-10">
+              <h3 className="text-2xl font-bold text-center mb-6">
                 Income Highlights
               </h3>
+              <div className="rounded-xl overflow-hidden mb-10 max-w-3xl mx-auto shadow-md">
+                <img
+                  src={SALES_IMG}
+                  alt="Daily, weekly and monthly sales income"
+                  className="w-full h-48 object-cover"
+                />
+              </div>
               <div className="flex justify-center">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 max-w-7xl">
                   {incomeHighlights.map((h, i) => (
@@ -868,7 +945,7 @@ export default function BusinessOpportunity() {
               <div className="flex-1 h-px bg-gray-200" />
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-16">
               {planBenefits.map((b, i) => (
                 <div
                   key={i}
@@ -887,6 +964,37 @@ export default function BusinessOpportunity() {
                   <p className="text-[10px] text-[#999] leading-relaxed">
                     {b.desc}
                   </p>
+                </div>
+              ))}
+            </div>
+
+            {/* Compensation Plan Tables */}
+            <div className="flex items-center gap-4 mb-6">
+              <div className="flex-1 h-px bg-gray-200" />
+              <p className="text-center text-[#888] text-xs font-semibold tracking-wide uppercase whitespace-nowrap">
+                Compensation Plan At A Glance
+              </p>
+              <div className="flex-1 h-px bg-gray-200" />
+            </div>
+            <div className="grid md:grid-cols-2 gap-8">
+              {compensationTables.map((t, i) => (
+                <div
+                  key={i}
+                  className="bg-[#faf8f5] rounded-xl border border-gray-200 overflow-hidden"
+                >
+                  <img
+                    src={t.img}
+                    alt={t.title}
+                    className="w-full h-56 object-cover border-b border-gray-200"
+                  />
+                  <div className="p-5">
+                    <h4 className="font-bold text-sm text-[#191717] mb-2">
+                      {t.title}
+                    </h4>
+                    <p className="text-xs text-[#666] leading-relaxed">
+                      {t.desc}
+                    </p>
+                  </div>
                 </div>
               ))}
             </div>
@@ -911,6 +1019,14 @@ export default function BusinessOpportunity() {
             </p>
           </div>
 
+          <div className="max-w-3xl mx-auto my-8 rounded-xl overflow-hidden shadow-lg">
+            <img
+              src={CASH_IMG}
+              alt="Financial freedom with Deal Forever"
+              className="w-full h-52 object-cover"
+            />
+          </div>
+
           {/* Total pool callout */}
           <div className="flex justify-center gap-6 my-8 ">
             {[
@@ -918,7 +1034,10 @@ export default function BusinessOpportunity() {
               ["25%", "leadership bonus"],
               ["5%", "yearly profit share"],
             ].map(([v, l]) => (
-              <div key={l} className="text-center border-2 border-[#aa8453] p-4 rounded-xl">
+              <div
+                key={l}
+                className="text-center border-2 border-[#aa8453] p-4 rounded-xl"
+              >
                 <p className="text-[#aa8453] font-black text-2xl">{v}</p>
                 <p className="text-white/50 text-xs mt-0.5">{l}</p>
               </div>
@@ -1013,39 +1132,59 @@ export default function BusinessOpportunity() {
 
       {/* ── 5. DISTRIBUTOR / WARNING ─────────────────────────────── */}
       <section className="section-padding bg-white">
-        <div className="container-custom">
-          <div className="grid lg:grid-cols-2 gap-10 items-center">
-            <ContainedImage src={`${IMG}distributor.png`} alt="Distributor" />
-            <div>
-              <div className="inline-flex items-center gap-2 bg-red-50 border border-red-200 text-red-700 font-bold text-xs px-4 py-2 rounded-md mb-5">
-                ⚠ WARNING
+        <div className="container-custom max-w-5xl mx-auto">
+          <div className="bg-[#fafafa] border border-gray-200 rounded-2xl p-8 md:p-12">
+            <div className="mb-6 rounded-xl overflow-hidden">
+              <img
+                src={WARNING_IMG}
+                alt="Stay informed and protected"
+                className="w-full h-40 object-cover"
+              />
+            </div>
+
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center text-red-600 text-xl">
+                ⚠
               </div>
-              <h3 className="font-bold text-[#191717] mb-4 text-lg">
-                Stay Informed, Stay Protected
-              </h3>
-              <p className="text-sm text-[#666] leading-relaxed mb-5">
-                Deal Forever operates as a fully compliant direct-selling
-                organisation under Indian law. Before joining any network
-                marketing opportunity, be aware of the following legal
-                protections:
-              </p>
-              <ol className="space-y-4">
-                <li className="flex gap-3 bg-red-50 border border-red-100 rounded-lg p-4 text-sm text-[#555] leading-relaxed">
-                  <span className="font-bold text-red-600 shrink-0">1.</span>
-                  Promoters and participants in trading schemes are prohibited
-                  from soliciting payments by promising benefits contingent upon
-                  the recruitment of others.
-                </li>
-                <li className="flex gap-3 bg-red-50 border border-red-100 rounded-lg p-4 text-sm text-[#555] leading-relaxed">
-                  <span className="font-bold text-red-600 shrink-0">2.</span>
-                  Be wary of assertions that substantial income can be readily
-                  obtained without adequate effort or time investment. Earnings
-                  depend entirely on individual performance.
-                </li>
-              </ol>
-              <p className="text-xs text-[#999] mt-4">
-                Deal Forever encourages all prospects to read the full
-                compensation plan and consult with existing distributors before
+
+              <div>
+                <p className="text-sm font-semibold uppercase tracking-wider text-red-600">
+                  Important Notice
+                </p>
+                <h2 className="text-3xl font-bold text-[#191717]">
+                  Stay Informed, Stay Protected
+                </h2>
+              </div>
+            </div>
+
+            <p className="text-[#666] leading-8 mb-8">
+              Deal Forever operates as a compliant direct-selling organisation
+              under the applicable laws of India. Before becoming a distributor,
+              we encourage every individual to understand the business model,
+              compensation structure, and company policies to make an informed
+              decision.
+            </p>
+
+            <ol className="list-decimal pl-6 space-y-4 text-[#555] leading-8">
+              <li>
+                Promoters and participants in trading schemes must not solicit
+                payments by promising benefits that are primarily dependent upon
+                the recruitment of additional participants.
+              </li>
+
+              <li>
+                Be cautious of claims suggesting guaranteed or effortless
+                income. Earnings depend on individual effort, product sales,
+                leadership, and consistent business activity. No level of income
+                is guaranteed.
+              </li>
+            </ol>
+
+            <div className="mt-8 pt-6 border-t border-gray-200">
+              <p className="text-sm text-gray-500 leading-7">
+                Deal Forever recommends that all prospective distributors
+                carefully review the Compensation Plan, Company Policies, and
+                Product Information, and consult existing distributors before
                 making any business commitment.
               </p>
             </div>
@@ -1053,68 +1192,43 @@ export default function BusinessOpportunity() {
         </div>
       </section>
 
-      {/* ── 6. SPECIAL BENEFITS ─────────────────────────────────── */}
+      {/* ── 6. SPECIAL BENEFITS (zigzag) ────────────────────────── */}
       <section className="section-padding bg-[#faf8f5]">
         <div className="container-custom">
-          <div className="text-center mb-8">
+          <div className="text-center mb-12">
             <p className="section-subtitle">Special Benefits</p>
             <h2 className="section-title">Exclusive Member Rewards</h2>
-            <p className="text-sm text-[#888] max-w-xl mx-auto">
-              Rank achievers at Deal Forever unlock real-world benefits that go
-              far beyond income — from healthcare to education, the company
-              invests in its top leaders' complete wellbeing.
-            </p>
           </div>
-          <div className="grid md:grid-cols-2 gap-6">
-            {[
-              {
-                icon: "special1.png",
-                title: "FREE MEDICAL INSURANCE POLICY",
-                desc: "Deal Forever provides a free medical insurance policy to all State Team Coordinators (STC) Rank Achievers.",
-                bullets: [
-                  "Full family coverage included",
-                  "No premium required from the distributor",
-                  "Activated automatically on rank achievement",
-                ],
-              },
-              {
-                icon: "special2.png",
-                title: "HIGHER EDUCATIONAL SCHOLARSHIP PROGRAMME",
-                desc: "A wonderful opportunity for recommending your beloved ones for a higher educational scholarship to all Regional Team Coordinator (RTC) Rank Achievers.",
-                bullets: [
-                  "Supports undergraduate and postgraduate studies",
-                  "Available to children or dependants of the achiever",
-                  "Renewable annually based on academic performance",
-                ],
-              },
-            ].map((s, i) => (
-              <div
-                key={i}
-                className="bg-white rounded-xl p-6 border border-gray-200"
-              >
+
+          <div className="space-y-14">
+            {/* Medical Insurance — text left, image right */}
+            <div className="grid lg:grid-cols-2 gap-8 items-center">
+              <div>
                 <div className="flex gap-5 items-start mb-4">
-                  <div className="w-14 h-14 shrink-0 rounded-lg bg-[#faf8f5] flex items-center justify-center border border-gray-200">
+                  <div className="w-14 h-14 shrink-0 rounded-lg bg-white flex items-center justify-center border border-gray-200">
                     <img
-                      src={`${IMG}${s.icon}`}
-                      alt={s.title}
+                      src={`${IMG}special1.png`}
+                      alt="Medical Insurance"
                       className="w-9 h-9 object-contain"
                     />
                   </div>
                   <div>
                     <h3 className="font-bold text-sm text-[#191717] mb-1.5 leading-snug">
-                      {s.title}
+                      FREE MEDICAL INSURANCE POLICY
                     </h3>
                     <p className="text-sm text-[#555] leading-relaxed">
-                      {s.desc}
+                      Deal Forever provides a free medical insurance policy to
+                      all State Team Coordinators (STC) Rank Achievers.
                     </p>
                   </div>
                 </div>
-                <ul className="space-y-1.5 pl-2 border-t border-gray-100 pt-4">
-                  {s.bullets.map((b) => (
-                    <li
-                      key={b}
-                      className="flex items-start gap-2 text-xs text-[#666]"
-                    >
+                <ul className="space-y-1.5 pl-2 border-t border-gray-200 pt-4">
+                  {[
+                    "Full family coverage included",
+                    "No premium required from the distributor",
+                    "Activated automatically on rank achievement",
+                  ].map((b) => (
+                    <li key={b} className="flex items-start gap-2 text-xs text-[#666]">
                       <span className="mt-1.5 w-1 h-1 rounded-full bg-[#aa8453] shrink-0" />
                       {b}
                     </li>
@@ -1124,12 +1238,62 @@ export default function BusinessOpportunity() {
                   Terms & Conditions apply
                 </span>
               </div>
-            ))}
+              <img
+                src="https://images.pexels.com/photos/40568/medical-appointment-doctor-healthcare-40568.jpeg?auto=compress&cs=tinysrgb&w=800"
+                alt="Medical Insurance Coverage"
+                className="rounded-xl shadow-lg w-full h-[320px] object-cover"
+              />
+            </div>
+
+            {/* Scholarship — image left, text right */}
+            <div className="grid lg:grid-cols-2 gap-8 items-center">
+              <img
+                src="https://images.pexels.com/photos/267885/pexels-photo-267885.jpeg?auto=compress&cs=tinysrgb&w=800"
+                alt="Higher Educational Scholarship"
+                className="rounded-xl shadow-lg w-full h-[320px] object-cover"
+              />
+              <div>
+                <div className="flex gap-5 items-start mb-4">
+                  <div className="w-14 h-14 shrink-0 rounded-lg bg-white flex items-center justify-center border border-gray-200">
+                    <img
+                      src={`${IMG}special2.png`}
+                      alt="Educational Scholarship"
+                      className="w-9 h-9 object-contain"
+                    />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-sm text-[#191717] mb-1.5 leading-snug">
+                      HIGHER EDUCATIONAL SCHOLARSHIP PROGRAMME
+                    </h3>
+                    <p className="text-sm text-[#555] leading-relaxed">
+                      A wonderful opportunity for recommending your beloved
+                      ones for a higher educational scholarship to all
+                      Regional Team Coordinator (RTC) Rank Achievers.
+                    </p>
+                  </div>
+                </div>
+                <ul className="space-y-1.5 pl-2 border-t border-gray-200 pt-4">
+                  {[
+                    "Supports undergraduate and postgraduate studies",
+                    "Available to children or dependants of the achiever",
+                    "Renewable annually based on academic performance",
+                  ].map((b) => (
+                    <li key={b} className="flex items-start gap-2 text-xs text-[#666]">
+                      <span className="mt-1.5 w-1 h-1 rounded-full bg-[#aa8453] shrink-0" />
+                      {b}
+                    </li>
+                  ))}
+                </ul>
+                <span className="text-xs text-[#aa8453] font-semibold block mt-3">
+                  Terms & Conditions apply
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ── 7. IMPORTANT THINGS TO REMEMBER ─────────────────────── */}
+      {/* ── 7. IMPORTANT THINGS TO REMEMBER (zigzag) ────────────── */}
       <section className="section-padding bg-white">
         <div className="container-custom">
           <div className="text-center mb-12">
@@ -1143,7 +1307,7 @@ export default function BusinessOpportunity() {
           </div>
 
           <div className="space-y-14">
-            {/* 7a. Product Distribution System */}
+            {/* 7a. Product Distribution System — text left, image right */}
             <div className="grid lg:grid-cols-2 gap-8 items-center">
               <div>
                 <div className="flex items-center gap-3 mb-3">
@@ -1187,14 +1351,10 @@ export default function BusinessOpportunity() {
               />
             </div>
 
-            {/* 7b. Advantages of Physical Store */}
+            {/* 7b. Advantages of Physical Store — image left, text right */}
             <div className="grid lg:grid-cols-2 gap-8 items-start">
-              <ContainedImage
-                src={`${IMG}physical-store.png`}
-                alt="Physical Store"
-                className="lg:order-2"
-              />
-              <div className="lg:order-1">
+              <ContainedImage src={`${IMG}physical-store.png`} alt="Physical Store" />
+              <div>
                 <div className="flex items-center gap-3 mb-3">
                   <SectionIcon src="icons8-store-50.png" />
                   <h3 className="font-bold text-[#191717]">
@@ -1211,7 +1371,7 @@ export default function BusinessOpportunity() {
               </div>
             </div>
 
-            {/* 7c. Benefits of E-Commerce */}
+            {/* 7c. Benefits of E-Commerce — text left, image right */}
             <div className="grid lg:grid-cols-2 gap-8 items-start">
               <div>
                 <div className="flex items-center gap-3 mb-3">
@@ -1228,20 +1388,13 @@ export default function BusinessOpportunity() {
                 </p>
                 <BulletList items={ecommerceBullets} />
               </div>
-              <ContainedImage
-                src={`${IMG}benefit1.png`}
-                alt="E-Commerce Benefits"
-              />
+              <ContainedImage src={ECART_IMG} alt="E-Commerce Benefits" />
             </div>
 
-            {/* 7d. Benefits of Direct Selling */}
+            {/* 7d. Benefits of Direct Selling — image left, text right */}
             <div className="grid lg:grid-cols-2 gap-8 items-start">
-              <ContainedImage
-                src={`${IMG}direct-selling.png`}
-                alt="Direct Selling"
-                className="lg:order-2"
-              />
-              <div className="lg:order-1">
+              <ContainedImage src={`${IMG}direct-selling.png`} alt="Direct Selling" />
+              <div>
                 <div className="flex items-center gap-3 mb-3">
                   <SectionIcon src="icons8-cart-96.png" />
                   <h3 className="font-bold text-[#191717]">
@@ -1258,7 +1411,7 @@ export default function BusinessOpportunity() {
               </div>
             </div>
 
-            {/* 7e. Glossary of Terms */}
+            {/* 7e. Glossary of Terms — text left, image right */}
             <div className="grid lg:grid-cols-2 gap-8 items-start">
               <div>
                 <div className="flex items-center gap-3 mb-3">
@@ -1294,11 +1447,60 @@ export default function BusinessOpportunity() {
                 alt="Placement Network"
               />
             </div>
+
+            {/* 7f. Sponsor Network — image left, text right */}
+            <div className="grid lg:grid-cols-2 gap-8 items-center">
+              <ContainedImage src={SPONSOR_NETWORK_IMG} alt="Sponsor Network" />
+              <div>
+                <div className="flex items-center gap-3 mb-3">
+                  <SectionIcon src="icons8-networking-64.png" />
+                  <h3 className="font-bold text-[#191717]">
+                    Understanding Your Sponsor Network
+                  </h3>
+                </div>
+                <p className="text-sm text-[#555] leading-relaxed">
+                  Your Sponsor Network is the group of distributors you
+                  personally enrolled — your direct referrals. This is the
+                  foundation the Team Building and Business Supporting bonuses
+                  are calculated from, so nurturing these direct relationships
+                  is where every successful business starts.
+                </p>
+              </div>
+            </div>
+
+            {/* 7g. Placement Network & Spillover — text left, image right */}
+            <div className="grid lg:grid-cols-2 gap-8 items-center">
+              <div>
+                <div className="flex items-center gap-3 mb-3">
+                  <SectionIcon src="icons8-junction-64.png" />
+                  <h3 className="font-bold text-[#191717]">
+                    Placement Network & Spillover
+                  </h3>
+                </div>
+                <p className="text-sm text-[#555] leading-relaxed mb-4">
+                  Your Placement Network reflects where your downlines actually
+                  sit within the tree — which can differ from your Sponsor
+                  Network. When your upline places a new distributor under you,
+                  that's called Spillover, and it becomes part of your
+                  Placement Tree, helping your group volume grow even without
+                  your direct effort.
+                </p>
+                <img
+                  src={SPILLOVER_IMG}
+                  alt="Spillover Concept"
+                  className="w-full h-40 object-cover rounded-lg border border-gray-200"
+                />
+              </div>
+              <ContainedImage
+                src={PLACEMENT_NETWORK_IMG}
+                alt="Placement Network"
+              />
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ── 8. RANK ACHIEVEMENT ─────────────────────────────────── */}
+      {/* ── 8. RANK ACHIEVEMENT (zigzag) ────────────────────────── */}
       <section className="section-padding bg-[#faf8f5]">
         <div className="container-custom">
           <div className="flex items-center gap-3 mb-4">
@@ -1307,13 +1509,52 @@ export default function BusinessOpportunity() {
               Rank Achievement
             </h2>
           </div>
-          <p className="text-sm text-[#666] leading-relaxed mb-8 max-w-3xl">
+          <p className="text-sm text-[#666] leading-relaxed mb-10 max-w-3xl">
             Deal Forever's rank structure is a clear roadmap from Day 1 to
             Diamond. Every rank you earn is permanent — no demotion, no clock
             resetting. The milestones below show the path from your first sale
             all the way to executive leadership, with growing income and
             privileges at each level.
           </p>
+
+          {/* Business Flow — text left, image right */}
+          <div className="grid lg:grid-cols-2 gap-8 items-center mb-14">
+            <div>
+              <div className="flex items-center gap-3 mb-3">
+                <SectionIcon src="icons8-junction-64.png" />
+                <h3 className="font-bold text-[#191717]">
+                  How The Rank Flow Works
+                </h3>
+              </div>
+              <p className="text-sm text-[#555] leading-relaxed">
+                Each rank builds on the one before it — as your personal and
+                group business volume accumulates, you automatically flow into
+                the next tier. There's no manual application process; the
+                system tracks your progress in real time and unlocks new
+                bonuses the moment you qualify.
+              </p>
+            </div>
+            <ContainedImage src={BUSINESS_FLOW_IMG} alt="Business Rank Flow" />
+          </div>
+
+          {/* Team Growth — image left, text right */}
+          <div className="grid lg:grid-cols-2 gap-8 items-center mb-14">
+            <ContainedImage src={TEAM_IMG} alt="Build Your Team" />
+            <div>
+              <div className="flex items-center gap-3 mb-3">
+                <SectionIcon src="icons8-business-group-100 (1).png" />
+                <h3 className="font-bold text-[#191717]">
+                  Build Your Team, Multiply Your Income
+                </h3>
+              </div>
+              <p className="text-sm text-[#555] leading-relaxed">
+                Ranks aren't earned alone. Every distributor you bring in and
+                support adds to your group volume, and every leader you help
+                develop compounds that growth further — turning your
+                individual effort into a multiplied, team-driven income.
+              </p>
+            </div>
+          </div>
 
           <div className="grid md:grid-cols-2 gap-6 mb-8">
             <ContainedImage
@@ -1327,16 +1568,23 @@ export default function BusinessOpportunity() {
           </div>
 
           {/* Fast start callout */}
-          <div className="bg-[#191717] rounded-xl p-6 mb-8">
-            <p className="text-[#aa8453] font-bold text-xs tracking-widest uppercase mb-3">
-              Fast Start Advantage
-            </p>
-            <p className="text-white/70 text-sm leading-relaxed max-w-3xl">
-              Distributors who hit qualifying volumes in their first 90 days
-              unlock accelerated rank placement and additional Fast Start
-              bonuses — giving early movers a compounding head start on their
-              network and income.
-            </p>
+          <div className="bg-[#191717] rounded-xl p-6 mb-8 grid md:grid-cols-3 gap-6 items-center">
+            <img
+              src={PULSE_CIRCLE_IMG}
+              alt="Fast Start Momentum"
+              className="rounded-lg w-full h-32 object-cover"
+            />
+            <div className="md:col-span-2">
+              <p className="text-[#aa8453] font-bold text-xs tracking-widest uppercase mb-3">
+                Fast Start Advantage
+              </p>
+              <p className="text-white/70 text-sm leading-relaxed max-w-3xl">
+                Distributors who hit qualifying volumes in their first 90 days
+                unlock accelerated rank placement and additional Fast Start
+                bonuses — giving early movers a compounding head start on their
+                network and income.
+              </p>
+            </div>
           </div>
 
           <div className="grid md:grid-cols-2 gap-6">
@@ -1367,24 +1615,36 @@ export default function BusinessOpportunity() {
         </div>
       </section>
 
-      {/* ── 9. CODE OF ETHICS ───────────────────────────────────── */}
+      {/* ── 9. CODE OF ETHICS (zigzag header) ───────────────────── */}
       <section className="section-padding bg-white">
         <div className="container-custom max-w-4xl">
-          <div className="flex items-center gap-3 mb-4">
-            <SectionIcon src="icons8-protect-64.png" />
-            <h2 className="text-xl font-bold text-[#191717]">Code of Ethics</h2>
+          <div className="grid lg:grid-cols-2 gap-8 items-center mb-8">
+            <div>
+              <div className="flex items-center gap-3 mb-4">
+                <SectionIcon src="icons8-protect-64.png" />
+                <h2 className="text-xl font-bold text-[#191717]">
+                  Code of Ethics
+                </h2>
+              </div>
+              <p className="text-sm text-[#555] leading-relaxed mb-3">
+                Distributors are obligated to maintain adherence to the Deal
+                Forever Code of Ethics at all times. The Company reserves the
+                right to terminate distributorship for any infraction. Upon
+                enrolment, distributors are required to pledge the following:
+              </p>
+              <p className="text-xs text-[#999]">
+                These commitments are not formalities — they are the backbone
+                of a community built on trust, transparency, and mutual
+                respect. Adherence to this code protects every distributor in
+                the network.
+              </p>
+            </div>
+            <img
+              src={BUILDING_IMG}
+              alt="Trust and Integrity"
+              className="rounded-xl shadow-lg w-full h-[280px] object-cover"
+            />
           </div>
-          <p className="text-sm text-[#555] leading-relaxed mb-3">
-            Distributors are obligated to maintain adherence to the Deal Forever
-            Code of Ethics at all times. The Company reserves the right to
-            terminate distributorship for any infraction. Upon enrolment,
-            distributors are required to pledge the following:
-          </p>
-          <p className="text-xs text-[#999] mb-6">
-            These commitments are not formalities — they are the backbone of a
-            community built on trust, transparency, and mutual respect.
-            Adherence to this code protects every distributor in the network.
-          </p>
           <ol className="space-y-3">
             {codeOfEthics.map((item, i) => (
               <li
@@ -1401,10 +1661,10 @@ export default function BusinessOpportunity() {
         </div>
       </section>
 
-      {/* ── 10. SUPPORT ─────────────────────────────────────────── */}
+      {/* ── 10. SUPPORT (zigzag) ────────────────────────────────── */}
       <section className="section-padding bg-[#faf8f5]">
         <div className="container-custom">
-          <div className="text-center mb-12">
+          <div className="text-center mb-8">
             <p className="section-subtitle">Support</p>
             <h2 className="section-title">
               We're Here To Support Your Drive Every Step Of The Way
@@ -1416,8 +1676,16 @@ export default function BusinessOpportunity() {
             </p>
           </div>
 
+          <div className="mb-12 rounded-2xl overflow-hidden shadow-lg">
+            <img
+              src={SUPPORT_IMG}
+              alt="Deal Forever Support"
+              className="w-full h-64 object-cover"
+            />
+          </div>
+
           <div className="space-y-12">
-            {/* 10a. Digital */}
+            {/* 10a. Digital — text left, image right */}
             <div className="grid lg:grid-cols-2 gap-8 items-center">
               <div>
                 <div className="flex items-center gap-3 mb-3">
@@ -1430,8 +1698,8 @@ export default function BusinessOpportunity() {
                   Download <strong>DEAL FOREVER</strong>'s mobile app to shop or
                   manage your business anytime, anywhere! Get it on Play Store /
                   App Store or visit{" "}
-                  <a
-                    href="https://www.mydealforever.com"
+                  
+                  <a  href="https://www.mydealforever.com"
                     className="text-[#aa8453] hover:underline"
                   >
                     www.mydealforever.com
@@ -1472,14 +1740,13 @@ export default function BusinessOpportunity() {
               <ContainedImage src={`${IMG}digital.png`} alt="Digital Access" />
             </div>
 
-            {/* 10b. Learning */}
+            {/* 10b. Learning — image left, text right */}
             <div className="grid lg:grid-cols-2 gap-8 items-center">
               <ContainedImage
                 src={`${IMG}learning.png`}
                 alt="Learning and Development"
-                className="lg:order-2"
               />
-              <div className="lg:order-1">
+              <div>
                 <div className="flex items-center gap-3 mb-3">
                   <SectionIcon src="icons8-learning-100.png" />
                   <h3 className="font-bold text-[#191717]">
@@ -1490,8 +1757,8 @@ export default function BusinessOpportunity() {
                   Deal Forever provides online, mobile, and instructor-led
                   training to sharpen your product, business, and industry
                   knowledge. Visit the Learning Center at{" "}
-                  <a
-                    href="https://www.mydealforever.com"
+                  
+                  <a  href="https://www.mydealforever.com"
                     className="text-[#aa8453] hover:underline"
                   >
                     www.mydealforever.com
@@ -1518,7 +1785,7 @@ export default function BusinessOpportunity() {
               </div>
             </div>
 
-            {/* 10c. Social Media */}
+            {/* 10c. Social Media — text left, image right */}
             <div className="grid lg:grid-cols-2 gap-8 items-center">
               <div>
                 <div className="flex items-center gap-3 mb-3">
@@ -1543,27 +1810,26 @@ export default function BusinessOpportunity() {
                   ].map((p) => (
                     <span
                       key={p}
-                      className="bg-[#faf8f5] border border-gray-200 text-xs font-semibold text-[#191717] px-3 py-1.5 rounded-full"
+                      className="bg-white border border-gray-200 text-xs font-semibold text-[#191717] px-3 py-1.5 rounded-full"
                     >
                       {p}
                     </span>
                   ))}
                 </div>
               </div>
-              <ContainedImage
-                src={`${IMG}socialmedia.png`}
-                alt="Social Media Support"
-              />
+              <div className="grid grid-cols-2 gap-3">
+                <ContainedImage
+                  src={`${IMG}socialmedia.png`}
+                  alt="Social Media Support"
+                />
+                <ContainedImage src={MEDIA_IMG} alt="Media Kit" />
+              </div>
             </div>
 
-            {/* 10d. Contact */}
+            {/* 10d. Contact — image left, text right */}
             <div className="grid lg:grid-cols-2 gap-8 items-center">
-              <ContainedImage
-                src={`${IMG}contactus.png`}
-                alt="Contact Us"
-                className="lg:order-2"
-              />
-              <div className="lg:order-1">
+              <ContainedImage src={`${IMG}contactus.png`} alt="Contact Us" />
+              <div>
                 <div className="flex items-center gap-3 mb-3">
                   <SectionIcon src="icons8-contact-us-96.png" />
                   <h3 className="font-bold text-[#191717]">
@@ -1618,7 +1884,7 @@ export default function BusinessOpportunity() {
               </div>
             </div>
 
-            {/* 10e. Supply Chain */}
+            {/* 10e. Supply Chain — text left, image right */}
             <div className="grid lg:grid-cols-2 gap-8 items-center">
               <div>
                 <div className="flex items-center gap-3 mb-3">
@@ -1640,7 +1906,7 @@ export default function BusinessOpportunity() {
                   ].map((d) => (
                     <div
                       key={d.l}
-                      className="bg-[#faf8f5] border border-gray-200 rounded-lg p-3 text-center"
+                      className="bg-white border border-gray-200 rounded-lg p-3 text-center"
                     >
                       <p className="font-black text-sm text-[#aa8453]">{d.v}</p>
                       <p className="text-[10px] text-[#888] mt-0.5">{d.l}</p>
@@ -1677,14 +1943,14 @@ export default function BusinessOpportunity() {
             className="max-w-3xl mx-auto"
           />
           <div className="mt-8 flex flex-wrap justify-center gap-4">
-            <a
-              href="https://www.mydealforever.com"
+            
+            <a  href="https://www.mydealforever.com"
               className="bg-[#aa8453] text-white text-sm font-bold px-8 py-3 rounded-lg hover:bg-[#956e3f] transition-colors"
             >
               Register Free Today
             </a>
-            <a
-              href="mailto:info@mydealforever.com"
+            
+            <a  href="mailto:info@mydealforever.com"
               className="bg-white border border-[#aa8453] text-[#aa8453] text-sm font-bold px-8 py-3 rounded-lg hover:bg-[#faf8f5] transition-colors"
             >
               Talk to an Advisor
