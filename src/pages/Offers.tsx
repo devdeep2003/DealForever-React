@@ -32,7 +32,7 @@ export default function Offers() {
                 key={offer.id}
                 className="group rounded-xl overflow-hidden shadow-md card-hover bg-white"
               >
-                <div className="relative h-56">
+                <div className="relative h-44 sm:h-52 md:h-56">
                   <img
                     src={offer.image}
                     alt={offer.title}

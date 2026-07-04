@@ -65,7 +65,7 @@ export default function About() {
               <img
                 src="https://images.pexels.com/photos/3184405/pexels-photo-3184405.jpeg?auto=compress&cs=tinysrgb&w=800"
                 alt="About Deal Forever"
-                className="rounded-2xl shadow-2xl w-full object-cover h-[450px]"
+                className="rounded-2xl shadow-2xl w-full object-cover h-[280px] sm:h-[360px] md:h-[450px]"
               />
               <div className="absolute -bottom-6 -right-6 bg-[#aa8453] text-white p-6 rounded-xl shadow-lg">
                 <p className="text-3xl font-bold">1000+</p>

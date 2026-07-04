@@ -78,11 +78,11 @@ export default function Brands() {
           {/* Products Grid with Flip Cards */}
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {filtered.map((product) => (
-              <div key={product.id} className="flip-card h-[440px]">
+              <div key={product.id} className="flip-card h-[400px] sm:h-[440px]">
                 <div className="flip-card-inner relative w-full h-full">
                   {/* Front */}
                   <div className="flip-card-front absolute inset-0 bg-white rounded-xl shadow-md overflow-hidden">
-                    <img src={product.image} alt={product.name} className="w-full h-64   object-cover" />
+                    <img src={product.image} alt={product.name} className="w-full h-48 sm:h-56 md:h-64 object-cover" />
                     <div className="p-4 flex flex-col gap-1">
                       {/* <p className="text-xs text-[#aa8453] font-semibold">{product.brand}</p> */}
                       <h3 className="font-semibold text-[#aa8453] text-sm line-clamp-2">{product.name}</h3>

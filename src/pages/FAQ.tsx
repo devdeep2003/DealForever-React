@@ -24,10 +24,10 @@ export default function FAQ() {
               >
                 <button
                   onClick={() => setOpenIndex(openIndex === i ? null : i)}
-                  className="w-full flex items-center justify-between px-6 py-4 text-left hover:bg-[#faf8f5] transition-colors"
+                  className="w-full flex items-center justify-between px-5 md:px-6 py-4 text-left hover:bg-[#faf8f5] transition-colors"
                 >
                   <span
-                    className={`font-semibold text-lg pr-4 transition-colors ${
+                    className={`font-semibold text-sm md:text-lg pr-4 transition-colors ${
                       openIndex === i ? "text-[#aa8453]" : "text-black"
                     }`}
                   >
@@ -43,7 +43,7 @@ export default function FAQ() {
                     openIndex === i ? "max-h-96" : "max-h-0"
                   }`}
                 >
-                  <div className="px-6 pb-4 text-lg text-[#555] leading-relaxed hover:text-[#aa8453] transition-colors">
+                  <div className="px-5 md:px-6 pb-4 text-sm md:text-lg text-[#555] leading-relaxed hover:text-[#aa8453] transition-colors">
                     {item.answer}
                   </div>
                 </div>

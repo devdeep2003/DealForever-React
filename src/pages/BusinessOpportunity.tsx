@@ -546,7 +546,7 @@ function ContainedImage({
       <img
         src={src}
         alt={alt}
-        className="w-full h-auto max-h-[420px] object-contain"
+        className="w-full h-auto max-h-[260px] sm:max-h-[340px] md:max-h-[420px] object-contain"
       />
     </div>
   );
@@ -603,7 +603,7 @@ const [selectedFinancialItem, setSelectedFinancialItem] =
             {/* Right Image */}
             <div className="w-full lg:w-[48%] flex justify-center lg:justify-end">
               <ContainedImage
-                src={`${IMG}Web Banner.jpg.jpeg`}
+                src={`${IMG}Web Banner.jpeg`}
                 alt="Business Opportunity Banner"
                 className="w-full max-w-2xl rounded-xl shadow-lg"
               />
@@ -636,11 +636,13 @@ const [selectedFinancialItem, setSelectedFinancialItem] =
                   </p>
                 </div>
               </div>
-              <img
-                src={THINKING_IMG}
-                alt="Think about your future"
-                className="w-full h-28 object-cover rounded-lg"
-              />
+              <div className="rounded-lg overflow-hidden border border-gray-200 bg-white flex items-center justify-center">
+                <img
+                  src={THINKING_IMG}
+                  alt="Think about your future"
+                  className="w-full h-28 object-contain"
+                />
+              </div>
             </div>
 
             <div className="bg-[#191717] rounded-xl p-6 flex flex-col items-center justify-center gap-4">
@@ -704,13 +706,15 @@ const [selectedFinancialItem, setSelectedFinancialItem] =
           </div>
 
           {/* Flow banner */}
-          <div className="mb-16 rounded-2xl overflow-hidden border border-gray-200">
-            <img
-              src={FLOW_IMG}
-              alt="How the Deal Forever business flow works"
-              className="w-full h-56 object-cover"
-            />
-            <div className="bg-[#faf8f5] p-4 text-center">
+          <div className="mb-16 rounded-2xl overflow-hidden border border-gray-200 bg-[#faf8f5]">
+            <div className="flex items-center justify-center p-4">
+              <img
+                src={FLOW_IMG}
+                alt="How the Deal Forever business flow works"
+                className="w-full h-auto max-h-[240px] sm:max-h-[320px] md:max-h-[400px] object-contain"
+              />
+            </div>
+            <div className="bg-[#faf8f5] p-4 text-center border-t border-gray-200">
               <p className="text-sm text-[#888]">
                 From registration to residual income — see the complete
                 business flow at a glance.
@@ -801,11 +805,13 @@ const [selectedFinancialItem, setSelectedFinancialItem] =
               </div>
             </div>
             <div className="relative">
-              <img
-                src={BUSINESS_OPPORTUNITY_IMG}
-                alt="Deal Forever Business Opportunity"
-                className="rounded-2xl shadow-2xl w-full object-cover h-[450px]"
-              />
+              <div className="rounded-2xl shadow-2xl overflow-hidden bg-[#faf8f5] border border-gray-200 flex items-center justify-center">
+                <img
+                  src={BUSINESS_OPPORTUNITY_IMG}
+                  alt="Deal Forever Business Opportunity"
+                  className="w-full h-[280px] sm:h-[360px] md:h-[450px] object-contain"
+                />
+              </div>
               <div className="absolute -bottom-6 -right-6 bg-[#aa8453] text-white p-6 rounded-xl shadow-lg">
                 <p className="text-3xl font-bold">1000+</p>
                 <p className="text-sm">Happy Distributors</p>
@@ -877,11 +883,11 @@ const [selectedFinancialItem, setSelectedFinancialItem] =
               <h3 className="text-2xl font-bold text-center mb-6">
                 Income Highlights
               </h3>
-              <div className="rounded-xl overflow-hidden mb-10 max-w-3xl mx-auto shadow-md">
+              <div className="rounded-xl overflow-hidden mb-10 max-w-3xl mx-auto shadow-md bg-[#faf8f5] border border-gray-200 flex items-center justify-center p-4">
                 <img
                   src={SALES_IMG}
                   alt="Daily, weekly and monthly sales income"
-                  className="w-full h-48 object-cover"
+                  className="w-full h-auto max-h-[200px] sm:max-h-[260px] md:max-h-[300px] object-contain"
                 />
               </div>
               <div className="flex justify-center">
@@ -982,11 +988,13 @@ const [selectedFinancialItem, setSelectedFinancialItem] =
                   key={i}
                   className="bg-[#faf8f5] rounded-xl border border-gray-200 overflow-hidden"
                 >
-                  <img
-                    src={t.img}
-                    alt={t.title}
-                    className="w-full h-56 object-cover border-b border-gray-200"
-                  />
+                  <div className="bg-white border-b border-gray-200 flex items-center justify-center p-4">
+                    <img
+                      src={t.img}
+                      alt={t.title}
+                      className="w-full h-auto max-h-[200px] sm:max-h-[280px] object-contain"
+                    />
+                  </div>
                   <div className="p-5">
                     <h4 className="font-bold text-sm text-[#191717] mb-2">
                       {t.title}
@@ -1019,11 +1027,11 @@ const [selectedFinancialItem, setSelectedFinancialItem] =
             </p>
           </div>
 
-          <div className="max-w-3xl mx-auto my-8 rounded-xl overflow-hidden shadow-lg">
+          <div className="max-w-3xl mx-auto my-8 rounded-xl overflow-hidden shadow-lg bg-white border border-gray-200 flex items-center justify-center p-4">
             <img
               src={CASH_IMG}
               alt="Financial freedom with Deal Forever"
-              className="w-full h-52 object-cover"
+              className="w-full h-auto max-h-[220px] sm:max-h-[320px] object-contain"
             />
           </div>
 
@@ -1134,11 +1142,11 @@ const [selectedFinancialItem, setSelectedFinancialItem] =
       <section className="section-padding bg-white">
         <div className="container-custom max-w-5xl mx-auto">
           <div className="bg-[#fafafa] border border-gray-200 rounded-2xl p-8 md:p-12">
-            <div className="mb-6 rounded-xl overflow-hidden">
+            <div className="mb-6 rounded-xl overflow-hidden bg-white border border-gray-200 flex items-center justify-center p-4">
               <img
                 src={WARNING_IMG}
                 alt="Stay informed and protected"
-                className="w-full h-40 object-cover"
+                className="w-full h-auto max-h-[200px] sm:max-h-[260px] object-contain"
               />
             </div>
 
@@ -1241,7 +1249,7 @@ const [selectedFinancialItem, setSelectedFinancialItem] =
               <img
                 src="https://images.pexels.com/photos/40568/medical-appointment-doctor-healthcare-40568.jpeg?auto=compress&cs=tinysrgb&w=800"
                 alt="Medical Insurance Coverage"
-                className="rounded-xl shadow-lg w-full h-[320px] object-cover"
+                className="rounded-xl shadow-lg w-full h-[220px] sm:h-[280px] md:h-[320px] object-cover"
               />
             </div>
 
@@ -1250,7 +1258,7 @@ const [selectedFinancialItem, setSelectedFinancialItem] =
               <img
                 src="https://images.pexels.com/photos/267885/pexels-photo-267885.jpeg?auto=compress&cs=tinysrgb&w=800"
                 alt="Higher Educational Scholarship"
-                className="rounded-xl shadow-lg w-full h-[320px] object-cover"
+                className="rounded-xl shadow-lg w-full h-[220px] sm:h-[280px] md:h-[320px] object-cover"
               />
               <div>
                 <div className="flex gap-5 items-start mb-4">
@@ -1485,11 +1493,13 @@ const [selectedFinancialItem, setSelectedFinancialItem] =
                   Placement Tree, helping your group volume grow even without
                   your direct effort.
                 </p>
-                <img
-                  src={SPILLOVER_IMG}
-                  alt="Spillover Concept"
-                  className="w-full h-40 object-cover rounded-lg border border-gray-200"
-                />
+                <div className="rounded-lg overflow-hidden border border-gray-200 bg-white flex items-center justify-center p-3">
+                  <img
+                    src={SPILLOVER_IMG}
+                    alt="Spillover Concept"
+                    className="w-full h-auto max-h-[160px] sm:max-h-[200px] object-contain"
+                  />
+                </div>
               </div>
               <ContainedImage
                 src={PLACEMENT_NETWORK_IMG}
@@ -1569,11 +1579,13 @@ const [selectedFinancialItem, setSelectedFinancialItem] =
 
           {/* Fast start callout */}
           <div className="bg-[#191717] rounded-xl p-6 mb-8 grid md:grid-cols-3 gap-6 items-center">
-            <img
-              src={PULSE_CIRCLE_IMG}
-              alt="Fast Start Momentum"
-              className="rounded-lg w-full h-32 object-cover"
-            />
+            <div className="rounded-lg overflow-hidden bg-white flex items-center justify-center p-3">
+              <img
+                src={PULSE_CIRCLE_IMG}
+                alt="Fast Start Momentum"
+                className="w-full h-auto max-h-[120px] sm:max-h-[160px] object-contain"
+              />
+            </div>
             <div className="md:col-span-2">
               <p className="text-[#aa8453] font-bold text-xs tracking-widest uppercase mb-3">
                 Fast Start Advantage
@@ -1639,11 +1651,13 @@ const [selectedFinancialItem, setSelectedFinancialItem] =
                 the network.
               </p>
             </div>
-            <img
-              src={BUILDING_IMG}
-              alt="Trust and Integrity"
-              className="rounded-xl shadow-lg w-full h-[280px] object-cover"
-            />
+            <div className="rounded-xl shadow-lg overflow-hidden bg-[#faf8f5] border border-gray-200 flex items-center justify-center p-4">
+              <img
+                src={BUILDING_IMG}
+                alt="Trust and Integrity"
+                className="w-full h-auto max-h-[220px] sm:max-h-[320px] object-contain"
+              />
+            </div>
           </div>
           <ol className="space-y-3">
             {codeOfEthics.map((item, i) => (
@@ -1676,11 +1690,11 @@ const [selectedFinancialItem, setSelectedFinancialItem] =
             </p>
           </div>
 
-          <div className="mb-12 rounded-2xl overflow-hidden shadow-lg">
+          <div className="mb-12 rounded-2xl overflow-hidden shadow-lg bg-white border border-gray-200 flex items-center justify-center p-4">
             <img
               src={SUPPORT_IMG}
               alt="Deal Forever Support"
-              className="w-full h-64 object-cover"
+              className="w-full h-auto max-h-[240px] sm:max-h-[320px] md:max-h-[400px] object-contain"
             />
           </div>
 

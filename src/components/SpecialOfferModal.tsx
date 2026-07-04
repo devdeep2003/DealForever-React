@@ -31,7 +31,7 @@ export default function SpecialOfferModal({
         onClick={(e) => e.stopPropagation()}
       >
         {/* Image Header */}
-        <div className="relative h-56 shrink-0">
+        <div className="relative h-44 sm:h-52 md:h-56 shrink-0">
           <img
             src={offer.image}
             alt={offer.title}

@@ -79,7 +79,7 @@ export default function Header() {
             {/* Logo */}
             <Link to="/" className="flex items-center shrink-0">
               {/* Logo Image */}
-              <div className="w-[150px] h-[90px] overflow-hidden">
+              <div className="w-[110px] h-[60px] sm:w-[130px] sm:h-[72px] lg:w-[150px] lg:h-[90px] overflow-hidden">
                 <img
                   src={brandLogo}
                   alt="Deal Forever Logo"

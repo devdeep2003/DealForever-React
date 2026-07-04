@@ -112,19 +112,19 @@ export default function StartBusiness() {
       />
 
       {/* ── Hero intro ── */}
-      <section className="section-padding bg-white">
+      <section className="py-10 md:py-16 bg-white">
         <div className="container-custom">
-          <div className="grid lg:grid-cols-2 gap-14 items-center">
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
             <div>
               <p className="section-subtitle">Start Your Business Today</p>
-              <h2 className="section-title">
+              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#191717] mb-4 tracking-tight">
                 Send Us Your Details &amp; We'll Get in Touch
               </h2>
-              <p className="text-[#555] leading-relaxed mb-8">
+              <p className="text-[#555] leading-relaxed mb-6 text-sm md:text-base">
                 In regards to your queries and steps towards your very own Deal Forever business.
                 Our team will guide you every step of the way — from orientation to your first sale.
               </p>
-              <div className="space-y-3">
+              <div className="space-y-2.5">
                 {[
                   'Completely free to register',
                   'Dedicated mentor assigned to you',
@@ -142,10 +142,10 @@ export default function StartBusiness() {
               <img
                 src="https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&w=900"
                 alt="Start Your Business"
-                className="w-full h-[420px] object-cover"
+                className="w-full h-[280px] md:h-[420px] object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#191717]/60 to-transparent flex items-end p-8">
-                <p className="text-white text-lg font-semibold leading-snug">
+              <div className="absolute inset-0 bg-gradient-to-t from-[#191717]/60 to-transparent flex items-end p-6 md:p-8">
+                <p className="text-white text-base md:text-lg font-semibold leading-snug">
                   Join thousands of successful Deal Forever distributors across India.
                 </p>
               </div>
@@ -155,21 +155,21 @@ export default function StartBusiness() {
       </section>
 
       {/* ── Why Join ── */}
-      <section className="section-padding bg-[#faf8f5]">
+      <section className="py-10 md:py-16 bg-[#faf8f5]">
         <div className="container-custom">
-          <div className="text-center mb-10">
+          <div className="text-center mb-8 md:mb-10">
             <p className="section-subtitle">Why Join Us</p>
-            <h2 className="section-title">What You Get When You Partner With Deal Forever</h2>
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#191717] tracking-tight">What You Get When You Partner With Deal Forever</h2>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             {whyJoin.map((w, i) => (
-              <div key={i} className="bg-white rounded-xl p-6 card-hover flex gap-4 items-start shadow-sm">
-                <div className="w-14 h-14 shrink-0 rounded-xl bg-[#faf8f5] flex items-center justify-center">
-                  <img src={`${IMG}${w.icon}`} alt={w.title} className="w-8 h-8 object-contain" />
+              <div key={i} className="bg-white rounded-xl p-5 md:p-6 card-hover flex gap-4 items-start shadow-sm">
+                <div className="w-12 h-12 md:w-14 md:h-14 shrink-0 rounded-xl bg-[#faf8f5] flex items-center justify-center">
+                  <img src={`${IMG}${w.icon}`} alt={w.title} className="w-7 h-7 md:w-8 md:h-8 object-contain" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-[#191717] mb-1">{w.title}</h3>
-                  <p className="text-sm text-[#888] leading-relaxed">{w.desc}</p>
+                  <h3 className="font-bold text-[#191717] mb-1 text-sm md:text-base">{w.title}</h3>
+                  <p className="text-xs md:text-sm text-[#888] leading-relaxed">{w.desc}</p>
                 </div>
               </div>
             ))}
@@ -178,19 +178,21 @@ export default function StartBusiness() {
       </section>
 
       {/* ── How It Works ── */}
-      <section className="section-padding bg-white">
+      <section className="py-10 md:py-16 bg-white">
         <div className="container-custom">
-          <div className="text-center mb-10">
+          <div className="text-center mb-8 md:mb-10">
             <p className="section-subtitle">How It Works</p>
-            <h2 className="section-title">4 Simple Steps To Start</h2>
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#191717] tracking-tight">4 Simple Steps To Start</h2>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
             {steps.map((s, i) => (
               <div key={i} className="relative">
-                <div className="bg-[#faf8f5] rounded-xl p-6 card-hover h-full">
-                  <span className="text-5xl font-black text-[#aa8453]/20 block mb-3 leading-none">{s.num}</span>
-                  <h3 className="font-bold text-[#191717] mb-2">{s.title}</h3>
-                  <p className="text-sm text-[#888] leading-relaxed">{s.desc}</p>
+                <div className="bg-[#faf8f5] rounded-xl p-5 md:p-6 card-hover h-full">
+                  <div className="flex items-center gap-3 mb-2">
+                    <span className="text-3xl md:text-5xl font-black text-[#aa8453]/20 leading-none">{s.num}</span>
+                    <h3 className="font-bold text-[#191717] text-sm md:text-base">{s.title}</h3>
+                  </div>
+                  <p className="text-xs md:text-sm text-[#888] leading-relaxed">{s.desc}</p>
                 </div>
                 {i < steps.length - 1 && (
                   <div className="hidden lg:flex absolute top-1/2 -right-3 -translate-y-1/2 z-10">
@@ -204,11 +206,11 @@ export default function StartBusiness() {
       </section>
 
       {/* ── The Form ── */}
-      <section className="section-padding bg-[#faf8f5]">
+      <section className="py-10 md:py-16 bg-[#faf8f5]">
         <div className="container-custom max-w-5xl">
-          <div className="text-center mb-10">
+          <div className="text-center mb-8 md:mb-10">
             <p className="section-subtitle">Register Your Interest</p>
-            <h2 className="section-title">Start Your Business Today</h2>
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#191717] tracking-tight">Start Your Business Today</h2>
             <p className="text-[#555] max-w-xl mx-auto text-sm">
               Send us your details and our team will get in touch with you to discuss how you can start
               your Deal Forever business journey.
@@ -216,7 +218,7 @@ export default function StartBusiness() {
           </div>
 
           {submitted ? (
-            <div className="bg-white rounded-2xl shadow-lg p-12 text-center max-w-lg mx-auto">
+            <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12 text-center max-w-lg mx-auto">
               <div className="w-20 h-20 rounded-full bg-green-50 flex items-center justify-center mx-auto mb-6">
                 <CheckCircle2 size={40} className="text-green-500" />
               </div>
@@ -235,7 +237,7 @@ export default function StartBusiness() {
           ) : (
             <form
               onSubmit={handleSubmit}
-              className="bg-white rounded-2xl shadow-lg p-8 md:p-10 border border-gray-100"
+              className="bg-white rounded-2xl shadow-lg p-6 md:p-10 border border-gray-100"
             >
               {error && (
                 <div className="mb-6 px-4 py-3 bg-red-50 border border-red-200 text-red-600 text-sm rounded-lg">
@@ -244,11 +246,11 @@ export default function StartBusiness() {
               )}
 
               {/* Personal Info */}
-              <div className="mb-8">
-                <h3 className="font-bold text-[#191717] text-lg mb-5 flex items-center gap-2">
+              <div className="mb-6 md:mb-8">
+                <h3 className="font-bold text-[#191717] text-base md:text-lg mb-4 md:mb-5 flex items-center gap-2">
                   <User size={18} className="text-[#aa8453]" /> Personal Information
                 </h3>
-                <div className="grid sm:grid-cols-2 gap-5">
+                <div className="grid sm:grid-cols-2 gap-4 md:gap-5">
                   <div>
                     <label className="block text-sm font-medium text-[#555] mb-1.5">
                       Full Name <span className="text-red-500">*</span>
@@ -277,11 +279,11 @@ export default function StartBusiness() {
               </div>
 
               {/* Contact */}
-              <div className="mb-8">
-                <h3 className="font-bold text-[#191717] text-lg mb-5 flex items-center gap-2">
+              <div className="mb-6 md:mb-8">
+                <h3 className="font-bold text-[#191717] text-base md:text-lg mb-4 md:mb-5 flex items-center gap-2">
                   <Mail size={18} className="text-[#aa8453]" /> Contact Details
                 </h3>
-                <div className="grid sm:grid-cols-2 gap-5">
+                <div className="grid sm:grid-cols-2 gap-4 md:gap-5">
                   <div>
                     <label className="block text-sm font-medium text-[#555] mb-1.5">
                       Email Address <span className="text-red-500">*</span>
@@ -310,11 +312,11 @@ export default function StartBusiness() {
               </div>
 
               {/* Location */}
-              <div className="mb-8">
-                <h3 className="font-bold text-[#191717] text-lg mb-5 flex items-center gap-2">
+              <div className="mb-6 md:mb-8">
+                <h3 className="font-bold text-[#191717] text-base md:text-lg mb-4 md:mb-5 flex items-center gap-2">
                   <MapPin size={18} className="text-[#aa8453]" /> Location
                 </h3>
-                <div className="grid sm:grid-cols-2 gap-5">
+                <div className="grid sm:grid-cols-2 gap-4 md:gap-5">
                   <div>
                     <label className="block text-sm font-medium text-[#555] mb-1.5">
                       City <span className="text-red-500">*</span>
@@ -343,11 +345,11 @@ export default function StartBusiness() {
               </div>
 
               {/* More info */}
-              <div className="mb-8">
-                <h3 className="font-bold text-[#191717] text-lg mb-5 flex items-center gap-2">
+              <div className="mb-6 md:mb-8">
+                <h3 className="font-bold text-[#191717] text-base md:text-lg mb-4 md:mb-5 flex items-center gap-2">
                   <Briefcase size={18} className="text-[#aa8453]" /> A Little More
                 </h3>
-                <div className="space-y-5">
+                <div className="space-y-4 md:space-y-5">
                   <div>
                     <label className="block text-sm font-medium text-[#555] mb-1.5">How did you hear about us?</label>
                     <select
@@ -374,8 +376,8 @@ export default function StartBusiness() {
                 </div>
               </div>
 
-              <div className="flex items-center justify-between flex-wrap gap-4">
-                <p className="text-xs text-[#aaa]">
+              <div className="flex flex-col items-center justify-center gap-4">
+                <p className="text-xs text-[#aaa] text-center">
                   <span className="text-red-500">*</span> Required fields
                 </p>
                 <button
@@ -396,7 +398,7 @@ export default function StartBusiness() {
       </section>
 
       {/* ── Contact strip ── */}
-      <section className="py-12 bg-[#191717]">
+      <section className="py-10 md:py-12 bg-[#191717]">
         <div className="container-custom">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
             <div>

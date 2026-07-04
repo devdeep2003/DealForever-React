@@ -35,7 +35,7 @@ export default function Gallery() {
                 className="rounded-xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-md transition-shadow"
               >
                 <div
-                  className="relative group cursor-pointer h-56"
+                  className="relative group cursor-pointer h-44 sm:h-52 md:h-56"
                   onClick={() => setSelectedItem(image)}
                 >
                   <img

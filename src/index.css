@@ -91,7 +91,7 @@
   }
 
   .page-banner {
-    @apply relative py-24 md:py-32 bg-[#191717] overflow-hidden;
+    @apply relative py-16 sm:py-20 md:py-28 lg:py-32 bg-[#191717] overflow-hidden;
   }
 
   .page-banner::before {
@@ -151,6 +151,15 @@
 
   .mobile-nav-item {
     @apply flex items-center gap-3 px-4 py-3 text-[#555] hover:text-[#aa8453] hover:bg-[#faf8f5] transition-colors rounded-lg;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
   }
 }
 

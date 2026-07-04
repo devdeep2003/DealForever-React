@@ -234,7 +234,7 @@ export default function Footer() {
                 <img
                   src={appstore}
                   alt="Download from App Store"
-                  className="w-[150px] h-[44px] object-contain"
+                  className="w-[130px] h-[40px] sm:w-[150px] sm:h-[44px] object-contain"
                 />
               </a>
 
@@ -242,7 +242,7 @@ export default function Footer() {
                 <img
                   src={playstore}
                   alt="Download from Play Store"
-                  className="w-[150px] h-[44px] object-contain"
+                  className="w-[130px] h-[40px] sm:w-[150px] sm:h-[44px] object-contain"
                 />
               </a>
             </div>

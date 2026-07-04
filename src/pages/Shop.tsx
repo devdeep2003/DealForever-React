@@ -16,7 +16,7 @@ export default function Shop() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {products.map((product) => (
               <div key={product.id} className="bg-white rounded-xl overflow-hidden shadow-md card-hover group">
-                <div className="relative h-56 overflow-hidden">
+                <div className="relative h-44 sm:h-52 md:h-56 overflow-hidden">
                   <img
                     src={product.image}
                     alt={product.name}

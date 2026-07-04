@@ -218,7 +218,7 @@ export default function SuccessStories() {
             </button>
 
             {/* Image Header */}
-            <div className="relative h-64 overflow-hidden">
+            <div className="relative h-48 sm:h-56 md:h-64 overflow-hidden">
               <img
                 src={selectedStory.image}
                 alt={selectedStory.name}

@@ -24,7 +24,7 @@ export default function News() {
                 key={item.id}
                 className="bg-white rounded-xl overflow-hidden shadow-md card-hover group"
               >
-                <div className="relative h-56 overflow-hidden">
+                <div className="relative h-44 sm:h-52 md:h-56 overflow-hidden">
                   <img
                     src={item.image}
                     alt={item.title}
@@ -79,7 +79,7 @@ export default function News() {
             onClick={(e) => e.stopPropagation()}
           >
             {/* Hero Image — fixed, does not scroll */}
-            <div className="relative h-64 w-full flex-shrink-0">
+            <div className="relative h-48 sm:h-56 md:h-64 w-full flex-shrink-0">
               <img
                 src={selectedItem.image}
                 alt={selectedItem.title}

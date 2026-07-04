@@ -256,7 +256,7 @@ export default function Home() {
               <img
                 src={launchOffers[offerIndex].image}
                 alt={launchOffers[offerIndex].title}
-                className="w-full h-[320px] object-cover"
+                className="w-full h-[240px] sm:h-[300px] md:h-[360px] object-cover"
               />
 
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
@@ -302,7 +302,7 @@ export default function Home() {
         </div>
       )}
       {/* Hero Slider */}
-      <section className="relative h-[500px] md:h-[650px] overflow-hidden -mt-[104px] lg:-mt-[120px] pt-[104px] lg:pt-[120px]">
+      <section className="relative h-[400px] sm:h-[500px] md:h-[650px] overflow-hidden -mt-16 lg:-mt-[120px] pt-16 lg:pt-[120px]">
         {slides.map((slide, i) => (
           <div
             key={i}
@@ -370,9 +370,9 @@ export default function Home() {
             </div>
             <div className="relative overflow-hidden shadow-2xl group">
               <img
-                src="images/resource/about-main-4.png"
+                src={import.meta.env.VITE_BASE_URL + "/images/resource/about-main-4.png"}
                 alt="About Deal Forever"
-                className="w-full h-[400px] object-cover transition-transform duration-[4000ms] ease-in-out group-hover:scale-110"
+                className="w-full h-[260px] sm:h-[340px] md:h-[400px] object-cover transition-transform duration-[4000ms] ease-in-out group-hover:scale-110"
               />
             </div>
           </div>
@@ -380,7 +380,7 @@ export default function Home() {
       </section>
 
       {/* Sustainable Direct Selling - Dark Section */}
-      <section className="py-20 bg-[#191717] relative overflow-hidden">
+      <section className="py-12 md:py-20 bg-[#191717] relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://images.pexels.com/photos/3184405/pexels-photo-3184405.jpeg?auto=compress&cs=tinysrgb&w=1920')] bg-cover bg-center opacity-10" />
         <div className="relative container-custom text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-8">
@@ -539,14 +539,14 @@ export default function Home() {
             </Link>
           </div>
           <div
-            className="grid grid-cols-2 lg:grid-cols-4 gap-6"
+            className="flex lg:grid lg:grid-cols-4 gap-4 lg:gap-6 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-2 lg:pb-0"
             onMouseEnter={offersCarousel.onMouseEnter}
             onMouseLeave={offersCarousel.onMouseLeave}
           >
             {getPage(offers, offersCarousel.page, 4).map((offer, i) => (
               <div
                 key={`${offersCarousel.page}-${i}`}
-                className="group rounded-xl overflow-hidden shadow-md card-hover animate-fade-in-up"
+                className="group rounded-xl overflow-hidden shadow-md card-hover animate-fade-in-up shrink-0 w-[48%] lg:w-auto snap-start"
               >
                 <div className="relative h-48">
                   <img
@@ -610,14 +610,14 @@ export default function Home() {
             </Link>
           </div>
           <div
-            className="grid grid-cols-2 lg:grid-cols-4 gap-6"
+            className="flex lg:grid lg:grid-cols-4 gap-4 lg:gap-6 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-2 lg:pb-0"
             onMouseEnter={newsCarousel.onMouseEnter}
             onMouseLeave={newsCarousel.onMouseLeave}
           >
             {getPage(newsItems, newsCarousel.page, 4).map((item, i) => (
               <div
                 key={`${newsCarousel.page}-${i}`}
-                className="bg-white rounded-xl overflow-hidden shadow-sm card-hover group animate-fade-in-up"
+                className="bg-white rounded-xl overflow-hidden shadow-sm card-hover group animate-fade-in-up shrink-0 w-[48%] lg:w-auto snap-start"
               >
                 <div className="relative h-48 overflow-hidden">
                   <img
@@ -676,7 +676,7 @@ export default function Home() {
             </h2>
           </div>
           <div
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+            className="flex lg:grid lg:grid-cols-4 gap-4 lg:gap-6 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-2 lg:pb-0"
             onMouseEnter={testimonialsCarousel.onMouseEnter}
             onMouseLeave={testimonialsCarousel.onMouseLeave}
           >
@@ -684,7 +684,7 @@ export default function Home() {
               (item, i) => (
                 <div
                   key={`${testimonialsCarousel.page}-${i}`}
-                  className="bg-[#faf8f5] rounded-xl p-6 relative animate-fade-in-up"
+                  className="bg-[#faf8f5] rounded-xl p-6 relative animate-fade-in-up shrink-0 w-[48%] lg:w-auto snap-start"
                 >
                   <div className="absolute top-4 right-4 text-[#aa8453]/20 text-5xl font-serif">
                     &ldquo;
@@ -751,14 +751,14 @@ export default function Home() {
         </div>
         <div className="container-custom">
           <div
-            className="grid grid-cols-2 lg:grid-cols-4 gap-6"
+            className="flex lg:grid lg:grid-cols-4 gap-4 lg:gap-6 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-2 lg:pb-0"
             onMouseEnter={brandsCarousel.onMouseEnter}
             onMouseLeave={brandsCarousel.onMouseLeave}
           >
             {getPage(brands, brandsCarousel.page, 4).map((brand, i) => (
               <div
                 key={`${brandsCarousel.page}-${i}`}
-                className="h-24 bg-white rounded-xl shadow-sm border border-[#e8e0d5] flex items-center justify-center hover:shadow-md hover:border-[#aa8453]/40 transition-all duration-300 animate-fade-in-up"
+                className="h-24 bg-white rounded-xl shadow-sm border border-[#e8e0d5] flex items-center justify-center hover:shadow-md hover:border-[#aa8453]/40 transition-all duration-300 animate-fade-in-up shrink-0 w-[48%] lg:w-auto snap-start"
               >
                 {brand.logo ? (
                   <img

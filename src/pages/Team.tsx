@@ -23,7 +23,7 @@ export default function () {
                 key={member.id}
                 className="bg-white rounded-xl overflow-hidden shadow-sm card-hover group"
               >
-                <div className="relative h-80 overflow-hidden">
+                <div className="relative h-64 sm:h-72 md:h-80 overflow-hidden">
                   <img
                     src={member.image}
                     alt={member.name}
