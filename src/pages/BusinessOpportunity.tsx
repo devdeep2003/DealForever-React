@@ -603,7 +603,7 @@ const [selectedFinancialItem, setSelectedFinancialItem] =
             {/* Right Image */}
             <div className="w-full lg:w-[48%] flex justify-center lg:justify-end">
               <ContainedImage
-                src={`${IMG}Web Banner.jpeg`}
+                src={THINKING_IMG}
                 alt="Business Opportunity Banner"
                 className="w-full max-w-2xl rounded-xl shadow-lg"
               />
