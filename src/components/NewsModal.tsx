@@ -5,6 +5,7 @@ interface NewsItem {
   title: string;
   date: string;
   excerpt: string;
+  description: string;
 }
 
 interface NewsModalProps {
@@ -22,58 +23,74 @@ export default function NewsModal({
 
   const formattedDate = new Date(newsItem.date).toLocaleDateString("en-IN", {
     day: "numeric",
-    month: "short",
+    month: "long",
     year: "numeric",
   });
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+      className="fixed inset-0 z-[100] bg-black/70 flex items-center justify-center p-4"
       onClick={onClose}
     >
-      <div className="absolute inset-0 bg-black/60" />
       <div
-        className="relative bg-white rounded-2xl w-full max-w-lg max-h-[90vh] flex flex-col overflow-hidden animate-scale-in"
+        className="bg-white rounded-2xl overflow-hidden max-w-3xl w-full max-h-[90vh] flex flex-col shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Image Header */}
-        <div className="relative h-44 sm:h-52 md:h-56 shrink-0">
+        {/* Hero Image — fixed, does not scroll */}
+        <div className="relative h-48 sm:h-56 md:h-64 w-full flex-shrink-0">
           <img
             src={newsItem.image}
             alt={newsItem.title}
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#191717]/80 via-[#191717]/20 to-transparent" />
-
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 w-9 h-9 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center transition-colors backdrop-blur-sm"
+            className="absolute top-4 right-4 bg-white/20 hover:bg-white/40 backdrop-blur-sm text-white rounded-full p-1.5 transition-colors"
           >
-            <X size={18} />
+            <X size={20} />
           </button>
+        </div>
 
-          <span className="absolute top-4 left-4 inline-flex items-center gap-1 bg-[#aa8453] text-white px-3 py-1 rounded-full text-xs font-semibold">
-            <Calendar size={12} /> {formattedDate}
-          </span>
+        {/* Scrollable Article Content */}
+        <div className="overflow-y-auto flex-1 px-8 py-8">
+          {/* Meta */}
+          <div className="flex items-center gap-2 text-xs text-[#aa8453] font-semibold mb-4">
+            <Calendar size={13} />
+            {formattedDate}
+          </div>
 
-          <h2 className="absolute bottom-4 left-5 right-5 text-xl font-bold text-white">
+          {/* Title */}
+          <h2 className="text-2xl font-bold text-[#191717] leading-snug mb-4">
             {newsItem.title}
           </h2>
-        </div>
 
-        {/* Content */}
-        <div className="flex-1 overflow-y-auto p-6">
-          <p className="text-sm text-[#555] leading-relaxed text-justify">
+          {/* Divider */}
+          <div className="w-16 h-1 bg-[#aa8453] rounded-full mb-6" />
+
+          {/* Excerpt as lead paragraph */}
+          <p className="text-base font-semibold text-[#444] leading-relaxed mb-5 border-l-4 border-[#aa8453] pl-4 italic">
             {newsItem.excerpt}
           </p>
-        </div>
 
-        {/* Footer */}
-        {/* <div className="p-6 pt-0 shrink-0">
-          <button onClick={onClose} className="btn-primary w-full rounded-lg">
-            Close
-          </button>
-        </div> */}
+          {/* Full Description */}
+          <p className="text-sm text-[#666] leading-7 text-justify">
+            {newsItem.description}
+          </p>
+
+          {/* Footer */}
+          <div className="mt-8 pt-5 border-t border-gray-100 flex items-center justify-between">
+            <span className="text-xs text-[#aaa]">
+              Deal Forever Enterprises — Official News
+            </span>
+            <button
+              onClick={onClose}
+              className="text-sm text-[#aa8453] font-semibold hover:underline"
+            >
+              Close
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

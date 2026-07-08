@@ -7,15 +7,15 @@ const categories = ['All', ...new Set(products.map((p) => p.category))];
 // const brands = ['All', ...new Set(products.map((p) => p.brand))];
 
 export default function Brands() {
-   const [activeCategory, setActiveCategory] = useState('All');
+  const [activeCategory, setActiveCategory] = useState('All');
   // const [activeBrand, setActiveBrand] = useState('All');
   const [search, setSearch] = useState('');
 
   const filtered = products.filter((p) => {
-    // const matchCat = activeCategory === 'All' || p.category === activeCategory;
+    const matchCat = activeCategory === 'All' || p.category === activeCategory;
     // const matchBrand = activeBrand === 'All' || p.brand === activeBrand;
     const matchSearch = p.name.toLowerCase().includes(search.toLowerCase());
-    return matchSearch;
+    return matchCat && matchSearch;
   });
 
   return (
@@ -82,7 +82,7 @@ export default function Brands() {
                 <div className="flip-card-inner relative w-full h-full">
                   {/* Front */}
                   <div className="flip-card-front absolute inset-0 bg-white rounded-xl shadow-md overflow-hidden">
-                    <img src={product.image} alt={product.name} className="w-full h-48 sm:h-56 md:h-64 object-cover" />
+                    <img src={product.image} alt={product.name} className="w-full h-48 sm:h-56 md:h-[300px] object-cover" />
                     <div className="p-4 flex flex-col gap-1">
                       {/* <p className="text-xs text-[#aa8453] font-semibold">{product.brand}</p> */}
                       <h3 className="font-semibold text-[#aa8453] text-sm line-clamp-2">{product.name}</h3>
@@ -94,7 +94,7 @@ export default function Brands() {
                     </div>
                   </div>
                   {/* Back */}
-                  <div className="flip-card-back absolute inset-0 bg-[#aa8453] rounded-xl shadow-md p-6 flex flex-col justify-center text-white">
+                  <div className="flip-card-back absolute inset-0 bg-[#aa8453] rounded-xl shadow-md p-6 flex flex-col text-white">
                     <p className="text-xs font-semibold uppercase tracking-wider mb-2 text-white/70">{product.brand}</p>
                     <h3 className="font-bold text-lg mb-3">{product.name}</h3>
                     <p className="text-sm text-white/80 mb-4 leading-relaxed">{product.description}</p>

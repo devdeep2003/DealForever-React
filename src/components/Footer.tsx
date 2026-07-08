@@ -23,7 +23,7 @@ export default function Footer() {
     <footer className="bg-[#191717] text-white">
       {/* Connect Section */}
       <div className="border-b border-white/10">
-        <div className="p-6 sm:p-10 lg:p-16 bg-[#333333]">
+        <div className="p-6 sm:p-10 lg:p-12 lg:px-[130px] bg-[#333333]">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-10">
             {/* Left Side */}
             <div className="w-full lg:w-auto lg:max-w-md">
@@ -39,10 +39,10 @@ export default function Footer() {
                 <input
                   type="email"
                   placeholder="Enter your email address"
-                  className="flex-1 h-12 px-4 bg-white border border-white/20 rounded-lg text-sm text-black focus:outline-none focus:border-[#aa8453] transition-colors"
+                  className="flex-1 h-10 px-4 bg-white border border-white/20 rounded-lg text-sm text-black focus:outline-none focus:border-[#aa8453] transition-colors"
                 />
 
-                <button className="bg-[#aa8453] rounded-lg h-12 w-12 flex items-center justify-center">
+                <button className="bg-[#aa8453] rounded-lg h-10 w-12 flex items-center justify-center">
                   <Send
                     size={24}
                     style={{
@@ -59,18 +59,23 @@ export default function Footer() {
             <div className="border-r border-white/10 hidden lg:block self-stretch"></div>
 
             {/* Right Side Trust Badges */}
-            <div className="grid grid-cols-3 gap-3 sm:gap-6 lg:gap-10 w-full lg:w-auto">
+            <div className="grid grid-cols-3 gap-3 sm:gap-6 lg:gap-8 w-full lg:w-auto">
               {trustBadges.map((badge) => (
                 <div
                   key={badge.label}
-                  className="flex flex-col items-center text-center gap-2 text-white/70 w-full max-w-[100px] sm:max-w-[112px] mx-auto"
+                  className="flex flex-col items-center text-center gap-2 text-white/70 w-full max-w-[140px] mx-auto"
                 >
-                  <img
-                    src={badge.icon}
-                    alt={badge.label}
-                    className="w-12 h-12 sm:w-16 sm:h-16 object-contain"
-                  />
-                  <span className="text-xs sm:text-sm leading-snug">{badge.label}</span>
+                  <div className="w-16 h-14 flex items-center justify-center">
+                    <img
+                      src={badge.icon}
+                      alt={badge.label}
+                      className="max-w-full max-h-full object-contain"
+                    />
+                  </div>
+
+                  <span className="text-[11px] sm:text-xs leading-tight whitespace-nowrap">
+                    {badge.label}
+                  </span>
                 </div>
               ))}
             </div>
@@ -164,7 +169,7 @@ export default function Footer() {
               Useful Links
             </h4>
             <ul className="space-y-2">
-              <li>
+              {/* <li>
                 <Link
                   to="/brands"
                   className="text-sm text-white/60 hover:text-[#aa8453] transition-colors"
@@ -195,7 +200,7 @@ export default function Footer() {
                 >
                   News & Media
                 </Link>
-              </li>
+              </li> */}
               <li>
                 <Link
                   to="/faq"

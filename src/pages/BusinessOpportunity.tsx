@@ -1,504 +1,47 @@
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, X } from "lucide-react";
 import PageBanner from "../components/PageBanner";
 import { useState } from "react";
-import { X } from "lucide-react";
+import {
+  businessOpportunityImages,
+  businessOpportunityBenefits as benefits,
+  businessIncomeHighlights as incomeHighlights,
+  compensationPlanBenefits as planBenefits,
+  compensationTables,
+  financialIncomeItems as financialItems,
+  physicalStoreBullets,
+  ecommerceBullets,
+  directSellingBullets,
+  glossaryTerms,
+  codeOfEthics,
+  distributionStats,
+  supportFaqs,
+} from "../data/siteData";
 
-const IMG = import.meta.env.VITE_BASE_URL + "/images/";
-const BUSINESS_IMG = `${IMG}BusinessOpportunity/`;
-
-const SALES_IMG = `${BUSINESS_IMG}Sales.jpeg`;
-const PULSE_CIRCLE_IMG = `${BUSINESS_IMG}pulse-circle.jpeg`;
-
-const TABLE1_IMG = `${BUSINESS_IMG}table1.jpeg`;
-const TABLE2_IMG = `${BUSINESS_IMG}table2.jpeg`;
-const TABLE3_IMG = `${BUSINESS_IMG}table3.jpeg`;
-const TABLE4_IMG = `${BUSINESS_IMG}table4.jpeg`;
-
-const SUPPORT_IMG = `${BUSINESS_IMG}support.jpeg`;
-const FLOW_IMG = `${BUSINESS_IMG}flow.jpeg`;
-const MEDIA_IMG = `${BUSINESS_IMG}media.jpeg`;
-const TEAM_IMG = `${BUSINESS_IMG}team.jpeg`;
-
-const WARNING_IMG = `${BUSINESS_IMG}warning.jpeg`;
-const CASH_IMG = `${BUSINESS_IMG}cash.jpeg`;
-const SPONSOR_NETWORK_IMG = `${BUSINESS_IMG}sponsornetwork.jpeg`;
-const ECART_IMG = `${BUSINESS_IMG}ecart.jpeg`;
-
-const PLACEMENT_NETWORK_IMG = `${BUSINESS_IMG}placementnetwork.jpeg`;
-const BUSINESS_PLAN_IMG = `${BUSINESS_IMG}businessPlan.jpeg`;
-const SPILLOVER_IMG = `${BUSINESS_IMG}spillover.jpeg`;
-
-const BUSINESS_OPPORTUNITY_IMG = `${BUSINESS_IMG}businessopp.jpeg`;
-const BUILDING_IMG = `${BUSINESS_IMG}building.jpeg`;
-const BUSINESS_FLOW_IMG = `${BUSINESS_IMG}businessflow.jpeg`;
-const THINKING_IMG = `${BUSINESS_IMG}thinking.jpeg`;
-
-// ─── data ────────────────────────────────────────────────────────────────────
-
-const benefits = [
-  {
-    icon: "icons8-balance-64 (5).png",
-    title: "Workplace of Equal Opportunity",
-    desc: "No matter your education or economic background, you can find success in this business through hardwork.",
-  },
-  {
-    icon: "icons8-income-64.png",
-    title: "Significant income potential",
-    desc: "The sky's the limit when it comes to your income, determined by your work ethic.",
-  },
-  {
-    icon: "icons8-reply-arrow-48.png",
-    title: "Easier and simpler to start",
-    desc: "Registering for a Deal Forever business is simple and completely free — no hidden costs, no barriers.",
-  },
-  {
-    icon: "icons8-personal-growth-64.png",
-    title: "Personal growth and development",
-    desc: "Developing others is a way to develop yourself. Every interaction sharpens your leadership skills.",
-  },
-  {
-    icon: "icons8-junction-64.png",
-    title: "Flexibility",
-    desc: "Choose the time you work, the way you work, and where you work — total autonomy over your schedule.",
-  },
-  {
-    icon: "icons8-trust-64.png",
-    title: "A business passed down through generations",
-    desc: "Build something lasting you can leave in your children's name — a true generational asset.",
-  },
-  {
-    icon: "icons8-cube-64.png",
-    title: "Exquisite range of products",
-    desc: "Deal Forever provides a diverse selection of brands across multiple categories, ensuring your needs are met.",
-  },
-  {
-    icon: "icons8-trust-badge-96.png",
-    title: "Recognition and achievements",
-    desc: "You receive recognition for your success through awards, rank titles, bonuses, and public appreciation.",
-  },
-];
-
-const incomeHighlights = [
-  {
-    num: "01",
-    title: "Daily Income",
-    desc: "Earn every single day through retail sales and direct customer purchases.",
-  },
-  {
-    num: "02",
-    title: "Weekly Income",
-    desc: "Receive your team-building bonus payouts on a regular weekly cycle.",
-  },
-  {
-    num: "03",
-    title: "Monthly Income",
-    desc: "Performance bonuses and group volume rewards credited each month.",
-  },
-  {
-    num: "04",
-    title: "7 Types of Universal Genealogy Income",
-    desc: "Deep, multi-level income streams that pay across your entire network tree.",
-  },
-];
-
-const planBenefits = [
-  {
-    icon: "icons/icons8-documents-50.png",
-    title: "Simplified Dual Marketing Plan",
-    desc: "Easy to explain, easier to grow.",
-  },
-  {
-    icon: "icons/icons8-money-50.png",
-    title: "Accumulative BV",
-    desc: "Business volume never resets — it keeps adding up.",
-  },
-  {
-    icon: "icons/icons8-depth-48.png",
-    title: "Infinite Depth Calculation",
-    desc: "Earn from every level, no cap on depth.",
-  },
-  {
-    icon: "icons/icons8-decrease-50.png",
-    title: "No Rank Demotion",
-    desc: "Once you earn a rank, it is yours for life.",
-  },
-  {
-    icon: "icons/icons8-delete-trash-50.png",
-    title: "No Flesh Out",
-    desc: "Your network is preserved and protected always.",
-  },
-  {
-    icon: "icons/icons8-time-64.png",
-    title: "No Time Frame For Achievers",
-    desc: "Work at your own pace without deadline pressure.",
-  },
-  {
-    icon: "icons/icons8-infinity-64 (1).png",
-    title: "Limitless Achievements",
-    desc: "No ceiling on your rank or reward milestones.",
-  },
-  {
-    icon: "icons/icons8-balance-64 (1).png",
-    title: "Equal Opportunities",
-    desc: "The same plan applies fairly to every distributor.",
-  },
-];
-
-const compensationTables = [
-  {
-    img: TABLE1_IMG,
-    title: "Team Building Bonus Slabs",
-    desc: "Breaks down the Team Building Bonus percentage payout at each qualifying business volume slab, showing how your earnings scale as your team's combined volume grows.",
-  },
-  {
-    img: TABLE2_IMG,
-    title: "Performance Bonus Structure",
-    desc: "Shows the exact performance bonus percentage tied to each monthly business volume tier, helping you plan realistic monthly income targets.",
-  },
-  {
-    img: TABLE3_IMG,
-    title: "Leadership Rank Requirements",
-    desc: "Lists the personal and group volume requirements needed to qualify for each leadership rank, from Team Coordinator up through Executive levels.",
-  },
-  {
-    img: TABLE4_IMG,
-    title: "Profit Share Distribution",
-    desc: "Shows how the Yearly Profit Share pool of 5% is distributed proportionally across qualifying ranks.",
-  },
-];
-
-const financialItems = [
-  {
-    icon: "icons8-graph-64.png",
-    title: "Saving On Consumption",
-    sub: "10–20%",
-    desc: "Save on every personal purchase you make.",
-    detail:
-      "Every Deal Forever member automatically saves between 10% and 20% on their own personal purchases, simply by buying the products they would use anyway. There's no selling, recruiting, or qualification required to unlock this benefit — it begins from your very first order. Over time, these savings compound significantly, especially for households that switch their everyday consumables to the Deal Forever range. This makes it the most accessible income stream in the entire plan, designed specifically for customers and new members who want to experience real value before stepping into the business side of things.",
-  },
-  {
-    icon: "icons8-business-group-100 (1).png",
-    title: "Team Building Bonus",
-    sub: "10%",
-    desc: "Rewarded for growing your downline team.",
-    detail:
-      "As you introduce new members and help them get started, you earn a 10% Team Building Bonus calculated on the combined business volume generated by your growing downline. This bonus directly rewards the early effort of identifying, onboarding, and activating new distributors. It's structured to encourage sustainable team growth rather than one-off recruitment, since the bonus continues to pay out as long as your team remains active. For many distributors, this becomes one of the first meaningful income streams beyond personal retail profit, marking the transition from customer to genuine business builder within the organization.",
-  },
-  {
-    icon: "icons8-speedometer-64.png",
-    title: "Performance Bonus",
-    sub: "10%",
-    desc: "Paid based on your monthly performance output.",
-    detail:
-      "The Performance Bonus rewards consistency, paying out 10% based on your personal and team business volume achieved each month. Unlike one-time incentives, this bonus resets and recalculates monthly, meaning your income stays directly tied to current effort rather than past achievements. It's designed to keep momentum high across the entire network, encouraging distributors to stay active month over month instead of relying solely on legacy team structures. Whether you're a new member finding your footing or an established leader maintaining volume, this bonus ensures that ongoing performance is always recognized and rewarded fairly and transparently.",
-  },
-  {
-    icon: "icons8-trust-50 (2).png",
-    title: "Business Supporting Bonus",
-    sub: "5%",
-    desc: "Support your business builders and earn.",
-    detail:
-      "The Business Supporting Bonus pays 5% to members who actively help their downline succeed — whether through training, mentorship, or hands-on guidance during early business stages. This bonus exists to formally reward the often-invisible work of supporting others: answering questions, attending calls, helping close sales, and building confidence in newer team members. It reinforces Deal Forever's philosophy that individual success is tied to collective growth. Leaders who consistently show up for their teams are compensated not just through their team's volume, but through this dedicated stream recognizing genuine support and involvement.",
-  },
-  {
-    icon: "icons8-user-groups-50.png",
-    title: "Business Building Bonus",
-    sub: "10%",
-    desc: "For helping others build their own businesses.",
-    detail:
-      "Earning 10%, the Business Building Bonus goes a step beyond team support — it specifically rewards members who actively help others establish and grow their own independent businesses within the network. This includes guiding new distributors through onboarding, helping them set goals, and assisting with their first few sales cycles. The bonus recognizes that a thriving network isn't built on one person's effort alone, but on a web of mentors empowering new entrepreneurs. It's an income stream built around multiplication: the more businesses you help launch successfully, the more this bonus compounds over time.",
-  },
-  {
-    icon: "icons8-shopping-cart-100.png",
-    title: "Top Retailer Bonus",
-    sub: "20%",
-    desc: "The highest retail reward for top sellers.",
-    detail:
-      "Reserved for the strongest direct sellers in the network, the Top Retailer Bonus offers a generous 20% reward for members who consistently lead in retail sales volume. This stream celebrates pure selling skill — distributors who build loyal customer bases and move product through genuine retail relationships rather than recruitment alone. It's a recognition that retail sales remain the foundation of any healthy direct selling business, and top performers deserve outsized rewards for keeping that foundation strong. For naturally talented salespeople, this bonus alone can become a substantial and reliable income source.",
-  },
-  {
-    icon: "icons8-around-the-globe-50.png",
-    title: "Travel Fund",
-    sub: "4%",
-    desc: "Accrue funds to travel the world in style.",
-    detail:
-      "The Travel Fund allocates 4% toward a dedicated account that qualifying members accumulate simply by maintaining consistent business activity. Rather than a one-time trip, this fund builds steadily over time, giving members the flexibility to redeem it toward international company retreats, leadership summits, or personal travel rewards as they reach milestones. It's designed to celebrate success in a tangible, experiential way — turning hard work into memories rather than just numbers in a bank account. For many in the network, this fund becomes a powerful motivator tied directly to lifestyle aspiration and personal achievement.",
-  },
-  {
-    icon: "icons8-vehicle-50.png",
-    title: "Vehicle Fund",
-    sub: "3%",
-    desc: "Drive your dream car funded by your business.",
-    detail:
-      "The Vehicle Fund sets aside 3% to help qualifying leaders work toward owning the car of their choice, funded progressively through their business performance. As members maintain qualifying ranks and volume over time, this fund accumulates and can be applied toward a vehicle purchase or lease, turning sustained business success into a visible, everyday symbol of achievement. It reflects a long-standing tradition in direct selling of rewarding top performers with lifestyle assets, reinforcing that consistent leadership and team growth translate into real, tangible rewards beyond the typical paycheck.",
-  },
-  {
-    icon: "icons8-home-80.png",
-    title: "Home Fund",
-    sub: "3%",
-    desc: "Invest in the home you always dreamed of.",
-    detail:
-      "Allocating 3% toward one of life's biggest milestones, the Home Fund helps long-term, high-performing members work toward owning their dream home. This fund accumulates gradually as members sustain strong business volume and leadership rank over an extended period, reflecting Deal Forever's commitment to rewarding loyalty and long-term vision rather than short-term wins. It's intended for the network's most dedicated builders — those who have invested years into developing their team and income — giving them a meaningful path toward a major life goal funded directly by the business they've built.",
-  },
-  {
-    icon: "icons8-businessman-64 (1).png",
-    title: "Leadership Bonus",
-    sub: "25%",
-    desc: "Highest bonus tier for proven team leaders.",
-    detail:
-      "As the highest bonus tier in the entire compensation plan, the Leadership Bonus rewards proven team leaders with 25% based on the overall business volume of their organization. Reaching this level typically requires sustained team growth, strong retention, and a track record of developing other leaders within your network. It represents the pinnacle of what's achievable through consistent effort and mentorship, compensating leaders not just for their own results but for the cumulative success of everyone they've helped build and grow. For top earners in the network, this bonus often becomes the primary driver of income.",
-  },
-  {
-    icon: "icons8-leadership-64 (1).png",
-    title: "Executive Leadership Bonus",
-    sub: "10%",
-    desc: "Exclusive executive-level income stream.",
-    detail:
-      "The Executive Leadership Bonus is an exclusive 10% stream reserved for members who reach the company's highest executive ranks. Unlike standard leadership rewards, this bonus recognizes individuals who have built multiple successful leadership lines beneath them, demonstrating an ability to develop leaders who can independently develop further leaders. It's a stream built around organizational depth and stability rather than just volume, rewarding those whose networks have matured into self-sustaining structures. Reaching executive status typically takes years of consistent business building, making this bonus a marker of true mastery within the Deal Forever opportunity.",
-  },
-  {
-    icon: "icons8-slice-50.png",
-    title: "Yearly Profit Share (PS)",
-    sub: "5%",
-    desc: "Share in the company's annual profits.",
-    detail:
-      "Once a year, the company allocates 5% of its overall profits to be shared among its top-qualifying members through the Yearly Profit Share program. This is distributed based on rank, sustained performance, and overall contribution to the company's growth throughout the year, rather than any single month's results. It serves as a long-term incentive that aligns individual success with company-wide performance — when Deal Forever grows, its top leaders share directly in that growth. This stream rewards patience and consistency, recognizing members who've stayed committed to the business over the full annual cycle.",
-  },
-];
-
-const physicalStoreBullets = [
-  {
-    point: "Popularity",
-    detail:
-      "Physical stores build brand visibility and community trust in local markets.",
-  },
-  {
-    point: "Instant gratification",
-    detail:
-      "Customers walk out with products in hand — no waiting for delivery.",
-  },
-  {
-    point: "Ability to try on or try out the products",
-    detail: "Touch, smell, and test before you buy builds buyer confidence.",
-  },
-  {
-    point: "Social aspects",
-    detail:
-      "In-person shopping is a social experience that fosters loyalty and referrals.",
-  },
-  {
-    point: "It deepens trust for online purchase",
-    detail:
-      "Customers who visit stores are more comfortable buying online later.",
-  },
-  {
-    point: "It's great for branding",
-    detail:
-      "A physical presence communicates legitimacy and long-term commitment.",
-  },
-  {
-    point: "Large range of products available",
-    detail:
-      "Full inventory on display means customers discover more, spend more.",
-  },
-];
-
-const ecommerceBullets = [
-  {
-    point: "Flexible buying hours",
-    detail: "Your store is open 24/7 — orders come in while you sleep.",
-  },
-  {
-    point: "Buy/Sell internationally",
-    detail: "Reach customers beyond your city, state, or country borders.",
-  },
-  {
-    point: "Personalized online experience",
-    detail: "Algorithms surface the right products to the right buyers.",
-  },
-  {
-    point: "Easier to encourage impulse buy",
-    detail:
-      "Smart product suggestions at checkout increase average order value.",
-  },
-  {
-    point: "Easy to retarget or remarket to customers",
-    detail:
-      "Follow up with interested buyers using targeted digital campaigns.",
-  },
-  {
-    point: "Customers get a less invasive experience",
-    detail: "Browse at their own pace, without sales pressure.",
-  },
-  {
-    point: "Able to process high number of orders",
-    detail: "Scale without proportionally scaling your team or infrastructure.",
-  },
-  {
-    point: "Can scale business quickly",
-    detail: "Launch new products or markets in days, not months.",
-  },
-  {
-    point: "Can grow business organically with content",
-    detail: "Blogs, videos, and social posts drive free, compounding traffic.",
-  },
-  {
-    point: "Time saving",
-    detail:
-      "Automated payments, receipts, and order tracking save hours daily.",
-  },
-  {
-    point: "No travel worries",
-    detail: "Manage your entire business from your phone or laptop, anywhere.",
-  },
-];
-
-const directSellingBullets = [
-  {
-    point: "Low start-up cost",
-    detail:
-      "Begin your business journey with minimal capital investment required.",
-  },
-  {
-    point: "Leverage",
-    detail:
-      "Multiply your effort through a team — your network works even when you don't.",
-  },
-  {
-    point: "Complete time and financial freedom",
-    detail: "Design your own schedule and income targets on your own terms.",
-  },
-  {
-    point: "Customer support and training",
-    detail:
-      "The company provides ongoing tools and training to help you succeed.",
-  },
-  {
-    point: "Global business",
-    detail:
-      "Operate across borders with a network that spans states and countries.",
-  },
-  {
-    point: "Personal development",
-    detail:
-      "Every sale and conversation builds communication and leadership skills.",
-  },
-  {
-    point: "Passive residual income",
-    detail:
-      "Build once, earn continuously from your network's ongoing activity.",
-  },
-  {
-    point: "Lifestyle upgradation",
-    detail: "Better income translates directly to a higher quality of life.",
-  },
-  {
-    point: "Direct contact with the seller ensures original products",
-    detail: "Verified supply chain keeps counterfeit products out entirely.",
-  },
-  {
-    point: "No discrimination",
-    detail:
-      "No gender, age, ethnicity, or disability barrier to entry or success.",
-  },
-  {
-    point: "Introduces self-employment with virtual office",
-    detail: "Your business runs from anywhere with an internet connection.",
-  },
-  {
-    point: "Develops entrepreneurship",
-    detail: "You learn to think, plan, and act like a true business owner.",
-  },
-  {
-    point: "Social contact and personal recognition",
-    detail:
-      "Build meaningful relationships while earning public acknowledgement.",
-  },
-];
-
-const glossaryTerms = [
-  {
-    term: "PV",
-    def: "Point Value — 1 PV = ₹10. Used to measure personal retail sales activity.",
-  },
-  {
-    term: "BV",
-    def: "Business Volume — 1 BV = ₹1. The base unit for network volume calculations.",
-  },
-  {
-    term: "A BV",
-    def: "Accumulative Business Volume — your total BV that never resets or expires.",
-  },
-  {
-    term: "P PV",
-    def: "Personal Point Value — PV generated by your own direct retail sales.",
-  },
-  {
-    term: "P BV",
-    def: "Personal Business Volume — BV generated by your own purchases and sales.",
-  },
-  {
-    term: "D/R C BV",
-    def: "Direct Referrals Customers Business Volume (Sponsor Network).",
-  },
-  {
-    term: "D/R TC G BV",
-    def: "Direct Referrals Team Coordinator Group Business Volume (Sponsor Network).",
-  },
-  {
-    term: "M BV",
-    def: "Monthly BV = Personal BV + Direct Referral Customer BV + Direct Referral TC Group BV.",
-  },
-  {
-    term: "SPILLOVER",
-    def: "A distributor placed under you by your upline — they become part of your Placement Tree.",
-  },
-  {
-    term: "QUALIFYING TEAM",
-    def: "The team with the highest PV — excluded from bonus computation.",
-  },
-  {
-    term: "PAYOUT TEAM",
-    def: "The team with the lowest PV — used for team building bonus calculation.",
-  },
-  {
-    term: "TERM",
-    def: "The placement of your downlines within your Placement Network tree.",
-  },
-  {
-    term: "GROUP",
-    def: "The placement of your direct referrals within your Sponsor Network.",
-  },
-];
-
-const codeOfEthics = [
-  "I will adhere to the highest principles of honesty and integrity in the conduct of my DEAL FOREVER Business.",
-  "I commit to presenting the Company's business plan with accuracy and honesty, providing a clear and realistic depiction of the effort necessary for success. I will refrain from engaging in any misleading, false, deceptive, or unfair recruiting practices, including misrepresenting actual or potential sales, earnings, or business advantages to prospective distributors.",
-  "I commit to refraining from making any negative or disparaging remarks concerning the Company, its products, officers, employees, or other individuals. I will maintain a respectful demeanour toward the Company and the direct selling industry.",
-  "I commit to abstaining from the sale of DEAL FOREVER products through retail establishments.",
-  "I commit to refraining from instigating, encouraging, participating in, or guiding downlines in seeking bonus rebates or commission refunds. Furthermore, I will not encourage distributors I recruit to purchase goods, services, literature, or sales demonstration equipment in unreasonably large quantities.",
-];
-
-const distributionStats = [
-  { value: "10,000+", label: "Pin codes served" },
-  { value: "Pan-India", label: "Store & pickup network" },
-  { value: "24/7", label: "Mobile app ordering" },
-];
-
-const supportFaqs = [
-  {
-    q: "How do I download the app?",
-    a: 'Search "Deal Forever" on the Google Play Store or Apple App Store and install. Log in with your distributor ID to access your full dashboard.',
-  },
-  {
-    q: "Can I track my orders?",
-    a: "Yes — real-time order tracking is available inside the app and on www.mydealforever.com from the moment you place an order.",
-  },
-  {
-    q: "Is training available in regional languages?",
-    a: "Deal Forever offers training materials and instructor-led sessions in multiple regional languages to ensure no distributor is left behind.",
-  },
-];
+const {
+  IMG,
+  BIZ_IMG,
+  SALES_IMG,
+  PULSE_CIRCLE_IMG,
+  TABLE1_IMG,
+  TABLE2_IMG,
+  TABLE3_IMG,
+  TABLE4_IMG,
+  SUPPORT_IMG,
+  FLOW_IMG,
+  MEDIA_IMG,
+  TEAM_IMG,
+  WARNING_IMG,
+  CASH_IMG,
+  SPONSOR_NETWORK_IMG,
+  ECART_IMG,
+  PLACEMENT_NETWORK_IMG,
+  BUSINESS_PLAN_IMG,
+  SPILLOVER_IMG,
+  BUSINESS_OPPORTUNITY_IMG,
+  BUILDING_IMG,
+  BUSINESS_FLOW_IMG,
+  THINKING_IMG,
+} = businessOpportunityImages;
 
 // ─── helpers ─────────────────────────────────────────────────────────────────
 
@@ -540,13 +83,11 @@ function ContainedImage({
   className?: string;
 }) {
   return (
-    <div
-      className={`rounded-xl overflow-hidden border border-gray-200 shadow-sm bg-[#faf8f5] flex items-center justify-center ${className}`}
-    >
+    <div className={`overflow-hidden rounded-2xl ${className}`}>
       <img
         src={src}
         alt={alt}
-        className="w-full h-auto max-h-[260px] sm:max-h-[340px] md:max-h-[420px] object-contain"
+        className="w-[500px] h-auto object-contain rounded-2xl"
       />
     </div>
   );
@@ -555,10 +96,10 @@ function ContainedImage({
 // ─── component ───────────────────────────────────────────────────────────────
 
 export default function BusinessOpportunity() {
-type FinancialItem = (typeof financialItems)[number];
+  type FinancialItem = (typeof financialItems)[number];
 
-const [selectedFinancialItem, setSelectedFinancialItem] =
-  useState<FinancialItem | null>(null);
+  const [selectedFinancialItem, setSelectedFinancialItem] =
+    useState<FinancialItem | null>(null);
   const [isFinancialModalOpen, setIsFinancialModalOpen] = useState(false);
 
   const openFinancialModal = (item: (typeof financialItems)[number]) => {
@@ -636,13 +177,13 @@ const [selectedFinancialItem, setSelectedFinancialItem] =
                   </p>
                 </div>
               </div>
-              <div className="rounded-lg overflow-hidden border border-gray-200 bg-white flex items-center justify-center">
+              {/* <div className="rounded-lg overflow-hidden border border-gray-200 bg-white flex items-center justify-center">
                 <img
                   src={THINKING_IMG}
                   alt="Think about your future"
                   className="w-full h-28 object-contain"
                 />
-              </div>
+              </div> */}
             </div>
 
             <div className="bg-[#191717] rounded-xl p-6 flex flex-col items-center justify-center gap-4">
@@ -706,7 +247,7 @@ const [selectedFinancialItem, setSelectedFinancialItem] =
           </div>
 
           {/* Flow banner */}
-          <div className="mb-16 rounded-2xl overflow-hidden border border-gray-200 bg-[#faf8f5]">
+          {/* <div className="mb-16 rounded-2xl overflow-hidden border border-gray-200 bg-[#faf8f5]">
             <div className="flex items-center justify-center p-4">
               <img
                 src={FLOW_IMG}
@@ -716,11 +257,11 @@ const [selectedFinancialItem, setSelectedFinancialItem] =
             </div>
             <div className="bg-[#faf8f5] p-4 text-center border-t border-gray-200">
               <p className="text-sm text-[#888]">
-                From registration to residual income — see the complete
-                business flow at a glance.
+                From registration to residual income — see the complete business
+                flow at a glance.
               </p>
             </div>
-          </div>
+          </div> */}
 
           {/* Benefits */}
           <h3 className="text-center text-2xl font-bold text-[#191717] mb-10">
@@ -805,17 +346,17 @@ const [selectedFinancialItem, setSelectedFinancialItem] =
               </div>
             </div>
             <div className="relative">
-              <div className="rounded-2xl shadow-2xl overflow-hidden bg-[#faf8f5] border border-gray-200 flex items-center justify-center">
+              <div className="overflow-hidden">
                 <img
                   src={BUSINESS_OPPORTUNITY_IMG}
                   alt="Deal Forever Business Opportunity"
-                  className="w-full h-[280px] sm:h-[360px] md:h-[450px] object-contain"
+                  className="w-full max-h-[400px] object-contain"
                 />
               </div>
-              <div className="absolute -bottom-6 -right-6 bg-[#aa8453] text-white p-6 rounded-xl shadow-lg">
+              {/* <div className="absolute -bottom-6 -right-6 bg-[#aa8453] text-white p-6 rounded-xl shadow-lg">
                 <p className="text-3xl font-bold">1000+</p>
                 <p className="text-sm">Happy Distributors</p>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
@@ -883,13 +424,13 @@ const [selectedFinancialItem, setSelectedFinancialItem] =
               <h3 className="text-2xl font-bold text-center mb-6">
                 Income Highlights
               </h3>
-              <div className="rounded-xl overflow-hidden mb-10 max-w-3xl mx-auto shadow-md bg-[#faf8f5] border border-gray-200 flex items-center justify-center p-4">
+              {/* <div className="rounded-xl overflow-hidden mb-10 max-w-3xl mx-auto shadow-md bg-[#faf8f5] border border-gray-200 flex items-center justify-center p-4">
                 <img
                   src={SALES_IMG}
                   alt="Daily, weekly and monthly sales income"
                   className="w-full h-auto max-h-[200px] sm:max-h-[260px] md:max-h-[300px] object-contain"
                 />
-              </div>
+              </div> */}
               <div className="flex justify-center">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 max-w-7xl">
                   {incomeHighlights.map((h, i) => (
@@ -975,7 +516,7 @@ const [selectedFinancialItem, setSelectedFinancialItem] =
             </div>
 
             {/* Compensation Plan Tables */}
-            <div className="flex items-center gap-4 mb-6">
+            {/* <div className="flex items-center gap-4 mb-6">
               <div className="flex-1 h-px bg-gray-200" />
               <p className="text-center text-[#888] text-xs font-semibold tracking-wide uppercase whitespace-nowrap">
                 Compensation Plan At A Glance
@@ -1005,7 +546,7 @@ const [selectedFinancialItem, setSelectedFinancialItem] =
                   </div>
                 </div>
               ))}
-            </div>
+            </div> */}
           </div>
         </section>
       </>
@@ -1027,16 +568,16 @@ const [selectedFinancialItem, setSelectedFinancialItem] =
             </p>
           </div>
 
-          <div className="max-w-3xl mx-auto my-8 rounded-xl overflow-hidden shadow-lg bg-white border border-gray-200 flex items-center justify-center p-4">
+          {/* <div className="max-w-3xl mx-auto my-8 rounded-xl overflow-hidden shadow-lg bg-white border border-gray-200 flex items-center justify-center p-4">
             <img
               src={CASH_IMG}
               alt="Financial freedom with Deal Forever"
               className="w-full h-auto max-h-[220px] sm:max-h-[320px] object-contain"
             />
-          </div>
+          </div> */}
 
           {/* Total pool callout */}
-          <div className="flex justify-center gap-6 my-8 ">
+          {/* <div className="flex justify-center gap-6 my-8 ">
             {[
               ["Up to 20%", "on consumption savings"],
               ["25%", "leadership bonus"],
@@ -1050,7 +591,7 @@ const [selectedFinancialItem, setSelectedFinancialItem] =
                 <p className="text-white/50 text-xs mt-0.5">{l}</p>
               </div>
             ))}
-          </div>
+          </div> */}
 
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
             {financialItems.map((f, i) => (
@@ -1140,59 +681,57 @@ const [selectedFinancialItem, setSelectedFinancialItem] =
 
       {/* ── 5. DISTRIBUTOR / WARNING ─────────────────────────────── */}
       <section className="section-padding bg-white">
-        <div className="container-custom max-w-5xl mx-auto">
-          <div className="bg-[#fafafa] border border-gray-200 rounded-2xl p-8 md:p-12">
-            <div className="mb-6 rounded-xl overflow-hidden bg-white border border-gray-200 flex items-center justify-center p-4">
+        <div className="container-custom w-full mx-auto">
+          <div className="grid lg:grid-cols-2 gap-10 items-center">
+            {/* Left Image */}
+            <div className="overflow-hidden rounded-2xl flex justify-center">
               <img
                 src={WARNING_IMG}
                 alt="Stay informed and protected"
-                className="w-full h-auto max-h-[200px] sm:max-h-[260px] object-contain"
+                className="w-[500px] h-auto object-contain rounded-2xl"
               />
             </div>
 
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center text-red-600 text-xl">
-                ⚠
+            {/* Right Content */}
+            <div>
+              <span className="inline-flex items-center gap-1.5 bg-red-50 text-red-600 text-xs font-bold px-3 py-1.5 rounded-full mb-4">
+                ⚠ WARNING
+              </span>
+
+              <h2 className="text-2xl md:text-3xl font-bold text-[#191717] mb-4">
+                Stay Informed, Stay Protected
+              </h2>
+
+              <p className="text-[#888] leading-7 mb-6">
+                Deal Forever operates as a fully compliant direct-selling
+                organisation under Indian law. Before joining any network
+                marketing opportunity, be aware of the following legal
+                protections:
+              </p>
+
+              <div className="space-y-4">
+                <div className="flex gap-3 bg-red-50 rounded-xl p-4">
+                  <span className="font-bold text-red-500 shrink-0">1.</span>
+                  <p className="text-sm text-[#444] leading-relaxed">
+                    Promoters and participants in trading schemes are prohibited
+                    from soliciting payments by promising benefits contingent
+                    upon the recruitment of others.
+                  </p>
+                </div>
+
+                <div className="flex gap-3 bg-red-50 rounded-xl p-4">
+                  <span className="font-bold text-red-500 shrink-0">2.</span>
+                  <p className="text-sm text-[#444] leading-relaxed">
+                    Be wary of assertions that substantial income can be readily
+                    obtained without adequate effort or time investment.
+                    Earnings depend entirely on individual performance.
+                  </p>
+                </div>
               </div>
 
-              <div>
-                <p className="text-sm font-semibold uppercase tracking-wider text-red-600">
-                  Important Notice
-                </p>
-                <h2 className="text-3xl font-bold text-[#191717]">
-                  Stay Informed, Stay Protected
-                </h2>
-              </div>
-            </div>
-
-            <p className="text-[#666] leading-8 mb-8">
-              Deal Forever operates as a compliant direct-selling organisation
-              under the applicable laws of India. Before becoming a distributor,
-              we encourage every individual to understand the business model,
-              compensation structure, and company policies to make an informed
-              decision.
-            </p>
-
-            <ol className="list-decimal pl-6 space-y-4 text-[#555] leading-8">
-              <li>
-                Promoters and participants in trading schemes must not solicit
-                payments by promising benefits that are primarily dependent upon
-                the recruitment of additional participants.
-              </li>
-
-              <li>
-                Be cautious of claims suggesting guaranteed or effortless
-                income. Earnings depend on individual effort, product sales,
-                leadership, and consistent business activity. No level of income
-                is guaranteed.
-              </li>
-            </ol>
-
-            <div className="mt-8 pt-6 border-t border-gray-200">
-              <p className="text-sm text-gray-500 leading-7">
-                Deal Forever recommends that all prospective distributors
-                carefully review the Compensation Plan, Company Policies, and
-                Product Information, and consult existing distributors before
+              <p className="text-sm text-[#999] leading-relaxed mt-6">
+                Deal Forever encourages all prospects to read the full
+                compensation plan and consult with existing distributors before
                 making any business commitment.
               </p>
             </div>
@@ -1203,21 +742,32 @@ const [selectedFinancialItem, setSelectedFinancialItem] =
       {/* ── 6. SPECIAL BENEFITS (zigzag) ────────────────────────── */}
       <section className="section-padding bg-[#faf8f5]">
         <div className="container-custom">
-          <div className="text-center mb-12">
+          <div className="text-center mb-12 max-w-2xl mx-auto">
             <p className="section-subtitle">Special Benefits</p>
-            <h2 className="section-title">Exclusive Member Rewards</h2>
+            <h2 className="section-title mb-3">Exclusive Member Rewards</h2>
+            <p className="text-sm text-[#888] leading-relaxed">
+              Beyond income, Deal Forever empowers its rank achievers with
+              healthcare, education, and lifestyle benefits.
+            </p>
           </div>
 
-          <div className="space-y-14">
-            {/* Medical Insurance — text left, image right */}
-            <div className="grid lg:grid-cols-2 gap-8 items-center">
-              <div>
-                <div className="flex gap-5 items-start mb-4">
-                  <div className="w-14 h-14 shrink-0 rounded-lg bg-white flex items-center justify-center border border-gray-200">
+          <div className="grid md:grid-cols-2 gap-6">
+            {/* Medical Insurance Card */}
+            <div className="group relative bg-white rounded-2xl border border-gray-200 p-6 overflow-hidden hover:shadow-lg transition-shadow duration-300">
+              <img
+                src="https://images.pexels.com/photos/40568/medical-appointment-doctor-healthcare-40568.jpeg?auto=compress&cs=tinysrgb&w=800"
+                alt="Medical Insurance Coverage"
+                className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+              />
+              <div className="absolute inset-0 bg-white/90 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+              <div className="relative">
+                <div className="flex gap-4 items-start mb-4">
+                  <div className="w-12 h-12 shrink-0 rounded-lg bg-[#faf8f5] flex items-center justify-center border border-gray-200">
                     <img
                       src={`${IMG}special1.png`}
                       alt="Medical Insurance"
-                      className="w-9 h-9 object-contain"
+                      className="w-7 h-7 object-contain"
                     />
                   </div>
                   <div>
@@ -1236,7 +786,10 @@ const [selectedFinancialItem, setSelectedFinancialItem] =
                     "No premium required from the distributor",
                     "Activated automatically on rank achievement",
                   ].map((b) => (
-                    <li key={b} className="flex items-start gap-2 text-xs text-[#666]">
+                    <li
+                      key={b}
+                      className="flex items-start gap-2 text-xs text-[#666]"
+                    >
                       <span className="mt-1.5 w-1 h-1 rounded-full bg-[#aa8453] shrink-0" />
                       {b}
                     </li>
@@ -1246,27 +799,24 @@ const [selectedFinancialItem, setSelectedFinancialItem] =
                   Terms & Conditions apply
                 </span>
               </div>
-              <img
-                src="https://images.pexels.com/photos/40568/medical-appointment-doctor-healthcare-40568.jpeg?auto=compress&cs=tinysrgb&w=800"
-                alt="Medical Insurance Coverage"
-                className="rounded-xl shadow-lg w-full h-[220px] sm:h-[280px] md:h-[320px] object-cover"
-              />
             </div>
 
-            {/* Scholarship — image left, text right */}
-            <div className="grid lg:grid-cols-2 gap-8 items-center">
+            {/* Scholarship Card */}
+            <div className="group relative bg-white rounded-2xl border border-gray-200 p-6 overflow-hidden hover:shadow-lg transition-shadow duration-300">
               <img
                 src="https://images.pexels.com/photos/267885/pexels-photo-267885.jpeg?auto=compress&cs=tinysrgb&w=800"
                 alt="Higher Educational Scholarship"
-                className="rounded-xl shadow-lg w-full h-[220px] sm:h-[280px] md:h-[320px] object-cover"
+                className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
               />
-              <div>
-                <div className="flex gap-5 items-start mb-4">
-                  <div className="w-14 h-14 shrink-0 rounded-lg bg-white flex items-center justify-center border border-gray-200">
+              <div className="absolute inset-0 bg-white/90 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+              <div className="relative">
+                <div className="flex gap-4 items-start mb-4">
+                  <div className="w-12 h-12 shrink-0 rounded-lg bg-[#faf8f5] flex items-center justify-center border border-gray-200">
                     <img
                       src={`${IMG}special2.png`}
                       alt="Educational Scholarship"
-                      className="w-9 h-9 object-contain"
+                      className="w-7 h-7 object-contain"
                     />
                   </div>
                   <div>
@@ -1274,9 +824,9 @@ const [selectedFinancialItem, setSelectedFinancialItem] =
                       HIGHER EDUCATIONAL SCHOLARSHIP PROGRAMME
                     </h3>
                     <p className="text-sm text-[#555] leading-relaxed">
-                      A wonderful opportunity for recommending your beloved
-                      ones for a higher educational scholarship to all
-                      Regional Team Coordinator (RTC) Rank Achievers.
+                      A wonderful opportunity for recommending your beloved ones
+                      for a higher educational scholarship to all Regional Team
+                      Coordinator (RTC) Rank Achievers.
                     </p>
                   </div>
                 </div>
@@ -1286,7 +836,10 @@ const [selectedFinancialItem, setSelectedFinancialItem] =
                     "Available to children or dependants of the achiever",
                     "Renewable annually based on academic performance",
                   ].map((b) => (
-                    <li key={b} className="flex items-start gap-2 text-xs text-[#666]">
+                    <li
+                      key={b}
+                      className="flex items-start gap-2 text-xs text-[#666]"
+                    >
                       <span className="mt-1.5 w-1 h-1 rounded-full bg-[#aa8453] shrink-0" />
                       {b}
                     </li>
@@ -1354,14 +907,17 @@ const [selectedFinancialItem, setSelectedFinancialItem] =
                 </p>
               </div>
               <ContainedImage
-                src={`${IMG}production-distribution-system.png`}
+                src={`${BUSINESS_FLOW_IMG}`}
                 alt="Product Distribution System"
               />
             </div>
 
             {/* 7b. Advantages of Physical Store — image left, text right */}
             <div className="grid lg:grid-cols-2 gap-8 items-start">
-              <ContainedImage src={`${IMG}physical-store.png`} alt="Physical Store" />
+              <ContainedImage
+                src={`${BUILDING_IMG}`}
+                alt="Physical Store"
+              />
               <div>
                 <div className="flex items-center gap-3 mb-3">
                   <SectionIcon src="icons8-store-50.png" />
@@ -1401,7 +957,10 @@ const [selectedFinancialItem, setSelectedFinancialItem] =
 
             {/* 7d. Benefits of Direct Selling — image left, text right */}
             <div className="grid lg:grid-cols-2 gap-8 items-start">
-              <ContainedImage src={`${IMG}direct-selling.png`} alt="Direct Selling" />
+              <ContainedImage
+                src={`${IMG}direct-selling.png`}
+                alt="Direct Selling"
+              />
               <div>
                 <div className="flex items-center gap-3 mb-3">
                   <SectionIcon src="icons8-cart-96.png" />
@@ -1420,7 +979,7 @@ const [selectedFinancialItem, setSelectedFinancialItem] =
             </div>
 
             {/* 7e. Glossary of Terms — text left, image right */}
-            <div className="grid lg:grid-cols-2 gap-8 items-start">
+            <div className="   gap-8 items-start">
               <div>
                 <div className="flex items-center gap-3 mb-3">
                   <SectionIcon src="icons8-list-64.png" />
@@ -1450,10 +1009,10 @@ const [selectedFinancialItem, setSelectedFinancialItem] =
                   ))}
                 </div>
               </div>
-              <ContainedImage
+              {/* <ContainedImage
                 src={`${IMG}placement-network.png`}
                 alt="Placement Network"
-              />
+              /> */}
             </div>
 
             {/* 7f. Sponsor Network — image left, text right */}
@@ -1489,9 +1048,9 @@ const [selectedFinancialItem, setSelectedFinancialItem] =
                   Your Placement Network reflects where your downlines actually
                   sit within the tree — which can differ from your Sponsor
                   Network. When your upline places a new distributor under you,
-                  that's called Spillover, and it becomes part of your
-                  Placement Tree, helping your group volume grow even without
-                  your direct effort.
+                  that's called Spillover, and it becomes part of your Placement
+                  Tree, helping your group volume grow even without your direct
+                  effort.
                 </p>
                 <div className="rounded-lg overflow-hidden border border-gray-200 bg-white flex items-center justify-center p-3">
                   <img
@@ -1539,9 +1098,9 @@ const [selectedFinancialItem, setSelectedFinancialItem] =
               <p className="text-sm text-[#555] leading-relaxed">
                 Each rank builds on the one before it — as your personal and
                 group business volume accumulates, you automatically flow into
-                the next tier. There's no manual application process; the
-                system tracks your progress in real time and unlocks new
-                bonuses the moment you qualify.
+                the next tier. There's no manual application process; the system
+                tracks your progress in real time and unlocks new bonuses the
+                moment you qualify.
               </p>
             </div>
             <ContainedImage src={BUSINESS_FLOW_IMG} alt="Business Rank Flow" />
@@ -1560,8 +1119,8 @@ const [selectedFinancialItem, setSelectedFinancialItem] =
               <p className="text-sm text-[#555] leading-relaxed">
                 Ranks aren't earned alone. Every distributor you bring in and
                 support adds to your group volume, and every leader you help
-                develop compounds that growth further — turning your
-                individual effort into a multiplied, team-driven income.
+                develop compounds that growth further — turning your individual
+                effort into a multiplied, team-driven income.
               </p>
             </div>
           </div>
@@ -1645,10 +1204,10 @@ const [selectedFinancialItem, setSelectedFinancialItem] =
                 enrolment, distributors are required to pledge the following:
               </p>
               <p className="text-xs text-[#999]">
-                These commitments are not formalities — they are the backbone
-                of a community built on trust, transparency, and mutual
-                respect. Adherence to this code protects every distributor in
-                the network.
+                These commitments are not formalities — they are the backbone of
+                a community built on trust, transparency, and mutual respect.
+                Adherence to this code protects every distributor in the
+                network.
               </p>
             </div>
             <div className="rounded-xl shadow-lg overflow-hidden bg-[#faf8f5] border border-gray-200 flex items-center justify-center p-4">
@@ -1712,8 +1271,8 @@ const [selectedFinancialItem, setSelectedFinancialItem] =
                   Download <strong>DEAL FOREVER</strong>'s mobile app to shop or
                   manage your business anytime, anywhere! Get it on Play Store /
                   App Store or visit{" "}
-                  
-                  <a  href="https://www.mydealforever.com"
+                  <a
+                    href="https://www.mydealforever.com"
                     className="text-[#aa8453] hover:underline"
                   >
                     www.mydealforever.com
@@ -1771,8 +1330,8 @@ const [selectedFinancialItem, setSelectedFinancialItem] =
                   Deal Forever provides online, mobile, and instructor-led
                   training to sharpen your product, business, and industry
                   knowledge. Visit the Learning Center at{" "}
-                  
-                  <a  href="https://www.mydealforever.com"
+                  <a
+                    href="https://www.mydealforever.com"
                     className="text-[#aa8453] hover:underline"
                   >
                     www.mydealforever.com
@@ -1957,14 +1516,15 @@ const [selectedFinancialItem, setSelectedFinancialItem] =
             className="max-w-3xl mx-auto"
           />
           <div className="mt-8 flex flex-wrap justify-center gap-4">
-            
-            <a  href="https://www.mydealforever.com"
+            <a
+              href="https://www.mydealforever.com"
               className="bg-[#aa8453] text-white text-sm font-bold px-8 py-3 rounded-lg hover:bg-[#956e3f] transition-colors"
             >
               Register Free Today
             </a>
-            
-            <a  href="mailto:info@mydealforever.com"
+
+            <a
+              href="mailto:info@mydealforever.com"
               className="bg-white border border-[#aa8453] text-[#aa8453] text-sm font-bold px-8 py-3 rounded-lg hover:bg-[#faf8f5] transition-colors"
             >
               Talk to an Advisor

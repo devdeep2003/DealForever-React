@@ -68,40 +68,40 @@ export default function Branches() {
             <table className="w-full">
               <thead>
                 <tr className="bg-[#191717] text-white">
-                  <th className="text-left px-6 py-4 text-sm font-semibold">Branch</th>
-                  <th className="text-left px-6 py-4 text-sm font-semibold">State</th>
-                  <th className="text-left px-6 py-4 text-sm font-semibold">District</th>
-                  <th className="text-left px-6 py-4 text-sm font-semibold">Category</th>
-                  <th className="text-left px-6 py-4 text-sm font-semibold">Address</th>
-                  <th className="text-left px-6 py-4 text-sm font-semibold">Contact</th>
-                  <th className="text-left px-6 py-4 text-sm font-semibold">Map</th>
+                  <th className="text-left px-6 py-4 text-sm font-semibold whitespace-nowrap">Branch</th>
+                  <th className="text-left px-6 py-4 text-sm font-semibold whitespace-nowrap">State</th>
+                  <th className="text-left px-6 py-4 text-sm font-semibold whitespace-nowrap">District</th>
+                  <th className="text-left px-6 py-4 text-sm font-semibold whitespace-nowrap">Category</th>
+                  <th className="text-left px-6 py-4 text-sm font-semibold whitespace-nowrap">Address</th>
+                  <th className="text-left px-6 py-4 text-sm font-semibold whitespace-nowrap">Contact</th>
+                  <th className="text-left px-6 py-4 text-sm font-semibold whitespace-nowrap">Map</th>
                 </tr>
               </thead>
               <tbody>
                 {filtered.map((branch, i) => (
                   <tr key={branch.id} className={`border-b border-gray-100 ${i % 2 === 0 ? 'bg-white' : 'bg-[#faf8f5]'} hover:bg-[#aa8453]/5 transition-colors`}>
-                    <td className="px-6 py-4">
+                    <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center gap-2">
                         <MapPin size={16} className="text-[#aa8453]" />
                         <span className="font-semibold text-sm text-[#191717]">{branch.name}</span>
                       </div>
                     </td>
-                    <td className="px-6 py-4 text-sm text-[#555]">{branch.state}</td>
-                    <td className="px-6 py-4 text-sm text-[#555]">{branch.district}</td>
-                    <td className="px-6 py-4">
+                    <td className="px-6 py-4 text-sm text-[#555] whitespace-nowrap">{branch.state}</td>
+                    <td className="px-6 py-4 text-sm text-[#555] whitespace-nowrap">{branch.district}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">
                       <span className="text-xs font-medium px-2 py-1 rounded-full bg-[#aa8453]/10 text-[#aa8453]">
                         {branch.category}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-sm text-[#555]">{branch.address}</td>
-                    <td className="px-6 py-4">
+                    <td className="px-6 py-4 text-sm text-[#555] whitespace-wrap">{branch.address}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">
                       <a href={`tel:${branch.phone}`} className="flex items-center gap-1 text-sm text-[#aa8453] hover:underline">
                         <Phone size={14} /> {branch.phone}
                       </a>
                     </td>
-                    <td className="px-6 py-4">
-                      <a
-                        href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(branch.address + ', ' + branch.district + ', ' + branch.state)}`}
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      
+                      <a  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(branch.address + ', ' + branch.district + ', ' + branch.state)}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-1 text-sm text-[#aa8453] hover:underline"

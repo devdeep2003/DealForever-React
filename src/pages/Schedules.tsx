@@ -1,9 +1,4 @@
-import {
-  Calendar,
-  Clock,
-  MapPin,
-  User,
-} from "lucide-react";
+import { Calendar, Clock, MapPin, User } from "lucide-react";
 import PageBanner from "../components/PageBanner";
 import { scheduleItems } from "../data/siteData";
 
@@ -71,8 +66,14 @@ export default function Schedules() {
                         href={`https://www.google.com/maps?q=${item.lat},${item.lng}`}
                         target="_blank"
                         rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 text-black hover:text-red-600 text-sm font-medium transition-colors"
                       >
-                        <MapPin size={20} />
+                        <img
+                          src="/images/maps.svg"
+                          alt="Google Maps"
+                          className="w-8 h-8 object-contain"
+                        />
+                        <span>View on Google Maps</span>
                       </a>
                     </span>
                   </div>

@@ -100,6 +100,7 @@ function usePagedCarousel(total: number, perPage = 4, interval = 3000) {
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
 
+
   const [showOfferModal, setShowOfferModal] = useState(false);
   const [offerIndex, setOfferIndex] = useState(0);
 
@@ -163,9 +164,9 @@ export default function Home() {
 
   // Offer detail modal state
   const [isOfferDetailOpen, setIsOfferDetailOpen] = useState(false);
-  const [selectedOffer, setSelectedOffer] = useState<
-    (typeof offers)[0] | null
-  >(null);
+  const [selectedOffer, setSelectedOffer] = useState<(typeof offers)[0] | null>(
+    null,
+  );
 
   const openOfferModal = (item: (typeof offers)[0]) => {
     setSelectedOffer(item);
@@ -335,15 +336,16 @@ export default function Home() {
             about.inView ? "animate-fade-in-up" : "opacity-0"
           }`}
         >
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <p className="section-subtitle">What We Are</p>
+          <h2 className="font-semibold text-sm tracking-widest uppercase mb-3">
+            Being different simply means you have something unique to offer.
+            Join us to make a difference by marking an unprecedented way of
+            enjoying quality and growing together
+          </h2>
+
+          <div className="grid lg:grid-cols-2 gap-12 items-start">
             <div className="flex flex-col justify-center">
-              <p className="section-subtitle">What We Are</p>
-              <h2 className="font-semibold text-sm tracking-widest uppercase mb-3">
-                Being different simply means you have something unique to offer.
-                Join us to make a difference by marking an unprecedented way of
-                enjoying quality and growing together
-              </h2>
-              <p className="text-[#555] leading-relaxed mb-6 text-justify">
+              <p className="text-[#555] leading-relaxed mb-6 text-justify text-sm">
                 Deal Forever represents an exemplary business model in the
                 direct selling industry, offering boundless opportunities. Its
                 organizational structure is meticulously crafted to uphold
@@ -354,31 +356,62 @@ export default function Home() {
                 This ethos underscores Deal Forever's dedication to fostering a
                 culture of entrepreneurship, innovation, and diligence.
               </p>
-              <p className="text-[#555] leading-relaxed mb-8 text-justify">
+              <p className="text-[#555] leading-relaxed mb-6 text-justify text-sm">
+                Deal Forever's strategy is marked by an aggressive approach to
+                enhancing infrastructure and integrating cutting-edge
+                technologies. This approach is aimed at not only meeting but
+                exceeding the expectations of distributors and ensuring
+                unparalleled customer satisfaction. Moreover, Deal Forever
+                places a strong emphasis on cultivating a professional network
+                of leaders through ongoing training and motivational
+                initiatives. This commitment not only empowers its workforce but
+                also ensures a sustainable growth trajectory.The company remains
+                committed to delivering consistent value while fostering
+                long-term success for its distributors and customers.
+              </p>
+              {/* <p className="text-[#555] leading-relaxed mb-8 text-justify text-sm">
                 Founded on a robust foundation and driven by a long-term vision,
                 Deal Forever embodies qualities of reliability and stability.
                 Its steadfast commitment to excellence and customer-centric
                 values positions Deal Forever as a formidable leader in the
                 direct selling arena.
-              </p>
-              <Link
-                to="/about"
-                className="btn-primary rounded-full inline-flex w-fit"
-              >
-                Learn More <ArrowRight size={16} className="ml-2" />
-              </Link>
+              </p> */}
+              {/* <Link
+                       to="/about"
+                           className="btn-primary rounded-full inline-flex w-fit"
+                                  >
+                           Learn More <ArrowRight size={16} className="ml-2" />
+                           </Link> */}
             </div>
-            <div className="relative overflow-hidden shadow-2xl group">
+
+            {/* <div className="relative overflow-hidden shadow-2xl group">
+                      <img
+                        src={import.meta.env.VITE_BASE_URL + "/images/resource/about-main-4.png"}
+                        alt="About Deal Forever"
+                        className="w-full h-[260px] sm:h-[340px] md:h-[400px] object-cover transition-transform duration-[4000ms] ease-in-out group-hover:scale-110"
+                      />
+                    </div> */}
+            <div className="relative">
               <img
-                src={import.meta.env.VITE_BASE_URL + "/images/resource/about-main-4.png"}
+                src="https://images.pexels.com/photos/3184405/pexels-photo-3184405.jpeg?auto=compress&cs=tinysrgb&w=800"
                 alt="About Deal Forever"
-                className="w-full h-[260px] sm:h-[340px] md:h-[400px] object-cover transition-transform duration-[4000ms] ease-in-out group-hover:scale-110"
+                className="rounded-2xl shadow-2xl w-full object-cover h-[200px] sm:h-[330px] md:h-[350px]"
               />
+              <div className="absolute -bottom-6 -right-6 bg-[#aa8453] text-white p-6 rounded-xl shadow-lg">
+                <p className="text-3xl font-bold">1000+</p>
+                <p className="text-sm">Happy Distributors</p>
+              </div>
             </div>
           </div>
+          <p className="text-[#555] leading-relaxed mb-8 mt-6 text-justify text-sm">
+            Founded on a robust foundation and driven by a long-term vision,
+            Deal Forever embodies qualities of reliability and stability. Its
+            steadfast commitment to excellence and customer-centric values
+            positions Deal Forever as a formidable leader in the direct selling
+            arena.
+          </p>
         </div>
       </section>
-
       {/* Sustainable Direct Selling - Dark Section */}
       <section className="py-12 md:py-20 bg-[#191717] relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://images.pexels.com/photos/3184405/pexels-photo-3184405.jpeg?auto=compress&cs=tinysrgb&w=1920')] bg-cover bg-center opacity-10" />
@@ -524,19 +557,19 @@ export default function Home() {
         <div
           className={`container-custom ${offersSection.inView ? "animate-fade-in-up" : "opacity-0"}`}
         >
-          <div className="flex items-center justify-between mb-8">
-            <div>
-              <p className="section-subtitle">Deals</p>
-              <h2 className="section-title flex items-center gap-4 py-3">
-                <span>Special Offers</span>
-              </h2>
+          <div className="flex flex-col mb-8">
+            <p className="section-subtitle">Deals</p>
+
+            <div className="flex items-center justify-between">
+              <h2 className="section-title py-3">Special Offers</h2>
+
+              <Link
+                to="/offers"
+                className="flex items-center gap-1 text-[#aa8453] font-semibold text-sm hover:underline"
+              >
+                View All <ChevronRight size={16} />
+              </Link>
             </div>
-            <Link
-              to="/offers"
-              className="text-[#aa8453] font-semibold text-sm hover:underline flex items-center gap-1"
-            >
-              View All <ChevronRight size={16} />
-            </Link>
           </div>
           <div
             className="flex lg:grid lg:grid-cols-4 gap-4 lg:gap-6 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-2 lg:pb-0"
@@ -595,19 +628,19 @@ export default function Home() {
         <div
           className={`container-custom ${newsSection.inView ? "animate-fade-in-up" : "opacity-0"}`}
         >
-          <div className="flex items-center justify-between mb-8">
-            <div>
-              <p className="section-subtitle">Latest Updates</p>
-              <h2 className="section-title flex items-center gap-4 py-3">
-                <span>News & Media</span>
-              </h2>
+          <div className="flex flex-col mb-8">
+            <p className="section-subtitle">Latest Updates</p>
+
+            <div className="flex items-center justify-between">
+              <h2 className="section-title py-3">News & Media</h2>
+
+              <Link
+                to="/news"
+                className="flex items-center gap-1 text-[#aa8453] font-semibold text-sm hover:underline"
+              >
+                View All <ChevronRight size={16} />
+              </Link>
             </div>
-            <Link
-              to="/news"
-              className="text-[#aa8453] font-semibold text-sm hover:underline flex items-center gap-1"
-            >
-              View All <ChevronRight size={16} />
-            </Link>
           </div>
           <div
             className="flex lg:grid lg:grid-cols-4 gap-4 lg:gap-6 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-2 lg:pb-0"
