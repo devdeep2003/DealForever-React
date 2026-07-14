@@ -56,7 +56,7 @@
   }
 
   .section-padding {
-    @apply py-16 md:py-16;
+    @apply py-10 md:py-10;
   }
 
   .section-title {

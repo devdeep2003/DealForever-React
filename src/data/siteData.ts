@@ -1025,7 +1025,7 @@ export const businessOpportunityImages = {
   IMG: BIZ_IMG,
   BIZ_IMG : BIZ_OPP_IMG,
   SALES_IMG: `${BIZ_OPP_IMG}Sales.jpeg`,
-  PULSE_CIRCLE_IMG: `${BIZ_OPP_IMG}pulse-circle.jpeg`,
+  PULSE_CIRCLE_IMG: `${BIZ_OPP_IMG}pulse-cirlce.jpeg`,
   TABLE1_IMG: `${BIZ_OPP_IMG}table1.jpeg`,
   TABLE2_IMG: `${BIZ_OPP_IMG}table2.jpeg`,
   TABLE3_IMG: `${BIZ_OPP_IMG}table3.jpeg`,

@@ -9,6 +9,8 @@ const typeColors: Record<string, string> = {
   Orientation: "#9b59b6",
 };
 
+const mapimage = import.meta.env.VITE_BASE_URL + "/images/maps.svg";
+
 export default function Schedules() {
   return (
     <div>
@@ -69,7 +71,7 @@ export default function Schedules() {
                         className="inline-flex items-center gap-2 text-black hover:text-red-600 text-sm font-medium transition-colors"
                       >
                         <img
-                          src="/images/maps.svg"
+                          src={mapimage}
                           alt="Google Maps"
                           className="w-8 h-8 object-contain"
                         />
