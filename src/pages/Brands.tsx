@@ -29,13 +29,13 @@ export default function Brands() {
       <section className="section-padding bg-white">
         <div className="container-custom">
           {/* Filters */}
-          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-8">
-            <div className="flex flex-wrap gap-2">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 md:gap-4 mb-6 md:mb-8">
+            <div className="flex flex-nowrap md:flex-wrap gap-2 overflow-x-auto w-full md:w-auto pb-1 md:pb-0 -mx-1 px-1 md:mx-0 md:px-0 scrollbar-hide">
               {categories.map((cat) => (
                 <button
                   key={cat}
                   onClick={() => setActiveCategory(cat)}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all whitespace-nowrap flex-shrink-0 ${
                     activeCategory === cat
                       ? 'bg-[#aa8453] text-white'
                       : 'bg-[#faf8f5] text-[#555] hover:bg-[#aa8453]/10'
@@ -76,28 +76,28 @@ export default function Brands() {
           </div> */}
 
           {/* Products Grid with Flip Cards */}
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6">
             {filtered.map((product) => (
-              <div key={product.id} className="flip-card h-[400px] sm:h-[440px]">
+              <div key={product.id} className="flip-card h-[260px] sm:h-[400px] md:h-[440px]">
                 <div className="flip-card-inner relative w-full h-full">
                   {/* Front */}
                   <div className="flip-card-front absolute inset-0 bg-white rounded-xl shadow-md overflow-hidden">
-                    <img src={product.image} alt={product.name} className="w-full h-48 sm:h-56 md:h-[300px] object-cover" />
-                    <div className="p-4 flex flex-col gap-1">
+                    <img src={product.image} alt={product.name} className="w-full h-28 sm:h-48 md:h-[300px] object-cover" />
+                    <div className="p-2.5 sm:p-4 flex flex-col gap-0.5 sm:gap-1">
                       {/* <p className="text-xs text-[#aa8453] font-semibold">{product.brand}</p> */}
-                      <h3 className="font-semibold text-[#aa8453] text-sm line-clamp-2">{product.name}</h3>
-                      <p className="text-xs text-[#888]">{product.category}</p>
-                      <div className="flex-col items-center justify-between mt-2">
-                        <p className="text-sm font-semibold text-[#191717]">MRP ₹ {product.price}.00 incl. of all taxes</p>
-                        <p className="text-xs text-[#888] bg-gray-100 px-2 py-0.5 rounded-full w-fit">Net Content : {product.netContent}</p>
+                      <h3 className="font-semibold text-[#aa8453] text-xs sm:text-sm line-clamp-2">{product.name}</h3>
+                      <p className="text-[10px] sm:text-xs text-[#888]">{product.category}</p>
+                      <div className="flex-col items-center justify-between mt-1 sm:mt-2">
+                        <p className="text-xs sm:text-sm font-semibold text-[#191717] leading-tight">MRP ₹ {product.price}.00 incl. of all taxes</p>
+                        <p className="text-[10px] sm:text-xs text-[#888] bg-gray-100 px-2 py-0.5 rounded-full w-fit mt-1">Net Content : {product.netContent}</p>
                       </div>
                     </div>
                   </div>
                   {/* Back */}
-                  <div className="flip-card-back absolute inset-0 bg-[#aa8453] rounded-xl shadow-md p-6 flex flex-col text-white">
-                    <p className="text-xs font-semibold uppercase tracking-wider mb-2 text-white/70">{product.brand}</p>
-                    <h3 className="font-bold text-lg mb-3">{product.name}</h3>
-                    <p className="text-sm text-white/80 mb-4 leading-relaxed">{product.description}</p>
+                  <div className="flip-card-back absolute inset-0 bg-[#aa8453] rounded-xl shadow-md p-4 sm:p-6 flex flex-col text-white">
+                    <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider mb-1 sm:mb-2 text-white/70">{product.brand}</p>
+                    <h3 className="font-bold text-sm sm:text-lg mb-2 sm:mb-3">{product.name}</h3>
+                    <p className="text-xs sm:text-sm text-white/80 mb-4 leading-relaxed">{product.description}</p>
                     {/* <div className="flex items-center justify-between mt-auto">
                       <div>
                         <p className="text-xs text-white/60">BV: {product.bv}</p>

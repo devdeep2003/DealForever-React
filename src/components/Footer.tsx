@@ -1,5 +1,13 @@
 import { Link } from "react-router-dom";
-import { Send, MapPin, Phone, Mail, MessageCircle } from "lucide-react";
+import {
+  Send,
+  MapPin,
+  Phone,
+  Mail,
+  MessageCircle,
+  ChevronDown,
+} from "lucide-react";
+import { useState } from "react";
 import { siteConfig, policyLinks, socialIcons } from "../data/siteData";
 
 const brandLogo =
@@ -18,18 +26,66 @@ const trustBadges = [
   { icon: truck, label: "Easy Returns & Exchanges" },
 ];
 
+interface FooterAccordionProps {
+  title: string;
+  isOpen: boolean;
+  onToggle: () => void;
+  children: React.ReactNode;
+}
+
+function FooterAccordion({
+  title,
+  isOpen,
+  onToggle,
+  children,
+}: FooterAccordionProps) {
+  return (
+    <div className="lg:col-span-1 border-b border-white/10 md:border-none">
+      <button
+        onClick={onToggle}
+        className="w-full flex items-center justify-between py-4 md:py-0 md:pointer-events-none md:mb-4"
+      >
+        <h4 className="text-sm font-semibold uppercase tracking-wider text-[#aa8453]">
+          {title}
+        </h4>
+        <ChevronDown
+          size={16}
+          className={`text-[#aa8453] transition-transform duration-300 md:hidden ${
+            isOpen ? "rotate-180" : ""
+          }`}
+        />
+      </button>
+      <div
+        className={`overflow-hidden transition-all duration-300 md:!max-h-none md:!opacity-100 ${
+          isOpen ? "max-h-96 opacity-100 pb-4" : "max-h-0 opacity-0"
+        } md:pb-0`}
+      >
+        {children}
+      </div>
+    </div>
+  );
+}
+
 export default function Footer() {
+  const [openSection, setOpenSection] = useState<string | null>(null);
+
+  const toggleSection = (section: string) => {
+    setOpenSection((prev) => (prev === section ? null : section));
+  };
+
   return (
     <footer className="bg-[#191717] text-white">
       {/* Connect Section */}
       <div className="border-b border-white/10">
-        <div className="p-6 sm:p-10 lg:p-12 lg:px-[130px] bg-[#333333]">
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-10">
+        <div className="p-5 sm:p-10 lg:p-12 lg:px-[130px] bg-[#333333]">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 lg:gap-10">
             {/* Left Side */}
             <div className="w-full lg:w-auto lg:max-w-md">
-              <div className="text-center lg:text-left mb-6">
-                <h3 className="text-2xl font-bold mb-2">Connect With Us</h3>
-                <p className="text-white/60 text-sm">
+              <div className="text-center lg:text-left mb-4 sm:mb-6">
+                <h3 className="text-lg sm:text-2xl font-bold mb-1 sm:mb-2">
+                  Connect With Us
+                </h3>
+                <p className="text-white/60 text-xs sm:text-sm">
                   Stay updated with the latest from Deal Forever
                 </p>
               </div>
@@ -42,13 +98,11 @@ export default function Footer() {
                   className="flex-1 h-10 px-4 bg-white border border-white/20 rounded-lg text-sm text-black focus:outline-none focus:border-[#aa8453] transition-colors"
                 />
 
-                <button className="bg-[#aa8453] rounded-lg h-10 w-12 flex items-center justify-center">
+                <button className="bg-[#aa8453] rounded-lg h-10 w-12 flex items-center justify-center shrink-0">
                   <Send
-                    size={24}
+                    size={20}
                     style={{
                       color: "white",
-                      width: "24px",
-                      height: "24px",
                       display: "block",
                     }}
                   />
@@ -59,13 +113,13 @@ export default function Footer() {
             <div className="border-r border-white/10 hidden lg:block self-stretch"></div>
 
             {/* Right Side Trust Badges */}
-            <div className="grid grid-cols-3 gap-3 sm:gap-6 lg:gap-8 w-full lg:w-auto">
+            <div className="grid grid-cols-3 gap-2 sm:gap-6 lg:gap-8 w-full lg:w-auto">
               {trustBadges.map((badge) => (
                 <div
                   key={badge.label}
-                  className="flex flex-col items-center text-center gap-2 text-white/70 w-full max-w-[140px] mx-auto"
+                  className="flex flex-col items-center text-center gap-1.5 sm:gap-2 text-white/70 w-full max-w-[140px] mx-auto"
                 >
-                  <div className="w-16 h-14 flex items-center justify-center">
+                  <div className="w-10 h-10 sm:w-16 sm:h-14 flex items-center justify-center">
                     <img
                       src={badge.icon}
                       alt={badge.label}
@@ -73,7 +127,7 @@ export default function Footer() {
                     />
                   </div>
 
-                  <span className="text-[11px] sm:text-xs leading-tight whitespace-nowrap">
+                  <span className="text-[9px] leading-tight sm:text-xs sm:leading-tight">
                     {badge.label}
                   </span>
                 </div>
@@ -84,13 +138,14 @@ export default function Footer() {
       </div>
 
       {/* Main Footer */}
-      <div className="container-custom py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+      <div className="container-custom py-6 md:py-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 md:gap-8">
           {/* About */}
-          <div className="lg:col-span-1">
-            <h4 className="text-sm font-semibold uppercase tracking-wider text-[#aa8453] mb-4">
-              About
-            </h4>
+          <FooterAccordion
+            title="About"
+            isOpen={openSection === "about"}
+            onToggle={() => toggleSection("about")}
+          >
             <ul className="space-y-2">
               <li>
                 <Link
@@ -142,13 +197,14 @@ export default function Footer() {
                 </Link>
               </li>
             </ul>
-          </div>
+          </FooterAccordion>
 
           {/* Policies */}
-          <div className="lg:col-span-1">
-            <h4 className="text-sm font-semibold uppercase tracking-wider text-[#aa8453] mb-4">
-              Policies
-            </h4>
+          <FooterAccordion
+            title="Policies"
+            isOpen={openSection === "policies"}
+            onToggle={() => toggleSection("policies")}
+          >
             <ul className="space-y-2">
               {policyLinks.map((link) => (
                 <li key={link.path}>
@@ -161,13 +217,14 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
-          </div>
+          </FooterAccordion>
 
           {/* Useful Links */}
-          <div className="lg:col-span-1">
-            <h4 className="text-sm font-semibold uppercase tracking-wider text-[#aa8453] mb-4">
-              Useful Links
-            </h4>
+          <FooterAccordion
+            title="Useful Links"
+            isOpen={openSection === "useful"}
+            onToggle={() => toggleSection("useful")}
+          >
             <ul className="space-y-2">
               {/* <li>
                 <Link
@@ -226,15 +283,15 @@ export default function Footer() {
                 </Link>
               </li>
             </ul>
-          </div>
+          </FooterAccordion>
 
           {/* Download */}
-          <div className="lg:col-span-1">
-            <h4 className="text-sm font-semibold uppercase tracking-wider text-[#aa8453] mb-4">
+          <div className="lg:col-span-1 py-4 md:py-0 border-b border-white/10 md:border-none">
+            <h4 className="text-sm font-semibold uppercase tracking-wider text-[#aa8453] mb-3 md:mb-4">
               Download
             </h4>
 
-            <div className="flex flex-col gap-3 items-start">
+            <div className="flex flex-row md:flex-col gap-3 items-start">
               <a href="#" className="block">
                 <img
                   src={appstore}
@@ -254,11 +311,11 @@ export default function Footer() {
           </div>
 
           {/* Stay In Touch */}
-          <div className="lg:col-span-1">
-            <h4 className="text-sm font-semibold uppercase tracking-wider text-[#aa8453] mb-4">
+          <div className="lg:col-span-1 py-4 md:py-0">
+            <h4 className="text-sm font-semibold uppercase tracking-wider text-[#aa8453] mb-3 md:mb-4">
               Stay In Touch
             </h4>
-            <div className="flex gap-3 mb-6">
+            <div className="flex gap-3 mb-4 md:mb-6">
               {Object.entries(siteConfig.social).map(([platform, url]) => {
                 const Icon = socialIcons[platform];
 
@@ -282,12 +339,14 @@ export default function Footer() {
               >
                 <Phone size={14} /> {siteConfig.tollFree}
               </a>
+
               <a
                 href={`mailto:${siteConfig.email}`}
                 className="flex items-center gap-2 hover:text-[#aa8453] transition-colors"
               >
                 <Mail size={14} /> {siteConfig.email}
               </a>
+
               <a
                 href={`https://wa.me/${siteConfig.whatsapp.replace("+", "")}`}
                 className="flex items-center gap-2 hover:text-[#aa8453] transition-colors"

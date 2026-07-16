@@ -100,7 +100,6 @@ function usePagedCarousel(total: number, perPage = 4, interval = 3000) {
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
 
-
   const [showOfferModal, setShowOfferModal] = useState(false);
   const [offerIndex, setOfferIndex] = useState(0);
 
@@ -234,6 +233,11 @@ export default function Home() {
   const newsCarousel = usePagedCarousel(newsItems.length, 4, 3500);
   const testimonialsCarousel = usePagedCarousel(testimonials.length, 4, 4000);
   const brandsCarousel = usePagedCarousel(brands.length, 4, 3000);
+  const marketingCarousel = usePagedCarousel(
+    marketingHighlights.length,
+    4,
+    3000,
+  );
 
   const getPage = <T,>(arr: T[], page: number, perPage = 4): T[] => {
     const start = page * perPage;
@@ -257,27 +261,27 @@ export default function Home() {
               <img
                 src={launchOffers[offerIndex].image}
                 alt={launchOffers[offerIndex].title}
-                className="w-full h-[240px] sm:h-[300px] md:h-[360px] object-cover"
+                className="w-full h-[200px] sm:h-[300px] md:h-[360px] object-cover"
               />
 
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
 
-              <div className="absolute bottom-0 left-0 right-0 p-8">
-                <span className="inline-block bg-[#aa8453] text-white px-3 py-1 rounded-full text-xs font-semibold mb-3">
+              <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-8">
+                <span className="inline-block bg-[#aa8453] text-white px-3 py-1 rounded-full text-xs font-semibold mb-2 sm:mb-3">
                   Exclusive Offer
                 </span>
 
-                <h2 className="text-3xl font-bold text-white mb-3">
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-2 sm:mb-3">
                   {launchOffers[offerIndex].title}
                 </h2>
 
-                <p className="text-white/90 text-sm max-w-lg">
+                <p className="text-white/90 text-xs sm:text-sm max-w-lg">
                   {launchOffers[offerIndex].description}
                 </p>
               </div>
             </div>
 
-            <div className="p-6 flex justify-between items-center">
+            <div className="p-4 sm:p-6 flex justify-between items-center">
               <div className="flex gap-2">
                 {launchOffers.map((_, i) => (
                   <button
@@ -294,7 +298,7 @@ export default function Home() {
 
               <Link
                 to="/offers"
-                className="px-5 py-2 bg-[#aa8453] text-white rounded-full hover:bg-[#8f6d44] transition"
+                className="px-4 sm:px-5 py-2 bg-[#aa8453] text-white text-sm rounded-full hover:bg-[#8f6d44] transition"
               >
                 View Offers
               </Link>
@@ -337,15 +341,15 @@ export default function Home() {
           }`}
         >
           <p className="section-subtitle">What We Are</p>
-          <h2 className="font-semibold text-sm tracking-widest uppercase mb-3">
+          <h2 className="font-semibold text-xs sm:text-sm tracking-widest uppercase mb-2 sm:mb-3">
             Being different simply means you have something unique to offer.
             Join us to make a difference by marking an unprecedented way of
             enjoying quality and growing together
           </h2>
 
-          <div className="grid lg:grid-cols-2 gap-12 items-start">
+          <div className="grid lg:grid-cols-2 gap-6 lg:gap-12 items-start">
             <div className="flex flex-col justify-center">
-              <p className="text-[#555] leading-relaxed mb-6 text-justify text-sm">
+              <p className="text-[#555] leading-relaxed mb-4 sm:mb-6 text-justify text-xs sm:text-sm">
                 Deal Forever represents an exemplary business model in the
                 direct selling industry, offering boundless opportunities. Its
                 organizational structure is meticulously crafted to uphold
@@ -356,7 +360,7 @@ export default function Home() {
                 This ethos underscores Deal Forever's dedication to fostering a
                 culture of entrepreneurship, innovation, and diligence.
               </p>
-              <p className="text-[#555] leading-relaxed mb-6 text-justify text-sm">
+              <p className="text-[#555] leading-relaxed mb-4 sm:mb-6 text-justify text-xs sm:text-sm">
                 Deal Forever's strategy is marked by an aggressive approach to
                 enhancing infrastructure and integrating cutting-edge
                 technologies. This approach is aimed at not only meeting but
@@ -369,41 +373,21 @@ export default function Home() {
                 committed to delivering consistent value while fostering
                 long-term success for its distributors and customers.
               </p>
-              {/* <p className="text-[#555] leading-relaxed mb-8 text-justify text-sm">
-                Founded on a robust foundation and driven by a long-term vision,
-                Deal Forever embodies qualities of reliability and stability.
-                Its steadfast commitment to excellence and customer-centric
-                values positions Deal Forever as a formidable leader in the
-                direct selling arena.
-              </p> */}
-              {/* <Link
-                       to="/about"
-                           className="btn-primary rounded-full inline-flex w-fit"
-                                  >
-                           Learn More <ArrowRight size={16} className="ml-2" />
-                           </Link> */}
             </div>
 
-            {/* <div className="relative overflow-hidden shadow-2xl group">
-                      <img
-                        src={import.meta.env.VITE_BASE_URL + "/images/resource/about-main-4.png"}
-                        alt="About Deal Forever"
-                        className="w-full h-[260px] sm:h-[340px] md:h-[400px] object-cover transition-transform duration-[4000ms] ease-in-out group-hover:scale-110"
-                      />
-                    </div> */}
             <div className="relative">
               <img
                 src="https://images.pexels.com/photos/3184405/pexels-photo-3184405.jpeg?auto=compress&cs=tinysrgb&w=800"
                 alt="About Deal Forever"
                 className="rounded-2xl shadow-2xl w-full object-cover h-[200px] sm:h-[330px] md:h-[350px]"
               />
-              <div className="absolute -bottom-6 -right-6 bg-[#aa8453] text-white p-6 rounded-xl shadow-lg">
-                <p className="text-3xl font-bold">1000+</p>
-                <p className="text-sm">Happy Distributors</p>
+              <div className="absolute -bottom-4 -right-4 sm:-bottom-6 sm:-right-6 bg-[#aa8453] text-white p-4 sm:p-6 rounded-xl shadow-lg">
+                <p className="text-xl sm:text-3xl font-bold">1000+</p>
+                <p className="text-xs sm:text-sm">Happy Distributors</p>
               </div>
             </div>
           </div>
-          <p className="text-[#555] leading-relaxed mb-8 mt-6 text-justify text-sm">
+          <p className="text-[#555] leading-relaxed mb-4 sm:mb-8 mt-6 text-justify text-xs sm:text-sm">
             Founded on a robust foundation and driven by a long-term vision,
             Deal Forever embodies qualities of reliability and stability. Its
             steadfast commitment to excellence and customer-centric values
@@ -413,13 +397,13 @@ export default function Home() {
         </div>
       </section>
       {/* Sustainable Direct Selling - Dark Section */}
-      <section className="py-12 md:py-20 bg-[#191717] relative overflow-hidden">
+      <section className="py-8 md:py-20 bg-[#191717] relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://images.pexels.com/photos/3184405/pexels-photo-3184405.jpeg?auto=compress&cs=tinysrgb&w=1920')] bg-cover bg-center opacity-10" />
         <div className="relative container-custom text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-8">
+          <h2 className="text-xl sm:text-2xl md:text-4xl font-bold text-white mb-5 sm:mb-8">
             Sustainable Direct Selling System With Strong Management Team
           </h2>
-          <div className="grid md:grid-cols-4 gap-6 max-w-4xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6 max-w-4xl mx-auto">
             {[
               "ISO certified delivery system",
               "Full scale business automation",
@@ -428,10 +412,13 @@ export default function Home() {
             ].map((item, i) => (
               <div
                 key={i}
-                className="flex items-center gap-3 text-white/80 bg-white/5 rounded-xl p-4"
+                className="flex items-center gap-2 sm:gap-3 text-white/80 bg-white/5 rounded-xl p-3 sm:p-4"
               >
-                <CheckCircle2 size={20} className="text-[#aa8453] shrink-0" />
-                <span className="text-sm">{item}</span>
+                <CheckCircle2
+                  size={18}
+                  className="text-[#aa8453] shrink-0 sm:w-5 sm:h-5"
+                />
+                <span className="text-xs sm:text-sm">{item}</span>
               </div>
             ))}
           </div>
@@ -446,34 +433,36 @@ export default function Home() {
         <div
           className={`container-custom ${highlightsSection.inView ? "animate-fade-in-up" : "opacity-0"}`}
         >
-          <div className="text-center mb-12">
+          <div className="text-center mb-6 sm:mb-12">
             <h2 className="section-title flex items-center justify-center gap-4">
               <span>Highlights</span>
             </h2>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
             {highlights.map((item, i) => (
               <div
                 key={i}
                 className="group relative bg-white rounded-xl overflow-hidden shadow-md card-hover"
               >
-                <div className="p-6">
-                  <span className="text-5xl font-bold text-[#aa8453]/20 block mb-2">
+                <div className="p-4 sm:p-6">
+                  <span className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#aa8453]/20 block mb-1 sm:mb-2">
                     {item.number}
                   </span>
-                  <h3 className="text-lg font-bold text-[#191717] mb-2">
+                  <h3 className="text-sm sm:text-lg font-bold text-[#191717] mb-1 sm:mb-2">
                     {item.title}
                   </h3>
-                  <p className="text-sm text-[#888] leading-relaxed">
+                  <p className="text-xs sm:text-sm text-[#888] leading-relaxed">
                     {item.description}
                   </p>
                 </div>
-                <div className="absolute inset-0 bg-[#aa8453] text-white p-6 flex flex-col justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <span className="text-5xl font-bold text-white/20 block mb-2">
+                <div className="absolute inset-0 bg-[#aa8453] text-white p-4 sm:p-6 flex flex-col justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <span className="text-3xl sm:text-4xl md:text-5xl font-bold text-white/20 block mb-1 sm:mb-2">
                     {item.number}
                   </span>
-                  <h3 className="text-lg font-bold mb-2">{item.title}</h3>
-                  <p className="text-sm text-white/80 leading-relaxed">
+                  <h3 className="text-sm sm:text-lg font-bold mb-1 sm:mb-2">
+                    {item.title}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-white/80 leading-relaxed">
                     {item.description}
                   </p>
                 </div>
@@ -483,67 +472,86 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Special Benefits */}
+      {/* Special Benefits - Marketing Highlights - 1 at a time on mobile, 4 at a time on desktop */}
       <section ref={benefitsSection.ref} className="section-padding bg-white">
         <div
           className={`container-custom ${benefitsSection.inView ? "animate-fade-in-up" : "opacity-0"}`}
         >
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {marketingHighlights.map((item, i) => (
-              <div
-                key={i}
-                className="text-center p-6 rounded-xl bg-[#faf8f5] card-hover group"
-              >
-                <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-white flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <img
-                    src={item.icon}
-                    alt={item.title}
-                    className="w-8 h-8 object-contain"
-                  />
+          <div
+            className="flex lg:grid lg:grid-cols-4 gap-4 lg:gap-6 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-2 lg:pb-0"
+            onMouseEnter={marketingCarousel.onMouseEnter}
+            onMouseLeave={marketingCarousel.onMouseLeave}
+          >
+            {getPage(marketingHighlights, marketingCarousel.page, 4).map(
+              (item, i) => (
+                <div
+                  key={`${marketingCarousel.page}-${i}`}
+                  className="text-center p-4 sm:p-6 rounded-xl bg-[#faf8f5] card-hover group shrink-0 w-[88%] sm:w-[48%] lg:w-auto snap-start animate-fade-in-up"
+                >
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-3 sm:mb-4 rounded-full bg-white flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <img
+                      src={item.icon}
+                      alt={item.title}
+                      className="w-6 h-6 sm:w-8 sm:h-8 object-contain"
+                    />
+                  </div>
+                  <h3 className="text-xs sm:text-sm font-bold text-[#191717]">
+                    {item.title}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-[#666] mt-1 sm:mt-2">
+                    {item.description}
+                  </p>
                 </div>
-                <h3 className="text-sm font-bold text-[#191717]">
-                  {item.title}
-                </h3>
-                <p className="text-sm text-[#666] mt-2">{item.description}</p>
-              </div>
-            ))}
+              ),
+            )}
+          </div>
+          <div className="flex justify-center gap-2 mt-4 sm:mt-6 lg:hidden">
+            {Array.from({ length: marketingCarousel.totalPages }).map(
+              (_, i) => (
+                <button
+                  key={i}
+                  onClick={() => marketingCarousel.setPage(i)}
+                  className={`h-2 rounded-full transition-all duration-300 ${marketingCarousel.page === i ? "w-6 bg-[#aa8453]" : "w-2 bg-[#aa8453]/30"}`}
+                />
+              ),
+            )}
           </div>
         </div>
       </section>
 
       {/* Additional Benefits - Insurance & Scholarship */}
-      <section className="py-10 bg-[#191717]">
+      <section className="py-6 sm:py-10 bg-[#191717]">
         <div className="container-custom">
-          <h2 className="section-title flex items-center justify-center gap-4 text-white py-3">
+          <h2 className="section-title flex items-center justify-center gap-4 text-white py-2 sm:py-3">
             <span>Special Benefits</span>
           </h2>
-          <div className="grid md:grid-cols-2 gap-8 items-center justify-center max-w-4xl mx-auto">
-            <div className="bg-white/5 rounded-xl p-8 border border-white/10 text-center flex flex-col items-center hover:shadow-xl hover:border-[#aa8453]/40 hover:scale-110 transition-all duration-300">
+          <div className="grid md:grid-cols-2 gap-4 sm:gap-8 items-center justify-center max-w-4xl mx-auto">
+            <div className="bg-white/5 rounded-xl p-5 sm:p-8 border border-white/10 text-center flex flex-col items-center hover:shadow-xl hover:border-[#aa8453]/40 hover:scale-105 sm:hover:scale-110 transition-all duration-300">
               <img
                 src={medicalInsurance}
                 alt="icon"
-                className="w-16 h-16 object-contain mb-4"
+                className="w-12 h-12 sm:w-16 sm:h-16 object-contain mb-3 sm:mb-4"
               />
-              <h3 className="text-xl font-bold text-white mb-3">
+              <h3 className="text-base sm:text-xl font-bold text-white mb-2 sm:mb-3">
                 Free Medical Insurance
               </h3>
-              <p className="text-gray-300 text-sm leading-relaxed">
+              <p className="text-gray-300 text-xs sm:text-sm leading-relaxed">
                 Comprehensive health coverage designed to safeguard you and your
                 family's well-being.
               </p>
             </div>
-            <div className="bg-white/5 rounded-xl p-8 border border-white/10 text-center flex flex-col items-center hover:shadow-xl hover:border-[#aa8453]/40 hover:scale-110 transition-all duration-300">
+            <div className="bg-white/5 rounded-xl p-5 sm:p-8 border border-white/10 text-center flex flex-col items-center hover:shadow-xl hover:border-[#aa8453]/40 hover:scale-105 sm:hover:scale-110 transition-all duration-300">
               <img
                 src={educationalScholarship}
                 alt="icon"
-                className="w-16 h-16 object-contain mb-4"
+                className="w-12 h-12 sm:w-16 sm:h-16 object-contain mb-3 sm:mb-4"
               />
 
-              <h3 className="text-xl font-bold text-white mb-3">
+              <h3 className="text-base sm:text-xl font-bold text-white mb-2 sm:mb-3">
                 Higher Educational Scholarship
               </h3>
 
-              <p className="text-gray-300 text-sm leading-relaxed">
+              <p className="text-gray-300 text-xs sm:text-sm leading-relaxed">
                 Empowering future generations through financial support for
                 quality higher education.
               </p>
@@ -552,20 +560,20 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Offers Carousel - 4 at a time */}
+      {/* Offers Carousel - 1 at a time mobile, 4 at a time desktop */}
       <section ref={offersSection.ref} className="section-padding bg-white">
         <div
           className={`container-custom ${offersSection.inView ? "animate-fade-in-up" : "opacity-0"}`}
         >
-          <div className="flex flex-col mb-8">
+          <div className="flex flex-col mb-4 sm:mb-8">
             <p className="section-subtitle">Deals</p>
 
             <div className="flex items-center justify-between">
-              <h2 className="section-title py-3">Special Offers</h2>
+              <h2 className="section-title py-2 sm:py-3">Special Offers</h2>
 
               <Link
                 to="/offers"
-                className="flex items-center gap-1 text-[#aa8453] font-semibold text-sm hover:underline"
+                className="flex items-center gap-1 text-[#aa8453] font-semibold text-xs sm:text-sm hover:underline"
               >
                 View All <ChevronRight size={16} />
               </Link>
@@ -579,9 +587,9 @@ export default function Home() {
             {getPage(offers, offersCarousel.page, 4).map((offer, i) => (
               <div
                 key={`${offersCarousel.page}-${i}`}
-                className="group rounded-xl overflow-hidden shadow-md card-hover animate-fade-in-up shrink-0 w-[48%] lg:w-auto snap-start"
+                className="group rounded-xl overflow-hidden shadow-md card-hover animate-fade-in-up shrink-0 w-[88%] sm:w-[48%] lg:w-auto snap-start"
               >
-                <div className="relative h-48">
+                <div className="relative h-36 sm:h-48">
                   <img
                     src={offer.image}
                     alt={offer.title}
@@ -591,8 +599,8 @@ export default function Home() {
                     Offer
                   </div>
                 </div>
-                <div className="p-4 bg-white">
-                  <h3 className="font-bold text-[#191717] text-sm mb-1">
+                <div className="p-3 sm:p-4 bg-white">
+                  <h3 className="font-bold text-[#191717] text-xs sm:text-sm mb-1">
                     {offer.title}
                   </h3>
                   <p className="text-xs text-[#888] mb-2">
@@ -611,7 +619,7 @@ export default function Home() {
               </div>
             ))}
           </div>
-          <div className="flex justify-center gap-2 mt-6">
+          <div className="flex justify-center gap-2 mt-4 sm:mt-6">
             {Array.from({ length: offersCarousel.totalPages }).map((_, i) => (
               <button
                 key={i}
@@ -623,20 +631,20 @@ export default function Home() {
         </div>
       </section>
 
-      {/* News Section - 4 at a time */}
+      {/* News Section - 1 at a time mobile, 4 at a time desktop */}
       <section ref={newsSection.ref} className="section-padding bg-[#faf8f5]">
         <div
           className={`container-custom ${newsSection.inView ? "animate-fade-in-up" : "opacity-0"}`}
         >
-          <div className="flex flex-col mb-8">
+          <div className="flex flex-col mb-4 sm:mb-8">
             <p className="section-subtitle">Latest Updates</p>
 
             <div className="flex items-center justify-between">
-              <h2 className="section-title py-3">News & Media</h2>
+              <h2 className="section-title py-2 sm:py-3">News & Media</h2>
 
               <Link
                 to="/news"
-                className="flex items-center gap-1 text-[#aa8453] font-semibold text-sm hover:underline"
+                className="flex items-center gap-1 text-[#aa8453] font-semibold text-xs sm:text-sm hover:underline"
               >
                 View All <ChevronRight size={16} />
               </Link>
@@ -650,27 +658,27 @@ export default function Home() {
             {getPage(newsItems, newsCarousel.page, 4).map((item, i) => (
               <div
                 key={`${newsCarousel.page}-${i}`}
-                className="bg-white rounded-xl overflow-hidden shadow-sm card-hover group animate-fade-in-up shrink-0 w-[48%] lg:w-auto snap-start"
+                className="bg-white rounded-xl overflow-hidden shadow-sm card-hover group animate-fade-in-up shrink-0 w-[88%] sm:w-[48%] lg:w-auto snap-start"
               >
-                <div className="relative h-48 overflow-hidden">
+                <div className="relative h-36 sm:h-48 overflow-hidden">
                   <img
                     src={item.image}
                     alt={item.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                 </div>
-                <div className="p-5">
-                  <p className="text-xs text-[#aa8453] font-semibold mb-2">
+                <div className="p-3 sm:p-5">
+                  <p className="text-xs text-[#aa8453] font-semibold mb-1 sm:mb-2">
                     {new Date(item.date).toLocaleDateString("en-IN", {
                       day: "numeric",
                       month: "short",
                       year: "numeric",
                     })}
                   </p>
-                  <h3 className="font-bold text-[#191717] text-sm mb-2 line-clamp-2">
+                  <h3 className="font-bold text-[#191717] text-xs sm:text-sm mb-1 sm:mb-2 line-clamp-2">
                     {item.title}
                   </h3>
-                  <p className="text-xs text-[#888] line-clamp-2 mb-3">
+                  <p className="text-xs text-[#888] line-clamp-2 mb-2 sm:mb-3">
                     {item.excerpt}
                   </p>
                   <button
@@ -683,7 +691,7 @@ export default function Home() {
               </div>
             ))}
           </div>
-          <div className="flex justify-center gap-2 mt-6">
+          <div className="flex justify-center gap-2 mt-4 sm:mt-6">
             {Array.from({ length: newsCarousel.totalPages }).map((_, i) => (
               <button
                 key={i}
@@ -695,7 +703,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Testimonials - 4 at a time */}
+      {/* Testimonials - 1 at a time mobile, 4 at a time desktop */}
       <section
         ref={testimonialsSection.ref}
         className="section-padding bg-white"
@@ -703,8 +711,8 @@ export default function Home() {
         <div
           className={`container-custom ${testimonialsSection.inView ? "animate-fade-in-up" : "opacity-0"}`}
         >
-          <div className="text-center mb-12">
-            <h2 className="section-title flex items-center justify-center gap-4 py-3">
+          <div className="text-center mb-6 sm:mb-12">
+            <h2 className="section-title flex items-center justify-center gap-4 py-2 sm:py-3">
               <span>What People Say</span>
             </h2>
           </div>
@@ -717,12 +725,12 @@ export default function Home() {
               (item, i) => (
                 <div
                   key={`${testimonialsCarousel.page}-${i}`}
-                  className="bg-[#faf8f5] rounded-xl p-6 relative animate-fade-in-up shrink-0 w-[48%] lg:w-auto snap-start"
+                  className="bg-[#faf8f5] rounded-xl p-4 sm:p-6 relative animate-fade-in-up shrink-0 w-[88%] sm:w-[48%] lg:w-auto snap-start"
                 >
-                  <div className="absolute top-4 right-4 text-[#aa8453]/20 text-5xl font-serif">
+                  <div className="absolute top-3 right-3 sm:top-4 sm:right-4 text-[#aa8453]/20 text-4xl sm:text-5xl font-serif">
                     &ldquo;
                   </div>
-                  <p className="text-sm text-[#555] leading-relaxed mb-3 line-clamp-3">
+                  <p className="text-xs sm:text-sm text-[#555] leading-relaxed mb-3 line-clamp-3">
                     {item.text}
                   </p>
 
@@ -730,10 +738,10 @@ export default function Home() {
                     <img
                       src={item.image}
                       alt={item.name}
-                      className="w-12 h-12 rounded-full object-cover"
+                      className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover"
                     />
                     <div>
-                      <p className="font-bold text-[#191717] text-sm flex items-center gap-1">
+                      <p className="font-bold text-[#191717] text-xs sm:text-sm flex items-center gap-1">
                         {item.name}{" "}
                         <CheckCircle2 size={14} className="text-[#aa8453]" />
                       </p>
@@ -753,7 +761,7 @@ export default function Home() {
               ),
             )}
           </div>
-          <div className="flex justify-center gap-2 mt-6">
+          <div className="flex justify-center gap-2 mt-4 sm:mt-6">
             {Array.from({ length: testimonialsCarousel.totalPages }).map(
               (_, i) => (
                 <button
@@ -764,7 +772,7 @@ export default function Home() {
               ),
             )}
           </div>
-          <div className="text-center mt-8">
+          <div className="text-center mt-5 sm:mt-8">
             <Link
               to="/testimonials"
               className="btn-outline rounded-full text-sm"
@@ -775,9 +783,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Brand Logos - 4 at a time */}
-      <section className="py-16 bg-[#faf8f5]">
-        <div className="container-custom mb-10">
+      {/* Brand Logos - 1 at a time mobile, 4 at a time desktop */}
+      <section className="py-8 sm:py-16 bg-[#faf8f5]">
+        <div className="container-custom mb-5 sm:mb-10">
           <h2 className="section-title flex items-center justify-center gap-4">
             <span>Our Brands</span>
           </h2>
@@ -791,7 +799,7 @@ export default function Home() {
             {getPage(brands, brandsCarousel.page, 4).map((brand, i) => (
               <div
                 key={`${brandsCarousel.page}-${i}`}
-                className="h-24 bg-white rounded-xl shadow-sm border border-[#e8e0d5] flex items-center justify-center hover:shadow-md hover:border-[#aa8453]/40 transition-all duration-300 animate-fade-in-up shrink-0 w-[48%] lg:w-auto snap-start"
+                className="h-20 sm:h-24 bg-white rounded-xl shadow-sm border border-[#e8e0d5] flex items-center justify-center hover:shadow-md hover:border-[#aa8453]/40 transition-all duration-300 animate-fade-in-up shrink-0 w-[88%] sm:w-[48%] lg:w-auto snap-start"
               >
                 {brand.logo ? (
                   <img
@@ -807,7 +815,7 @@ export default function Home() {
               </div>
             ))}
           </div>
-          <div className="flex justify-center gap-2 mt-6">
+          <div className="flex justify-center gap-2 mt-4 sm:mt-6">
             {Array.from({ length: brandsCarousel.totalPages }).map((_, i) => (
               <button
                 key={i}

@@ -1,16 +1,42 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, ChevronDown, User, Phone, ShoppingBag } from "lucide-react";
-import { navItems, siteConfig, policyLinks } from "../data/siteData";
+import {
+  Menu,
+  X,
+  ChevronDown,
+  User,
+  Phone,
+  ShoppingBag,
+  LogOut,
+} from "lucide-react";
+import { navItems, siteConfig } from "../data/siteData";
 import AuthModal from "./AuthModal";
+import {
+  FaInstagram,
+  FaFacebookF,
+  FaYoutube,
+  FaXTwitter,
+} from "react-icons/fa6";
+import type { IconType } from "react-icons";
 
-const brandLogo = import.meta.env.VITE_BASE_URL + "/images/WEB HEADER LOGO 04.png";
+export const socialIcons: Record<string, IconType> = {
+  instagram: FaInstagram,
+  twitter: FaXTwitter,
+  facebook: FaFacebookF,
+  youtube: FaYoutube,
+};
+
+const brandLogo =
+  import.meta.env.VITE_BASE_URL + "/images/WEB HEADER LOGO 04.png";
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [authMode, setAuthMode] = useState<"signin" | "signup">("signin");
+  const [openMobileSubmenu, setOpenMobileSubmenu] = useState<string | null>(
+    null,
+  );
   const location = useLocation();
 
   useEffect(() => {
@@ -21,12 +47,17 @@ export default function Header() {
 
   useEffect(() => {
     setMobileMenuOpen(false);
+    setOpenMobileSubmenu(null);
   }, [location]);
 
   const openAuth = (mode: "signin" | "signup") => {
     setAuthMode(mode);
     setAuthModalOpen(true);
     setMobileMenuOpen(false);
+  };
+
+  const toggleMobileSubmenu = (label: string) => {
+    setOpenMobileSubmenu((prev) => (prev === label ? null : label));
   };
 
   return (
@@ -40,15 +71,16 @@ export default function Header() {
         <div className="hidden lg:block bg-[#191717] text-white text-xs">
           <div className="container-custom flex items-center justify-between py-2">
             <div className="flex items-center gap-6">
-              <a
-                href={`tel:${siteConfig.tollFree}`}
+              
+              <a  href={`tel:${siteConfig.tollFree}`}
                 className="flex items-center gap-2 hover:text-[#aa8453] transition-colors"
               >
                 <Phone size={12} />
                 {siteConfig.tollFree}
               </a>
-              <a
-                href={`mailto:${siteConfig.email}`}
+
+              
+              <a  href={`mailto:${siteConfig.email}`}
                 className="hover:text-[#aa8453] transition-colors"
               >
                 {siteConfig.email}
@@ -209,31 +241,68 @@ export default function Header() {
               </div>
             </div>
 
-            {/* Mobile Nav Items */}
-            <div className="p-4 space-y-1">
-              {navItems.map((item) => (
-                <Link
-                  key={item.label}
-                  to={item.path}
-                  className="mobile-nav-item"
-                >
-                  <span className="text-sm font-medium">{item.label}</span>
-                </Link>
-              ))}
-              <div className="pt-2 border-t mt-2">
-                <p className="text-xs font-semibold text-[#aa8453] uppercase tracking-wider px-4 py-2">
-                  Policies
-                </p>
-                {policyLinks.map((link) => (
+            {/* Mobile Nav Items - Accordion style matching Main Head / Sub Head structure */}
+            <div className="py-2">
+              {navItems.map((item) =>
+                item.children && item.children.length > 0 ? (
+                  <div key={item.label} className="border-b border-gray-100">
+                    <button
+                      onClick={() => toggleMobileSubmenu(item.label)}
+                      className={`w-full flex items-center justify-between px-4 py-3 text-sm font-medium transition-colors ${
+                        location.pathname === item.path
+                          ? "text-[#aa8453]"
+                          : "text-[#191717]"
+                      }`}
+                    >
+                      {item.label}
+                      <ChevronDown
+                        size={16}
+                        className={`transition-transform duration-300 text-[#aa8453] ${
+                          openMobileSubmenu === item.label ? "rotate-180" : ""
+                        }`}
+                      />
+                    </button>
+                    <div
+                      className={`overflow-hidden transition-all duration-300 bg-[#faf8f5] ${
+                        openMobileSubmenu === item.label
+                          ? "max-h-96 opacity-100"
+                          : "max-h-0 opacity-0"
+                      }`}
+                    >
+                      {item.children.map((child) => (
+                        <Link
+                          key={child.path}
+                          to={child.path}
+                          className="block px-6 py-2.5 text-sm text-[#555] hover:text-[#aa8453] transition-colors"
+                        >
+                          {child.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
                   <Link
-                    key={link.path}
-                    to={link.path}
-                    className="mobile-nav-item text-sm"
+                    key={item.label}
+                    to={item.path}
+                    className={`block px-4 py-3 text-sm font-medium border-b border-gray-100 transition-colors ${
+                      location.pathname === item.path
+                        ? "text-[#aa8453]"
+                        : "text-[#191717] hover:text-[#aa8453]"
+                    }`}
                   >
-                    {link.label}
+                    {item.label}
                   </Link>
-                ))}
-              </div>
+                ),
+              )}
+
+              {/* Logout */}
+              <button
+                onClick={() => setMobileMenuOpen(false)}
+                className="w-full flex items-center gap-2 px-4 py-3 text-sm font-medium text-[#191717] hover:text-[#aa8453] transition-colors"
+              >
+                <LogOut size={16} />
+                Logout
+              </button>
             </div>
 
             {/* Mobile Contact */}
@@ -242,37 +311,43 @@ export default function Header() {
                 Talk To Us
               </p>
               <div className="space-y-2 text-sm">
-                <a
-                  href={`tel:${siteConfig.tollFree}`}
+                
+                <a  href={`tel:${siteConfig.tollFree}`}
                   className="block hover:text-[#aa8453] transition-colors"
                 >
                   {siteConfig.tollFree}
                 </a>
-                <a
-                  href={`mailto:${siteConfig.email}`}
+
+                
+                <a  href={`mailto:${siteConfig.email}`}
                   className="block hover:text-[#aa8453] transition-colors"
                 >
                   {siteConfig.email}
                 </a>
-                <a
-                  href={`https://wa.me/${siteConfig.whatsapp.replace("+", "")}`}
+
+                
+                <a  href={`https://wa.me/${siteConfig.whatsapp.replace("+", "")}`}
                   className="block hover:text-[#aa8453] transition-colors"
                 >
                   WhatsApp: {siteConfig.whatsapp}
                 </a>
               </div>
               <div className="flex gap-3 mt-4">
-                {Object.entries(siteConfig.social).map(([platform, url]) => (
-                  <a
-                    key={platform}
-                    href={url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#aa8453] transition-colors text-xs uppercase"
-                  >
-                    {platform[0]}
-                  </a>
-                ))}
+                {Object.entries(siteConfig.social).map(([platform, url]) => {
+                  const Icon = socialIcons[platform];
+
+                  return (
+                    <a
+                      key={platform}
+                      href={url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#aa8453] transition-colors"
+                    >
+                      <Icon size={18} />
+                    </a>
+                  );
+                })}
               </div>
             </div>
           </div>

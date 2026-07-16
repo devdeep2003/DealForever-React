@@ -246,7 +246,7 @@ export default function BusinessOpportunity() {
                 Destiny."
               </p>
 
-              <div className="flex gap-6 pt-2 border-t border-white/10 w-full justify-center">
+              <div className="flex flex-wrap gap-4 sm:gap-6 pt-2 border-t border-white/10 w-full justify-center">
                 {[
                   ["1M+", "Active distributors"],
                   ["50+", "Product categories"],
@@ -565,8 +565,8 @@ export default function BusinessOpportunity() {
                       className="w-5 h-5 object-contain"
                     />
                   </div>
-                  <div>
-                    <p className="text-xs font-semibold text-white/90 leading-snug">
+                  <div className="min-w-0">
+                    <p className="text-xs font-semibold text-white/90 leading-snug break-words">
                       {f.title}
                     </p>
                     <p className="text-[#aa8453] font-black text-sm">{f.sub}</p>
@@ -613,8 +613,8 @@ export default function BusinessOpportunity() {
                         className="w-8 h-8 object-contain"
                       />
                     </div>
-                    <div>
-                      <h3 className="font-bold text-white text-lg">
+                    <div className="min-w-0">
+                      <h3 className="font-bold text-white text-lg break-words">
                         {selectedFinancialItem.title}
                       </h3>
                       <p className="text-sm text-white/70">
@@ -1084,9 +1084,9 @@ export default function BusinessOpportunity() {
                   Download <strong>DEAL FOREVER</strong>'s mobile app to shop or
                   manage your business anytime, anywhere! Get it on Play Store /
                   App Store or visit{" "}
-                  <a
-                    href="https://www.mydealforever.com"
-                    className="text-[#aa8453] hover:underline"
+                  
+                   <a href="https://www.mydealforever.com"
+                    className="text-[#aa8453] hover:underline break-words"
                   >
                     www.mydealforever.com
                   </a>{" "}
@@ -1143,9 +1143,9 @@ export default function BusinessOpportunity() {
                   Deal Forever provides online, mobile, and instructor-led
                   training to sharpen your product, business, and industry
                   knowledge. Visit the Learning Center at{" "}
-                  <a
-                    href="https://www.mydealforever.com"
-                    className="text-[#aa8453] hover:underline"
+                  
+                  <a  href="https://www.mydealforever.com"
+                    className="text-[#aa8453] hover:underline break-words"
                   >
                     www.mydealforever.com
                   </a>{" "}
@@ -1240,7 +1240,9 @@ export default function BusinessOpportunity() {
                       <span className="text-xs font-bold text-[#aa8453] w-14 shrink-0">
                         {c.label}
                       </span>
-                      <span className="text-xs text-[#555]">{c.value}</span>
+                      <span className="text-xs text-[#555] min-w-0 break-words">
+                        {c.value}
+                      </span>
                     </div>
                   ))}
                 </div>
@@ -1313,12 +1315,12 @@ export default function BusinessOpportunity() {
       <section className="section-padding bg-white">
         <div className="container-custom">
           <div className="text-center mb-6">
-            <div className="flex items-center justify-center gap-4 mb-3">
-              <span className="text-4xl md:text-5xl font-black text-[#aa8453] tracking-tight">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 mb-3">
+              <span className="text-3xl sm:text-4xl md:text-5xl font-black text-[#aa8453] tracking-tight">
                 PULSE
               </span>
-              <div className="w-px h-10 md:h-12 bg-gray-300" />
-              <h2 className="text-xl md:text-2xl font-bold text-[#191717] text-left leading-snug">
+              <div className="hidden sm:block w-px h-10 md:h-12 bg-gray-300" />
+              <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-[#191717] text-center sm:text-left leading-snug">
                 An <span className="text-[#aa8453]">Approach</span> To
                 Successful{" "}
                 <span className="text-[#aa8453]">Entrepreneurship</span>
@@ -1339,15 +1341,15 @@ export default function BusinessOpportunity() {
 
           <div className="mt-8 bg-[#191717] rounded-2xl px-6 py-8 md:py-10">
             <div className="flex flex-wrap justify-center gap-4">
-              <a
-                href="https://www.mydealforever.com"
+              
+               <a href="https://www.mydealforever.com"
                 className="bg-[#aa8453] text-white text-sm font-bold px-8 py-3 rounded-lg hover:bg-[#956e3f] transition-colors"
               >
                 Register Free Today
               </a>
 
-              <a
-                href="mailto:info@mydealforever.com"
+              
+               <a href="mailto:info@mydealforever.com"
                 className="bg-white border border-[#aa8453] text-[#aa8453] text-sm font-bold px-8 py-3 rounded-lg hover:bg-[#faf8f5] transition-colors"
               >
                 Talk to an Advisor
