@@ -74,7 +74,6 @@ function usePagedCarousel(total: number, perPage = 4, interval = 3000) {
   const [page, setPage] = useState(0);
   const pausedRef = useRef(false);
   const totalPages = Math.ceil(total / perPage);
-
   useEffect(() => {
     const timer = setInterval(() => {
       if (!pausedRef.current) {
@@ -83,7 +82,6 @@ function usePagedCarousel(total: number, perPage = 4, interval = 3000) {
     }, interval);
     return () => clearInterval(timer);
   }, [totalPages, interval]);
-
   return {
     page,
     totalPages,
@@ -99,7 +97,6 @@ function usePagedCarousel(total: number, perPage = 4, interval = 3000) {
 
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
-
   const [showOfferModal, setShowOfferModal] = useState(false);
   const [offerIndex, setOfferIndex] = useState(0);
 
@@ -131,17 +128,14 @@ export default function Home() {
     const modalTimer = setTimeout(() => {
       setShowOfferModal(true);
     }, 500);
-
     return () => clearTimeout(modalTimer);
   }, []);
 
   useEffect(() => {
     if (!showOfferModal) return;
-
     const timer = setInterval(() => {
       setOfferIndex((prev) => (prev + 1) % launchOffers.length);
     }, 3000);
-
     return () => clearInterval(timer);
   }, [showOfferModal]);
 
@@ -155,7 +149,6 @@ export default function Home() {
     setSelectedTestimonial(item);
     setIsModalOpen(true);
   };
-
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedTestimonial(null);
@@ -171,7 +164,6 @@ export default function Home() {
     setSelectedOffer(item);
     setIsOfferDetailOpen(true);
   };
-
   const closeOfferModal = () => {
     setIsOfferDetailOpen(false);
     setSelectedOffer(null);
@@ -187,7 +179,6 @@ export default function Home() {
     setSelectedNews(item);
     setIsNewsDetailOpen(true);
   };
-
   const closeNewsModal = () => {
     setIsNewsDetailOpen(false);
     setSelectedNews(null);
@@ -256,31 +247,25 @@ export default function Home() {
             >
               ✕
             </button>
-
             <div className="relative">
               <img
                 src={launchOffers[offerIndex].image}
                 alt={launchOffers[offerIndex].title}
                 className="w-full h-[200px] sm:h-[300px] md:h-[360px] object-cover"
               />
-
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-
               <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-8">
                 <span className="inline-block bg-[#aa8453] text-white px-3 py-1 rounded-full text-xs font-semibold mb-2 sm:mb-3">
                   Exclusive Offer
                 </span>
-
                 <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-2 sm:mb-3">
                   {launchOffers[offerIndex].title}
                 </h2>
-
                 <p className="text-white/90 text-xs sm:text-sm max-w-lg">
                   {launchOffers[offerIndex].description}
                 </p>
               </div>
             </div>
-
             <div className="p-4 sm:p-6 flex justify-between items-center">
               <div className="flex gap-2">
                 {launchOffers.map((_, i) => (
@@ -295,7 +280,6 @@ export default function Home() {
                   />
                 ))}
               </div>
-
               <Link
                 to="/offers"
                 className="px-4 sm:px-5 py-2 bg-[#aa8453] text-white text-sm rounded-full hover:bg-[#8f6d44] transition"
@@ -332,7 +316,6 @@ export default function Home() {
           ))}
         </div>
       </section>
-
       {/* About Section */}
       <section ref={about.ref} className="section-padding bg-white">
         <div
@@ -341,12 +324,11 @@ export default function Home() {
           }`}
         >
           <p className="section-subtitle">What We Are</p>
-          <h2 className="font-semibold text-xs sm:text-sm tracking-widest uppercase mb-2 sm:mb-3">
+          {/* <h2 className="font-semibold text-xs sm:text-sm tracking-widest uppercase mb-2 sm:mb-3">
             Being different simply means you have something unique to offer.
             Join us to make a difference by marking an unprecedented way of
             enjoying quality and growing together
-          </h2>
-
+          </h2> */}
           <div className="grid lg:grid-cols-2 gap-6 lg:gap-12 items-start">
             <div className="flex flex-col justify-center">
               <p className="text-[#555] leading-relaxed mb-4 sm:mb-6 text-justify text-xs sm:text-sm">
@@ -374,20 +356,19 @@ export default function Home() {
                 long-term success for its distributors and customers.
               </p>
             </div>
-
             <div className="relative">
               <img
                 src="https://images.pexels.com/photos/3184405/pexels-photo-3184405.jpeg?auto=compress&cs=tinysrgb&w=800"
                 alt="About Deal Forever"
                 className="rounded-2xl shadow-2xl w-full object-cover h-[200px] sm:h-[330px] md:h-[350px]"
               />
-              <div className="absolute -bottom-4 -right-4 sm:-bottom-6 sm:-right-6 bg-[#aa8453] text-white p-4 sm:p-6 rounded-xl shadow-lg">
+              {/* <div className="absolute -bottom-4 -right-4 sm:-bottom-6 sm:-right-6 bg-[#aa8453] text-white p-4 sm:p-6 rounded-xl shadow-lg">
                 <p className="text-xl sm:text-3xl font-bold">1000+</p>
                 <p className="text-xs sm:text-sm">Happy Distributors</p>
-              </div>
+              </div> */}
             </div>
           </div>
-          <p className="text-[#555] leading-relaxed mb-4 sm:mb-8 mt-6 text-justify text-xs sm:text-sm">
+          <p className="text-[#555] leading-relaxed mb-4 sm:mb-8  text-justify text-xs sm:text-sm">
             Founded on a robust foundation and driven by a long-term vision,
             Deal Forever embodies qualities of reliability and stability. Its
             steadfast commitment to excellence and customer-centric values
@@ -424,7 +405,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
       {/* Highlights Section */}
       <section
         ref={highlightsSection.ref}
@@ -471,7 +451,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
       {/* Special Benefits - Marketing Highlights - 1 at a time on mobile, 4 at a time on desktop */}
       <section ref={benefitsSection.ref} className="section-padding bg-white">
         <div
@@ -518,7 +497,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
       {/* Additional Benefits - Insurance & Scholarship */}
       <section className="py-6 sm:py-10 bg-[#191717]">
         <div className="container-custom">
@@ -546,11 +524,9 @@ export default function Home() {
                 alt="icon"
                 className="w-12 h-12 sm:w-16 sm:h-16 object-contain mb-3 sm:mb-4"
               />
-
               <h3 className="text-base sm:text-xl font-bold text-white mb-2 sm:mb-3">
                 Higher Educational Scholarship
               </h3>
-
               <p className="text-gray-300 text-xs sm:text-sm leading-relaxed">
                 Empowering future generations through financial support for
                 quality higher education.
@@ -559,7 +535,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
       {/* Offers Carousel - 1 at a time mobile, 4 at a time desktop */}
       <section ref={offersSection.ref} className="section-padding bg-white">
         <div
@@ -567,10 +542,8 @@ export default function Home() {
         >
           <div className="flex flex-col mb-4 sm:mb-8">
             <p className="section-subtitle">Deals</p>
-
             <div className="flex items-center justify-between">
               <h2 className="section-title py-2 sm:py-3">Special Offers</h2>
-
               <Link
                 to="/offers"
                 className="flex items-center gap-1 text-[#aa8453] font-semibold text-xs sm:text-sm hover:underline"
@@ -630,7 +603,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
       {/* News Section - 1 at a time mobile, 4 at a time desktop */}
       <section ref={newsSection.ref} className="section-padding bg-[#faf8f5]">
         <div
@@ -638,10 +610,8 @@ export default function Home() {
         >
           <div className="flex flex-col mb-4 sm:mb-8">
             <p className="section-subtitle">Latest Updates</p>
-
             <div className="flex items-center justify-between">
-              <h2 className="section-title py-2 sm:py-3">News & Media</h2>
-
+              <h2 className="section-title py-2 sm:py-3">Latest News & Update</h2>
               <Link
                 to="/news"
                 className="flex items-center gap-1 text-[#aa8453] font-semibold text-xs sm:text-sm hover:underline"
@@ -702,7 +672,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
       {/* Testimonials - 1 at a time mobile, 4 at a time desktop */}
       <section
         ref={testimonialsSection.ref}
@@ -733,7 +702,6 @@ export default function Home() {
                   <p className="text-xs sm:text-sm text-[#555] leading-relaxed mb-3 line-clamp-3">
                     {item.text}
                   </p>
-
                   <div className="flex items-center gap-3">
                     <img
                       src={item.image}
@@ -750,7 +718,6 @@ export default function Home() {
                       </p>
                     </div>
                   </div>
-
                   <button
                     onClick={() => openModal(item)}
                     className="text-xs font-medium text-[#aa8453] hover:text-[#8a6d43] transition-colors underline-offset-4 mt-3 flex items-center gap-2 ml-auto hover:underline"
@@ -782,7 +749,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
       {/* Brand Logos - 1 at a time mobile, 4 at a time desktop */}
       <section className="py-8 sm:py-16 bg-[#faf8f5]">
         <div className="container-custom mb-5 sm:mb-10">
@@ -826,21 +792,18 @@ export default function Home() {
           </div>
         </div>
       </section>
-
       {/* Testimonial Modal */}
       <TestimonialModal
         testimonial={selectedTestimonial}
         isOpen={isModalOpen}
         onClose={closeModal}
       />
-
       {/* Offer Detail Modal */}
       <OfferModal
         offer={selectedOffer}
         isOpen={isOfferDetailOpen}
         onClose={closeOfferModal}
       />
-
       {/* News Detail Modal */}
       <NewsModal
         newsItem={selectedNews}
