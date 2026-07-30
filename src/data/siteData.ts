@@ -194,6 +194,62 @@ export const navItems = [
   { label: "Schedules", path: "/schedules" },
 ];
 
+export const navMobItems = [
+  { label: "Home", path: "/" },
+  {
+    label: "About",
+    path: "/about",
+    children: [
+      { label: "About Deal Forever", path: "/about" },
+      { label: "Our Team", path: "/team" },
+      { label: "What People Say", path: "/testimonials" },
+      { label: "Business Opportunity", path: "/business-opportunity" },
+      { label: "Success Stories", path: "/success-stories" },
+      { label: "Contact Us", path: "/contact" },
+    ],
+  },
+  // {
+  //   label: "Categories",
+  //   path: "/categories",
+  //   children: [
+  //     { label: "Health & Wellness", path: "/categories?cat=health" },
+  //     { label: "Personal Care", path: "/categories?cat=personal-care" },
+  //     { label: "Home Care", path: "/categories?cat=home-care" },
+  //     { label: "Digital Products", path: "/categories?cat=digital" },
+  //   ],
+  // },
+  // {
+  //   label: "Brand",
+  //   path: "/brands",
+  //   children: [
+  //     { label: "Assura", path: "/brands?brand=assura" },
+  //     { label: "Athulya", path: "/brands?brand=athulya" },
+  //     { label: "Orianna", path: "/brands?brand=orianna" },
+  //   ],
+  // },
+  { label: "Branches", path: "/branches" },
+  { label: "Offers", path: "/offers" },
+
+  {
+    label: "News & Media",
+    path: "/news",
+    children: [
+      { label: "News & Media", path: "/news" },
+      { label: "Photo Gallery", path: "/gallery" },
+      { label: "Video Gallery", path: "/video-gallery" },
+    ],
+  },
+  {
+    label: "Downloads",
+    path: "/downloads",
+    children: [
+      { label: "Downloads", path: "/downloads" },
+      { label: "Compliance Documents", path: "/compliance" },
+    ],
+  },
+  { label: "Schedules", path: "/schedules" },
+];
+
 export const policyLinks = [
   { label: "Buyback Policy", path: "/policy/buyback" },
   { label: "Cancellation Policy", path: "/policy/cancellation" },
@@ -202,7 +258,10 @@ export const policyLinks = [
   // { label: "Privacy Policy", path: "/policy/privacy" },
   { label: "Refund Policy", path: "/policy/refund" },
   { label: "Shipping Policy", path: "/policy/shipping" },
-  { label: "Terms & Conditions", path: "/policy/terms" },
+  // { label: "Terms & Conditions", path: "/policy/terms" },
+  { label: "Privacy", path: "/policy/privacy" },
+  { label: "Terms", path: "/policy/terms" },
+  { label: "Disclaimer", path: "/policy/disclaimer" },
   // { label: "Terms of Use", path: "/policy/terms-of-use" },
 ];
 
@@ -526,7 +585,7 @@ export const newsItems = [
     id: 1,
     title: "Deal Forever Expands to Karnataka",
     date: "2025-03-15",
-    from : "Admin",
+    from: "Admin",
     excerpt:
       "Deal Forever Enterprises announces its expansion into Karnataka with new branch offices in Bangalore.",
     description:
@@ -538,7 +597,7 @@ export const newsItems = [
     id: 2,
     title: "New Product Launch: Wellness Combo Pack",
     date: "2025-02-28",
-    from : "Admin",
+    from: "Admin",
     excerpt:
       "Introducing our comprehensive wellness combo pack designed for holistic health and vitality.",
     description:
@@ -550,7 +609,7 @@ export const newsItems = [
     id: 3,
     title: "Annual Distributor Meet 2025",
     date: "2025-01-20",
-    from : "Admin",
+    from: "Admin",
     excerpt:
       "Over 5000 distributors gathered at the annual meet to celebrate achievements and set new goals.",
     description:
@@ -562,7 +621,7 @@ export const newsItems = [
     id: 4,
     title: "Deal Forever Receives Industry Recognition",
     date: "2024-12-10",
-    from : "Admin",
+    from: "Admin",
     excerpt:
       "Recognized as one of the fastest-growing direct selling companies in India.",
     description:
@@ -732,7 +791,8 @@ export const galleryImages = [
     src: "https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=600",
     alt: "Team Meeting",
     title: "Strategic Team Meeting",
-    description: "Our visionary leaders come together in a focused and high-energy strategic meeting to align on quarterly goals, review network performance, and craft powerful action plans. These meetings are the backbone of our organization, ensuring every decision is purposeful and every leader is empowered with clarity. From business expansion strategies to distributor support systems, every topic is discussed with depth and dedication. It is in these rooms that the future of Deal Forever is shaped, one bold idea at a time.",
+    // description:
+    //   "Our visionary leaders come together in a focused and high-energy strategic meeting to align on quarterly goals, review network performance, and craft powerful action plans. These meetings are the backbone of our organization, ensuring every decision is purposeful and every leader is empowered with clarity. From business expansion strategies to distributor support systems, every topic is discussed with depth and dedication. It is in these rooms that the future of Deal Forever is shaped, one bold idea at a time.",
     subImages: [
       "https://images.pexels.com/photos/3183153/pexels-photo-3183153.jpeg?auto=compress&cs=tinysrgb&w=400",
       "https://images.pexels.com/photos/3183156/pexels-photo-3183156.jpeg?auto=compress&cs=tinysrgb&w=400",
@@ -742,9 +802,10 @@ export const galleryImages = [
   {
     id: 2,
     src: "https://images.pexels.com/photos/3183190/pexels-photo-3183190.jpeg?auto=compress&cs=tinysrgb&w=600",
-    alt: "Product Launch",
+    // alt: "Product Launch",
     title: "Grand Product Launch Event",
-    description: "A truly landmark moment in the Deal Forever journey as we unveiled our newest and most exciting range of products to a packed and enthusiastic audience of distributors, leaders, and partners from across the country. The atmosphere was electric, filled with anticipation, pride, and excitement. Each product was presented with passion, highlighting its unique benefits and the incredible opportunity it brings to every distributor. Events like these remind us why we do what we do — to bring quality, health, and prosperity to every home.",
+    // description:
+    //   "A truly landmark moment in the Deal Forever journey as we unveiled our newest and most exciting range of products to a packed and enthusiastic audience of distributors, leaders, and partners from across the country. The atmosphere was electric, filled with anticipation, pride, and excitement. Each product was presented with passion, highlighting its unique benefits and the incredible opportunity it brings to every distributor. Events like these remind us why we do what we do — to bring quality, health, and prosperity to every home.",
     subImages: [
       "https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&w=400",
       "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=400",
@@ -757,7 +818,8 @@ export const galleryImages = [
     src: "https://images.pexels.com/photos/3183170/pexels-photo-3183170.jpeg?auto=compress&cs=tinysrgb&w=600",
     alt: "Annual Meet",
     title: "Deal Forever Annual Convention",
-    description: "Thousands of passionate distributors and top-ranking leaders gathered under one magnificent roof for our flagship annual convention — a grand celebration of growth, unity, and a shared vision for an extraordinary future. The convention featured inspiring keynote sessions, live success stories, recognition ceremonies, and powerful training workshops. It was a moment for the entire Deal Forever family to reconnect, recharge, and recommit to their dreams. The energy, the laughter, the tears of joy — every moment was a testament to the incredible community we have built together.",
+    // description:
+    //   "Thousands of passionate distributors and top-ranking leaders gathered under one magnificent roof for our flagship annual convention — a grand celebration of growth, unity, and a shared vision for an extraordinary future. The convention featured inspiring keynote sessions, live success stories, recognition ceremonies, and powerful training workshops. It was a moment for the entire Deal Forever family to reconnect, recharge, and recommit to their dreams. The energy, the laughter, the tears of joy — every moment was a testament to the incredible community we have built together.",
     subImages: [
       "https://images.pexels.com/photos/3183175/pexels-photo-3183175.jpeg?auto=compress&cs=tinysrgb&w=400",
       "https://images.pexels.com/photos/3183183/pexels-photo-3183183.jpeg?auto=compress&cs=tinysrgb&w=400",
@@ -769,7 +831,8 @@ export const galleryImages = [
     src: "https://images.pexels.com/photos/3183132/pexels-photo-3183132.jpeg?auto=compress&cs=tinysrgb&w=600",
     alt: "Award Ceremony",
     title: "Excellence & Achievement Award Night",
-    description: "A glittering and emotionally charged evening dedicated entirely to honoring the champions of our network — those extraordinary individuals who went above and beyond every expectation. From rising stars making their mark to seasoned leaders who have built empires through sheer dedication, every award represented a story of sacrifice, resilience, and triumph. The night was filled with applause, pride, and inspiration as each achiever took the stage to celebrate their hard-earned success. At Deal Forever, we believe in recognizing greatness — because every milestone deserves to be celebrated with the honour it truly deserves.",
+    // description:
+    //   "A glittering and emotionally charged evening dedicated entirely to honoring the champions of our network — those extraordinary individuals who went above and beyond every expectation. From rising stars making their mark to seasoned leaders who have built empires through sheer dedication, every award represented a story of sacrifice, resilience, and triumph. The night was filled with applause, pride, and inspiration as each achiever took the stage to celebrate their hard-earned success. At Deal Forever, we believe in recognizing greatness — because every milestone deserves to be celebrated with the honour it truly deserves.",
     subImages: [
       "https://images.pexels.com/photos/3183140/pexels-photo-3183140.jpeg?auto=compress&cs=tinysrgb&w=400",
       "https://images.pexels.com/photos/3183143/pexels-photo-3183143.jpeg?auto=compress&cs=tinysrgb&w=400",
@@ -782,7 +845,8 @@ export const galleryImages = [
     src: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=600",
     alt: "Training Session",
     title: "Elite Business Training Program",
-    description: "An intensive, transformative, and deeply practical training program designed to equip our distributors with the most effective tools, cutting-edge skills, and in-depth product knowledge needed to build a thriving business. Led by experienced mentors and top-performing leaders, the sessions covered everything from prospecting and presentation techniques to leadership development and digital marketing strategies. Participants left feeling motivated, confident, and armed with a clear roadmap for success. At Deal Forever, we invest in our people — because when our distributors grow, the entire network rises to greater heights together.",
+    // description:
+    //   "An intensive, transformative, and deeply practical training program designed to equip our distributors with the most effective tools, cutting-edge skills, and in-depth product knowledge needed to build a thriving business. Led by experienced mentors and top-performing leaders, the sessions covered everything from prospecting and presentation techniques to leadership development and digital marketing strategies. Participants left feeling motivated, confident, and armed with a clear roadmap for success. At Deal Forever, we invest in our people — because when our distributors grow, the entire network rises to greater heights together.",
     subImages: [
       "https://images.pexels.com/photos/3184295/pexels-photo-3184295.jpeg?auto=compress&cs=tinysrgb&w=400",
       "https://images.pexels.com/photos/3184299/pexels-photo-3184299.jpeg?auto=compress&cs=tinysrgb&w=400",
@@ -794,7 +858,8 @@ export const galleryImages = [
     src: "https://images.pexels.com/photos/3184339/pexels-photo-3184339.jpeg?auto=compress&cs=tinysrgb&w=600",
     alt: "Team Building",
     title: "Power of Unity — Team Building Retreat",
-    description: "A refreshing, energizing, and deeply meaningful retreat that brought our network closer than ever before, fostering genuine trust, seamless teamwork, and the collaborative spirit that truly defines the Deal Forever family. Through engaging activities, open conversations, and shared experiences, team members strengthened their bonds and discovered new levels of synergy. The retreat reminded everyone that behind every successful business is a community of people who genuinely care for one another. When we lift each other up, there is no limit to how high we can go — and that is the Deal Forever way.",
+    // description:
+    //   "A refreshing, energizing, and deeply meaningful retreat that brought our network closer than ever before, fostering genuine trust, seamless teamwork, and the collaborative spirit that truly defines the Deal Forever family. Through engaging activities, open conversations, and shared experiences, team members strengthened their bonds and discovered new levels of synergy. The retreat reminded everyone that behind every successful business is a community of people who genuinely care for one another. When we lift each other up, there is no limit to how high we can go — and that is the Deal Forever way.",
     subImages: [
       "https://images.pexels.com/photos/3184344/pexels-photo-3184344.jpeg?auto=compress&cs=tinysrgb&w=400",
       "https://images.pexels.com/photos/3184348/pexels-photo-3184348.jpeg?auto=compress&cs=tinysrgb&w=400",
@@ -807,7 +872,8 @@ export const galleryImages = [
     src: "https://images.pexels.com/photos/3184405/pexels-photo-3184405.jpeg?auto=compress&cs=tinysrgb&w=600",
     alt: "Conference",
     title: "National Leadership Conference",
-    description: "A high-impact and intellectually stimulating national conference where seasoned industry experts, accomplished business leaders, and the brightest rising stars of our network came together to exchange transformative ideas, spark deep inspiration, and collectively shape the future of direct selling in India. Panel discussions, breakout sessions, and keynote addresses filled the day with wisdom and energy. Every attendee walked away with renewed purpose, expanded perspective, and powerful connections. This conference is a reminder that leadership is not a title — it is a commitment to constant growth, service, and the courage to lead by example.",
+    // description:
+    //   "A high-impact and intellectually stimulating national conference where seasoned industry experts, accomplished business leaders, and the brightest rising stars of our network came together to exchange transformative ideas, spark deep inspiration, and collectively shape the future of direct selling in India. Panel discussions, breakout sessions, and keynote addresses filled the day with wisdom and energy. Every attendee walked away with renewed purpose, expanded perspective, and powerful connections. This conference is a reminder that leadership is not a title — it is a commitment to constant growth, service, and the courage to lead by example.",
     subImages: [
       "https://images.pexels.com/photos/3184409/pexels-photo-3184409.jpeg?auto=compress&cs=tinysrgb&w=400",
       "https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=400",
@@ -819,7 +885,8 @@ export const galleryImages = [
     src: "https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=600",
     alt: "Celebration",
     title: "Milestone Celebration Gala",
-    description: "A joyful, vibrant, and truly unforgettable gala evening where the entire Deal Forever family came together to celebrate incredible milestones, honor remarkable achievements, and reflect on the beautiful journey we have shared. The night was filled with laughter, music, heartfelt speeches, and moments that will be cherished for years to come. Every milestone we celebrate is a reminder of the collective effort, belief, and passion that fuels this extraordinary network. As we look back with gratitude and pride, we also look ahead with excitement and unwavering confidence in the even brighter journey that lies before us.",
+    // description:
+    //   "A joyful, vibrant, and truly unforgettable gala evening where the entire Deal Forever family came together to celebrate incredible milestones, honor remarkable achievements, and reflect on the beautiful journey we have shared. The night was filled with laughter, music, heartfelt speeches, and moments that will be cherished for years to come. Every milestone we celebrate is a reminder of the collective effort, belief, and passion that fuels this extraordinary network. As we look back with gratitude and pride, we also look ahead with excitement and unwavering confidence in the even brighter journey that lies before us.",
     subImages: [
       "https://images.pexels.com/photos/3184422/pexels-photo-3184422.jpeg?auto=compress&cs=tinysrgb&w=400",
       "https://images.pexels.com/photos/3184432/pexels-photo-3184432.jpeg?auto=compress&cs=tinysrgb&w=400",
@@ -830,10 +897,30 @@ export const galleryImages = [
 ];
 
 export const videoItems = [
-  { id: 1, title: "Deal Forever - How to Book Hotel Rooms", youtubeId: "jGetqo_SC9U", category: "Hotel Booking" },
-  { id: 2, title: "Deal Forever - How to Buy our Products", youtubeId: "7jUDDWEcINo", category: "E-Commerce" },
-  { id: 3, title: "Deal Forever - How to Avail our Lessons", youtubeId: "i1BqRYMFS08", category: "E-Learning" },
-  { id: 4, title: "Deal Forever - Get Latest Updates", youtubeId: "yH7eDWTH5iM", category: "Updates" },
+  {
+    id: 1,
+    title: "Deal Forever - How to Book Hotel Rooms",
+    youtubeId: "jGetqo_SC9U",
+    category: "Hotel Booking",
+  },
+  {
+    id: 2,
+    title: "Deal Forever - How to Buy our Products",
+    youtubeId: "7jUDDWEcINo",
+    category: "E-Commerce",
+  },
+  {
+    id: 3,
+    title: "Deal Forever - How to Avail our Lessons",
+    youtubeId: "i1BqRYMFS08",
+    category: "E-Learning",
+  },
+  {
+    id: 4,
+    title: "Deal Forever - Get Latest Updates",
+    youtubeId: "yH7eDWTH5iM",
+    category: "Updates",
+  },
 ];
 
 export const offers = [
@@ -1023,7 +1110,7 @@ const BIZ_OPP_IMG = `${BIZ_IMG}BusinessOpportunity/`;
 
 export const businessOpportunityImages = {
   IMG: BIZ_IMG,
-  BIZ_IMG : BIZ_OPP_IMG,
+  BIZ_IMG: BIZ_OPP_IMG,
   SALES_IMG: `${BIZ_OPP_IMG}Sales.jpeg`,
   PULSE_CIRCLE_IMG: `${BIZ_OPP_IMG}pulse-circle.png`,
   TABLE1_IMG: `${BIZ_OPP_IMG}table1.jpeg`,

@@ -102,7 +102,11 @@ function ContainedImage({
 }
 
 // Floated image so text/bullets that run longer than the image wrap
-// around and below it instead of leaving empty space beside it
+// around and below it instead of leaving empty space beside it.
+// On mobile (below `sm`, where floats don't apply), the image normally
+// stacks at the very top. Pass `introContent` to instead have the image
+// appear after that intro block on mobile — desktop float behavior is
+// unaffected either way.
 function FloatWrapSection({
   image,
   alt,
@@ -110,6 +114,7 @@ function FloatWrapSection({
   title,
   children,
   float = "left",
+  introContent,
 }: {
   image: string;
   alt: string;
@@ -117,18 +122,29 @@ function FloatWrapSection({
   title: string;
   children: React.ReactNode;
   float?: "left" | "right";
+  introContent?: React.ReactNode;
 }) {
   const floatClass =
     float === "left" ? "sm:float-left sm:mr-6" : "sm:float-right sm:ml-6";
   return (
     <div>
-      <div className={`w-full sm:w-64 mb-3 ${floatClass}`}>
+      <div
+        className={`w-full sm:w-64 mb-3 ${floatClass} ${
+          introContent ? "hidden sm:block" : ""
+        }`}
+      >
         <ContainedImage src={image} alt={alt} size="sm" />
       </div>
       <div className="flex items-center gap-3 mb-2">
         <SectionIcon src={icon} />
-        <h3 className="font-bold text-[#191717]">{title}</h3>
+        <h3 className="font-bold text-[#191717] leading-tight">{title}</h3>
       </div>
+      {introContent}
+      {introContent && (
+        <div className="sm:hidden w-full mb-3">
+          <ContainedImage src={image} alt={alt} size="sm" />
+        </div>
+      )}
       {children}
       <div className="clear-both" />
     </div>
@@ -266,7 +282,7 @@ export default function BusinessOpportunity() {
           <div className="mb-6">
             <div className="flex flex-col items-center text-center mb-5">
               <p className="section-subtitle">How It Works</p>
-              <h3 className="section-title">4 Simple Steps To Start</h3>
+              <h2 className="section-title">4 Simple Steps To Start</h2>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
               {howItWorksSteps.map((s, i) => (
@@ -292,9 +308,9 @@ export default function BusinessOpportunity() {
           </div>
 
           {/* Benefits */}
-          <h3 className="text-center text-2xl font-bold text-[#191717] mb-5">
+          <h2 className="section-title text-center font-bold text-[#191717] mb-5">
             Your Benefits As A Partner With Deal Forever
-          </h3>
+          </h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {benefits.map((b, i) => (
               <div
@@ -325,6 +341,13 @@ export default function BusinessOpportunity() {
             <div>
               <p className="section-subtitle">Business Opportunities</p>
               <h2 className="section-title">An Unprecedented Opportunity</h2>
+              {/* Mobile-only: image placed right after the heading */}
+              <div className="lg:hidden mb-3">
+                <ContainedImage
+                  src={BUSINESS_OPPORTUNITY_IMG}
+                  alt="Deal Forever Business Opportunity"
+                />
+              </div>
               <p className="text-[#555] text-sm leading-relaxed mb-3">
                 Deal Forever introduces an unprecedented opportunity to showcase
                 unique products from various innovators on a single multilevel
@@ -370,51 +393,83 @@ export default function BusinessOpportunity() {
                 ))}
               </div>
             </div>
-            <ContainedImage
-              src={BUSINESS_OPPORTUNITY_IMG}
-              alt="Deal Forever Business Opportunity"
-            />
+            {/* Desktop-only: image stays in its own right-hand column */}
+            <div className="hidden lg:block">
+              <ContainedImage
+                src={BUSINESS_OPPORTUNITY_IMG}
+                alt="Deal Forever Business Opportunity"
+              />
+            </div>
           </div>
         </div>
       </section>
 
       {/* ── 3. COMPENSATION PLAN ────────────────────────────────── */}
       <>
+        {/* sustainable direct selling system with strong management team — full bleed, outside container */}
         <section className="section-padding bg-white">
           <div className="container-custom">
-            <div className="flex flex-col lg:flex-row items-center justify-between gap-5 mb-6">
-              <div className="w-full lg:w-1/2">
-                <p className="section-subtitle">Compensation Plan</p>
-                <h2 className="section-title mb-3">
-                  A Highly Simplified Dual Plan with Multiple Benefits to All
-                </h2>
-                <p className="text-[#666] leading-7 text-base">
-                  Deal Forever upholds an inspiring ideology of bringing
-                  happiness into the lives of billions through an exceptional
-                  range of high-quality life care products. Its unique
-                  compensation plan offers unlimited opportunities through an
-                  advanced consumer loyalty program. Join us to make a
-                  difference and grow together.
-                </p>
-              </div>
+            <div className="mb-6">
+              <p className="section-subtitle">Compensation Plan</p>
+              <h2 className="section-title mb-3">
+                A Highly Simplified Dual Plan with Multiple Benefits to All
+              </h2>
+              <p className="text-[#666] leading-7 text-base">
+                Deal Forever upholds an inspiring ideology of bringing happiness
+                into the lives of billions through an exceptional range of
+                high-quality life care products. Its unique compensation plan
+                offers unlimited opportunities through an advanced consumer
+                loyalty program. Join us to make a difference and grow together.
+              </p>
+            </div>
+
+            <div className="flex flex-col lg:flex-row items-start gap-8">
               <div className="w-full lg:w-1/2">
                 <ContainedImage
                   src={BUSINESS_PLAN_IMG}
                   alt="Compensation Plan"
                 />
               </div>
+
+              <div className="w-full lg:w-1/2">
+                <h3 className="text-xl font-bold text-[#aa8453] mb-4 tracking-wide">
+                  Income Highlights
+                </h3>
+                <div className="space-y-3">
+                  {incomeHighlights.map((h, i) => (
+                    <div
+                      key={i}
+                      className={`flex items-center gap-6 rounded-2xl p-6 ${
+                        i % 2 === 0 ? "bg-[#efe9e2]" : "bg-[#faf8f5]"
+                      }`}
+                    >
+                      <p className="text-5xl font-black text-[#aa8453] shrink-0 w-20">
+                        {h.num}
+                      </p>
+                      <div>
+                        <h4 className="text-[#191717] font-bold mb-1">
+                          {h.title}
+                        </h4>
+                        <p className="text-[#666] text-sm leading-6">
+                          {h.desc}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </section>
 
-        {/* sustainable direct selling system with strong management team — full bleed, outside container */}
-        <section className="py-8 bg-[#191717] relative overflow-hidden">
+        {/* Sustainable Direct Selling System — full-bleed, top-level section (same pattern as Financial Freedom) */}
+        <section className="py-10 md:py-20 bg-[#191717] relative overflow-hidden">
           <div className="absolute inset-0 bg-[url('https://images.pexels.com/photos/3184405/pexels-photo-3184405.jpeg?auto=compress&cs=tinysrgb&w=1920')] bg-cover bg-center opacity-10" />
           <div className="relative container-custom text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-5">
+            <h2 className="text-xl sm:text-2xl md:text-4xl font-bold text-white mb-5 sm:mb-8">
               Sustainable Direct Selling System With Strong Management Team
             </h2>
-            <div className="grid md:grid-cols-4 gap-5 max-w-4xl mx-auto">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6 max-w-4xl mx-auto">
               {[
                 "ISO certified delivery system",
                 "Full scale business automation",
@@ -423,19 +478,22 @@ export default function BusinessOpportunity() {
               ].map((item, i) => (
                 <div
                   key={i}
-                  className="flex items-center gap-3 text-white/80 bg-white/5 rounded-xl p-4"
+                  className="flex items-center gap-2 sm:gap-3 text-white/80 bg-white/5 rounded-xl p-3 sm:p-4"
                 >
-                  <CheckCircle2 size={20} className="text-[#aa8453] shrink-0" />
-                  <span className="text-sm">{item}</span>
+                  <CheckCircle2
+                    size={18}
+                    className="text-[#aa8453] shrink-0 sm:w-5 sm:h-5"
+                  />
+                  <span className="text-xs sm:text-sm">{item}</span>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* <section className="section-padding bg-white">
+        <section className="section-padding bg-white">
           <div className="container-custom">
-            <div className="mb-8">
+            {/* <div className="mb-8">
               <h3 className="text-2xl font-bold text-center mb-6">
                 Income Highlights
               </h3>
@@ -455,9 +513,9 @@ export default function BusinessOpportunity() {
                   ))}
                 </div>
               </div>
-            </div>
+            </div> */}
 
-            <div className="mb-8">
+            {/* <div className="mb-8">
               <h3 className="text-3xl font-bold text-center text-[#191717] mb-6">
                 Why Our Plan Stands Out
               </h3>
@@ -490,7 +548,7 @@ export default function BusinessOpportunity() {
                   );
                 })}
               </div>
-            </div>
+            </div> */}
 
             <div className="flex items-center gap-4 mb-6">
               <div className="flex-1 h-px bg-gray-200" />
@@ -523,7 +581,7 @@ export default function BusinessOpportunity() {
               ))}
             </div>
           </div>
-        </section> */}
+        </section>
       </>
 
       {/* ── 4. FINANCIAL FREEDOM ────────────────────────────────── */}
@@ -533,7 +591,7 @@ export default function BusinessOpportunity() {
             <p className="text-[#aa8453] font-semibold text-xs tracking-widest uppercase mb-2">
               Financial Freedom
             </p>
-            <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
+            <h2 className="section-title font-bold text-white mb-2">
               12 Income Streams, One Business
             </h2>
             <p className="text-white/50 text-sm max-w-2xl mx-auto">
@@ -580,7 +638,7 @@ export default function BusinessOpportunity() {
                 onClick={closeFinancialModal}
               />
               {/* Modal */}
-              <div className="relative bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden animate-scale-in">
+              <div className="relative bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] min-h-[60vh] flex flex-col overflow-hidden animate-scale-in">
                 {/* Close Button */}
                 <button
                   onClick={closeFinancialModal}
@@ -628,16 +686,19 @@ export default function BusinessOpportunity() {
       <section className="section-padding bg-white">
         <div className="container-custom w-full mx-auto">
           <div className="grid lg:grid-cols-2 gap-5 items-center">
-            <ContainedImage
-              src={WARNING_IMG}
-              alt="Stay informed and protected"
-            />
+            {/* Desktop-only: image stays in its own left-hand column */}
+            <div className="hidden lg:block">
+              <ContainedImage
+                src={WARNING_IMG}
+                alt="Stay informed and protected"
+              />
+            </div>
             {/* Right Content */}
             <div>
               <span className="inline-flex items-center gap-1.5 bg-red-50 text-red-600 text-xs font-bold px-3 py-1.5 rounded-full mb-3">
                 ⚠ WARNING
               </span>
-              <h2 className="text-2xl md:text-3xl font-bold text-[#191717] mb-3">
+              <h2 className="section-title font-bold text-[#191717] mb-3">
                 Stay Informed, Stay Protected
               </h2>
               <p className="text-[#888] leading-7 mb-3">
@@ -646,6 +707,13 @@ export default function BusinessOpportunity() {
                 marketing opportunity, be aware of the following legal
                 protections:
               </p>
+              {/* Mobile-only: image placed right after this paragraph */}
+              <div className="lg:hidden mb-3">
+                <ContainedImage
+                  src={WARNING_IMG}
+                  alt="Stay informed and protected"
+                />
+              </div>
               <div className="space-y-2">
                 <div className="flex gap-3 bg-red-50 rounded-xl p-4">
                   <span className="font-bold text-red-500 shrink-0">1.</span>
@@ -806,22 +874,24 @@ export default function BusinessOpportunity() {
             </p>
           </div>
           <div className="space-y-6">
-            {/* 7a. Product Distribution System — image floats, text wraps */}
+            {/* 7a. Product Distribution System — image after intro paragraph on mobile, floats on desktop */}
             <FloatWrapSection
               image={BUSINESS_FLOW_IMG}
               alt="Product Distribution System"
               icon="icons8-tesseract-64 .png"
               title="Product Distribution System"
               float="right"
+              introContent={
+                <p className="text-sm text-[#555] leading-relaxed mb-3">
+                  Deal Forever blends a nationwide physical retail presence with
+                  a powerful e-commerce backbone, so every product reaches every
+                  distributor and customer — wherever they are. Orders placed
+                  through the app are fulfilled via our centrally managed
+                  warehouse and last-mile delivery partners, ensuring speed and
+                  reliability.
+                </p>
+              }
             >
-              <p className="text-sm text-[#555] leading-relaxed mb-3">
-                Deal Forever blends a nationwide physical retail presence with a
-                powerful e-commerce backbone, so every product reaches every
-                distributor and customer — wherever they are. Orders placed
-                through the app are fulfilled via our centrally managed
-                warehouse and last-mile delivery partners, ensuring speed and
-                reliability.
-              </p>
               <div className="grid grid-cols-3 gap-3 mb-3">
                 {distributionStats.map((d, i) => (
                   <div
@@ -844,54 +914,60 @@ export default function BusinessOpportunity() {
               </p>
             </FloatWrapSection>
 
-            {/* 7b. Advantages of Physical Store — image floats, bullets wrap */}
+            {/* 7b. Advantages of Physical Store — image after intro paragraph on mobile, floats on desktop */}
             <FloatWrapSection
               image={BUILDING_IMG}
               alt="Physical Store"
               icon="icons8-store-50.png"
               title="Advantages of Physical Stores"
               float="left"
+              introContent={
+                <p className="text-sm text-[#555] leading-relaxed mb-2">
+                  Deal Forever's branded retail locations give distributors a
+                  credible, professional space to showcase products and attract
+                  walk-in customers — building trust that translates to repeat
+                  business and stronger referrals.
+                </p>
+              }
             >
-              <p className="text-sm text-[#555] leading-relaxed mb-2">
-                Deal Forever's branded retail locations give distributors a
-                credible, professional space to showcase products and attract
-                walk-in customers — building trust that translates to repeat
-                business and stronger referrals.
-              </p>
               <BulletList items={physicalStoreBullets} />
             </FloatWrapSection>
 
-            {/* 7c. Benefits of E-Commerce — image floats, bullets wrap */}
+            {/* 7c. Benefits of E-Commerce — image after intro paragraph on mobile, floats on desktop */}
             <FloatWrapSection
               image={ECART_IMG}
               alt="E-Commerce Benefits"
               icon="icons8-shopping-cart-100.png"
               title="Benefits of E-Commerce"
               float="right"
+              introContent={
+                <p className="text-sm text-[#555] leading-relaxed mb-2">
+                  The Deal Forever e-commerce platform removes every
+                  geographical and time barrier from your business. Sell to
+                  customers across India around the clock, and let technology
+                  handle the heavy lifting of order processing and delivery.
+                </p>
+              }
             >
-              <p className="text-sm text-[#555] leading-relaxed mb-2">
-                The Deal Forever e-commerce platform removes every geographical
-                and time barrier from your business. Sell to customers across
-                India around the clock, and let technology handle the heavy
-                lifting of order processing and delivery.
-              </p>
               <BulletList items={ecommerceBullets} />
             </FloatWrapSection>
 
-            {/* 7d. Benefits of Direct Selling — image floats, bullets wrap */}
+            {/* 7d. Benefits of Direct Selling — image after intro paragraph on mobile, floats on desktop */}
             <FloatWrapSection
               image={`${IMG}direct-selling.png`}
               alt="Direct Selling"
               icon="icons8-cart-96.png"
               title="Benefits of Direct Selling"
               float="left"
+              introContent={
+                <p className="text-sm text-[#555] leading-relaxed mb-2">
+                  Direct selling is one of the world's oldest and most proven
+                  business models — and Deal Forever has built a modern,
+                  technology-enabled version of it that combines personal
+                  relationships with the scale of a nationwide network.
+                </p>
+              }
             >
-              <p className="text-sm text-[#555] leading-relaxed mb-2">
-                Direct selling is one of the world's oldest and most proven
-                business models — and Deal Forever has built a modern,
-                technology-enabled version of it that combines personal
-                relationships with the scale of a nationwide network.
-              </p>
               <BulletList items={directSellingBullets} />
             </FloatWrapSection>
 
@@ -899,7 +975,9 @@ export default function BusinessOpportunity() {
             <div>
               <div className="flex items-center gap-3 mb-2">
                 <SectionIcon src="icons8-list-64.png" />
-                <h3 className="font-bold text-[#191717]">Glossary Of Terms</h3>
+                <h3 className="font-bold text-[#191717] leading-tight">
+                  Glossary Of Terms
+                </h3>
               </div>
               <p className="text-sm text-[#555] leading-relaxed mb-3">
                 Familiarise yourself with these core terms before you begin —
@@ -952,7 +1030,7 @@ export default function BusinessOpportunity() {
         <div className="container-custom">
           <div className="flex items-center gap-3 mb-3">
             <SectionIcon src="icons8-star-50.png" />
-            <h2 className="text-xl font-bold text-[#191717]">
+            <h2 className="section-title font-bold text-[#191717] leading-tight">
               Rank Achievement
             </h2>
           </div>
@@ -1018,7 +1096,7 @@ export default function BusinessOpportunity() {
           <div className="mb-5">
             <div className="flex items-center gap-3 mb-3">
               <SectionIcon src="icons8-protect-64.png" />
-              <h2 className="text-xl font-bold text-[#191717]">
+              <h2 className="section-title font-bold text-[#191717] leading-tight">
                 Code of Ethics
               </h2>
             </div>
@@ -1065,7 +1143,7 @@ export default function BusinessOpportunity() {
             </p>
           </div>
           <div className="space-y-6">
-            {/* 10a. Digital — text left, image right */}
+            {/* 10a. Digital — text left, image right on desktop; image after the paragraph on mobile */}
             <div className="grid lg:grid-cols-2 gap-5 items-center">
               <div>
                 <div className="flex items-center gap-3 mb-2">
@@ -1086,6 +1164,12 @@ export default function BusinessOpportunity() {
                   </a>{" "}
                   to place your order.
                 </p>
+                <div className="lg:hidden mb-3">
+                  <ContainedImage
+                    src={`${IMG}digital.png`}
+                    alt="Digital Access"
+                  />
+                </div>
                 <div className="grid grid-cols-2 gap-3">
                   {[
                     {
@@ -1117,15 +1201,22 @@ export default function BusinessOpportunity() {
                   ))}
                 </div>
               </div>
-              <ContainedImage src={`${IMG}digital.png`} alt="Digital Access" />
+              <div className="hidden lg:block">
+                <ContainedImage
+                  src={`${IMG}digital.png`}
+                  alt="Digital Access"
+                />
+              </div>
             </div>
 
-            {/* 10b. Learning — image left, text right */}
+            {/* 10b. Learning — image left, text right on desktop; image after the paragraph on mobile */}
             <div className="grid lg:grid-cols-2 gap-5 items-center">
-              <ContainedImage
-                src={`${IMG}learning.png`}
-                alt="Learning and Development"
-              />
+              <div className="hidden lg:block">
+                <ContainedImage
+                  src={`${IMG}learning.png`}
+                  alt="Learning and Development"
+                />
+              </div>
               <div>
                 <div className="flex items-center gap-3 mb-2">
                   <SectionIcon src="icons8-learning-100.png" />
@@ -1145,6 +1236,12 @@ export default function BusinessOpportunity() {
                   </a>{" "}
                   for the full curriculum.
                 </p>
+                <div className="lg:hidden mb-3">
+                  <ContainedImage
+                    src={`${IMG}learning.png`}
+                    alt="Learning and Development"
+                  />
+                </div>
                 <ul className="space-y-2">
                   {[
                     "Onboarding modules for brand-new distributors",
@@ -1165,7 +1262,7 @@ export default function BusinessOpportunity() {
               </div>
             </div>
 
-            {/* 10c. Social Media — text left, image right */}
+            {/* 10c. Social Media — text left, image right on desktop; image after the paragraph on mobile */}
             <div className="grid lg:grid-cols-2 gap-5 items-center">
               <div>
                 <div className="flex items-center gap-3 mb-2">
@@ -1180,6 +1277,9 @@ export default function BusinessOpportunity() {
                   training, pre-written post templates, and access to approved
                   brand creatives.
                 </p>
+                <div className="lg:hidden mb-3">
+                  <ContainedImage src={MEDIA_IMG} alt="Media Kit" size="sm" />
+                </div>
                 <div className="flex flex-wrap gap-2">
                   {[
                     "Instagram",
@@ -1197,19 +1297,22 @@ export default function BusinessOpportunity() {
                   ))}
                 </div>
               </div>
-             
-                {/* <ContainedImage
+
+              {/* <ContainedImage
                   src={`${IMG}socialmedia.png`}
                   alt="Social Media Support"
                   size="sm"
                 /> */}
+              <div className="hidden lg:block">
                 <ContainedImage src={MEDIA_IMG} alt="Media Kit" size="sm" />
-              
+              </div>
             </div>
 
-            {/* 10d. Contact — image left, text right */}
+            {/* 10d. Contact — image left, text right on desktop; image after the paragraph on mobile */}
             <div className="grid lg:grid-cols-2 gap-5 items-center">
-              <ContainedImage src={`${IMG}contactus.png`} alt="Contact Us" />
+              <div className="hidden lg:block">
+                <ContainedImage src={`${IMG}contactus.png`} alt="Contact Us" />
+              </div>
               <div>
                 <div className="flex items-center gap-3 mb-2">
                   <SectionIcon src="icons8-contact-us-96.png" />
@@ -1222,6 +1325,12 @@ export default function BusinessOpportunity() {
                   business plan queries, or any technical questions about your
                   distributor account.
                 </p>
+                <div className="lg:hidden mb-3">
+                  <ContainedImage
+                    src={`${IMG}contactus.png`}
+                    alt="Contact Us"
+                  />
+                </div>
                 <div className="space-y-2">
                   {[
                     { label: "Phone", value: "+91 9995320886 / +91 995320776" },
@@ -1267,7 +1376,7 @@ export default function BusinessOpportunity() {
               </div>
             </div>
 
-            {/* 10e. Supply Chain — text left, image right */}
+            {/* 10e. Supply Chain — text left, image right on desktop; image after the paragraph on mobile */}
             <div className="grid lg:grid-cols-2 gap-5 items-center">
               <div>
                 <div className="flex items-center gap-3 mb-2">
@@ -1281,6 +1390,12 @@ export default function BusinessOpportunity() {
                   to over 10,000 pin codes, accessing Deal Forever products is
                   never a barrier — for you or your customers.
                 </p>
+                <div className="lg:hidden mb-3">
+                  <ContainedImage
+                    src={`${IMG}supplychain.png`}
+                    alt="Supply Chain"
+                  />
+                </div>
                 <div className="grid grid-cols-3 gap-3">
                   {[
                     { v: "10,000+", l: "Delivery pin codes" },
@@ -1297,10 +1412,12 @@ export default function BusinessOpportunity() {
                   ))}
                 </div>
               </div>
-              <ContainedImage
-                src={`${IMG}supplychain.png`}
-                alt="Supply Chain"
-              />
+              <div className="hidden lg:block">
+                <ContainedImage
+                  src={`${IMG}supplychain.png`}
+                  alt="Supply Chain"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -1315,7 +1432,7 @@ export default function BusinessOpportunity() {
                 PULSE
               </span>
               <div className="hidden sm:block w-px h-10 md:h-12 bg-gray-300" />
-              <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-[#191717] text-center sm:text-left leading-snug">
+              <h2 className="section-title font-bold text-[#191717] text-center sm:text-left leading-snug">
                 An <span className="text-[#aa8453]">Approach</span> To
                 Successful{" "}
                 <span className="text-[#aa8453]">Entrepreneurship</span>
@@ -1340,6 +1457,7 @@ export default function BusinessOpportunity() {
               >
                 Register Free Today
               </a>
+
               <a
                 href="mailto:info@mydealforever.com"
                 className="bg-white border border-[#aa8453] text-[#aa8453] text-sm font-bold px-8 py-3 rounded-lg hover:bg-[#faf8f5] transition-colors"

@@ -189,9 +189,10 @@ export default function About() {
       {/* Our Core Values - 3 at a time horizontal scroll, like Deal Forever Promises */}
       <section className="py-8 md:py-12 bg-white">
         <div className="container-custom">
-          <div className="flex items-center justify-between mb-5 md:mb-8">
-            <h2 className="section-title">Our Core Values</h2>
-            <div className="hidden sm:flex gap-2">
+          <div className="relative flex items-center justify-center mb-5 md:mb-8">
+            <h2 className="section-title text-center">Our Core Values</h2>
+
+            <div className="hidden sm:flex gap-2 absolute right-0">
               <button
                 onClick={() => scrollCoreValues("left")}
                 aria-label="Scroll left"
@@ -199,6 +200,7 @@ export default function About() {
               >
                 <ChevronLeft size={18} />
               </button>
+
               <button
                 onClick={() => scrollCoreValues("right")}
                 aria-label="Scroll right"
@@ -300,8 +302,8 @@ export default function About() {
               We firmly believe that everyone deserves the opportunity to lead a
               fulfilling life. At our company, we are dedicated to your success,
               and we are committed to going the extra mile to support you on
-              your journey. Your success is our top priority, and we are here
-              to provide unwavering support as you strive for greatness.
+              your journey. Your success is our top priority, and we are here to
+              provide unwavering support as you strive for greatness.
             </p>
 
             <p>
@@ -328,7 +330,7 @@ export default function About() {
       <section className="py-6 sm:py-10 bg-[#faf8f5]">
         <div className="container-custom">
           <div className="text-center">
-            <h2 className="text-lg sm:text-2xl md:text-3xl font-bold text-[#191717] whitespace-nowrap">
+            <h2 className="section-title font-bold text-[#191717] whitespace-nowrap">
               Our Journey Will Continue.
             </h2>
           </div>

@@ -1,52 +1,85 @@
-import { useState } from 'react';
-import { Search } from 'lucide-react';
-import PageBanner from '../components/PageBanner';
-import { products } from '../data/siteData';
+import { useState } from "react";
+import { Search } from "lucide-react";
+import PageBanner from "../components/PageBanner";
+import { products, siteConfig } from "../data/siteData";
 
-const categories = ['All', ...new Set(products.map((p) => p.category))];
-// const brands = ['All', ...new Set(products.map((p) => p.brand))];
+const brandMeta: Record<string, { title: string; subtitle: string }> = {
+  assura: {
+    title: "Assura",
+    subtitle:
+      "Explore the complete Assura range — health, wellness, and digital products built for everyday living.",
+  },
+  athulya: {
+    title: "Athulya",
+    subtitle:
+      "Discover Athulya's personal and home care essentials, crafted with natural, gentle ingredients.",
+  },
+  orianna: {
+    title: "Orianna",
+    subtitle:
+      "Shop Orianna's premium personal care and wellness products for a refined everyday routine.",
+  },
+};
+
+const brandTabs = [
+  { label: "All", slug: "" },
+  ...siteConfig.brands.map((brand) => ({
+    label: brand,
+    slug: brand.toLowerCase(),
+  })),
+];
 
 export default function Brands() {
-  const [activeCategory, setActiveCategory] = useState('All');
-  // const [activeBrand, setActiveBrand] = useState('All');
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
+  const [activeBrand, setActiveBrand] = useState("");
+
+  const meta = brandMeta[activeBrand] ?? {
+    title: "All Brands",
+    subtitle: "Explore our complete range of products across every brand",
+  };
 
   const filtered = products.filter((p) => {
-    const matchCat = activeCategory === 'All' || p.category === activeCategory;
-    // const matchBrand = activeBrand === 'All' || p.brand === activeBrand;
+    const productSlug = p.brand?.toLowerCase();
+    const matchBrand = activeBrand === "" || productSlug === activeBrand;
     const matchSearch = p.name.toLowerCase().includes(search.toLowerCase());
-    return matchCat && matchSearch;
+    return matchBrand && matchSearch;
   });
 
   return (
     <div>
       <PageBanner
-        title="Our Brands"
-        subtitle="Discover quality products from Deal Forever"
-        breadcrumbs={[{ label: 'Brands' }]}
+        title={meta.title}
+        subtitle={meta.subtitle}
+        breadcrumbs={[{ label: "Brands", path: "/brands" }, { label: meta.title }]}
       />
 
       <section className="section-padding bg-white">
         <div className="container-custom">
           {/* Filters */}
-          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 md:gap-4 mb-6 md:mb-8">
-            <div className="flex flex-nowrap md:flex-wrap gap-2 overflow-x-auto w-full md:w-auto pb-1 md:pb-0 -mx-1 px-1 md:mx-0 md:px-0 scrollbar-hide">
-              {categories.map((cat) => (
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-8">
+            {/* Horizontal scrollable filter tabs on mobile, with "All" pinned while scrolling */}
+            <div className="flex gap-3 overflow-x-auto pb-1 w-full md:w-auto md:flex-wrap md:overflow-visible [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              {brandTabs.map((tab, idx) => (
                 <button
-                  key={cat}
-                  onClick={() => setActiveCategory(cat)}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all whitespace-nowrap flex-shrink-0 ${
-                    activeCategory === cat
-                      ? 'bg-[#aa8453] text-white'
-                      : 'bg-[#faf8f5] text-[#555] hover:bg-[#aa8453]/10'
+                  key={tab.label}
+                  onClick={() => setActiveBrand(tab.slug)}
+                  className={`px-5 py-2 rounded-full text-sm font-semibold transition-colors whitespace-nowrap flex-shrink-0 ${
+                    idx === 0 ? "sticky left-0 z-10 md:static" : ""
+                  } ${
+                    activeBrand === tab.slug
+                      ? "bg-[#aa8453] text-white"
+                      : "bg-[#faf8f5] text-[#555] hover:bg-[#f0e9df]"
                   }`}
                 >
-                  {cat}
+                  {tab.label}
                 </button>
               ))}
             </div>
             <div className="relative w-full md:w-auto">
-              <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#888]" />
+              <Search
+                size={16}
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-[#888]"
+              />
               <input
                 type="text"
                 placeholder="Search products..."
@@ -57,56 +90,44 @@ export default function Brands() {
             </div>
           </div>
 
-          {/* Brand Filter */}
-          {/* <div className="flex flex-wrap gap-2 mb-8">
-            <span className="text-sm font-medium text-[#555] mr-2">Brand:</span>
-            {brands.map((brand) => (
-              <button
-                key={brand}
-                onClick={() => setActiveBrand(brand)}
-                className={`px-3 py-1 rounded-full text-xs font-medium transition-all ${
-                  activeBrand === brand
-                    ? 'bg-[#191717] text-white'
-                    : 'bg-gray-100 text-[#555] hover:bg-gray-200'
-                }`}
-              >
-                {brand}
-              </button>
-            ))}
-          </div> */}
-
           {/* Products Grid with Flip Cards */}
-          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6">
             {filtered.map((product) => (
-              <div key={product.id} className="flip-card h-[260px] sm:h-[400px] md:h-[440px]">
+              <div key={product.id} className="flip-card h-[440px] sm:h-[520px]">
                 <div className="flip-card-inner relative w-full h-full">
                   {/* Front */}
                   <div className="flip-card-front absolute inset-0 bg-white rounded-xl shadow-md overflow-hidden">
-                    <img src={product.image} alt={product.name} className="w-full h-28 sm:h-48 md:h-[300px] object-cover" />
-                    <div className="p-2.5 sm:p-4 flex flex-col gap-0.5 sm:gap-1">
-                      {/* <p className="text-xs text-[#aa8453] font-semibold">{product.brand}</p> */}
-                      <h3 className="font-semibold text-[#aa8453] text-xs sm:text-sm line-clamp-2">{product.name}</h3>
-                      <p className="text-[10px] sm:text-xs text-[#888]">{product.category}</p>
-                      <div className="flex-col items-center justify-between mt-1 sm:mt-2">
-                        <p className="text-xs sm:text-sm font-semibold text-[#191717] leading-tight">MRP ₹ {product.price}.00 incl. of all taxes</p>
-                        <p className="text-[10px] sm:text-xs text-[#888] bg-gray-100 px-2 py-0.5 rounded-full w-fit mt-1">Net Content : {product.netContent}</p>
+                    <div className="w-full h-56 sm:h-80 md:h-[380px] overflow-hidden">
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="w-full h-full object-cover object-center"
+                      />
+                    </div>
+                    <div className="p-3 sm:p-4 pt-6 sm:pt-8 flex flex-col gap-1">
+                      <h3 className="font-semibold text-[#aa8453] text-sm line-clamp-2">
+                        {product.name}
+                      </h3>
+                      <p className="text-xs text-[#888]">{product.category}</p>
+                      <div className="flex-col items-center justify-between mt-2">
+                        <p className="text-sm font-semibold text-[#191717]">
+                          MRP ₹ {product.price}.00 incl. of all taxes
+                        </p>
+                        <p className="text-xs text-[#888] bg-gray-100 px-2 py-0.5 rounded-full w-fit">
+                          Net Content : {product.netContent}
+                        </p>
                       </div>
                     </div>
                   </div>
                   {/* Back */}
-                  <div className="flip-card-back absolute inset-0 bg-[#aa8453] rounded-xl shadow-md p-4 sm:p-6 flex flex-col text-white">
-                    <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider mb-1 sm:mb-2 text-white/70">{product.brand}</p>
-                    <h3 className="font-bold text-sm sm:text-lg mb-2 sm:mb-3">{product.name}</h3>
-                    <p className="text-xs sm:text-sm text-white/80 mb-4 leading-relaxed">{product.description}</p>
-                    {/* <div className="flex items-center justify-between mt-auto">
-                      <div>
-                        <p className="text-xs text-white/60">BV: {product.bv}</p>
-                        <p className="text-lg font-bold">Rs. {product.price}</p>
-                      </div>
-                      <button className="bg-white text-[#aa8453] font-semibold text-sm px-4 py-2 rounded-lg hover:bg-white/90 transition-colors">
-                        View Details
-                      </button>
-                    </div> */}
+                  <div className="flip-card-back absolute inset-0 bg-[#aa8453] rounded-xl shadow-md p-6 flex flex-col text-white">
+                    <p className="text-xs font-semibold uppercase tracking-wider mb-2 text-white/70">
+                      {product.brand}
+                    </p>
+                    <h3 className="font-bold text-lg mb-3">{product.name}</h3>
+                    <p className="text-sm text-white/80 mb-4 leading-relaxed">
+                      {product.description}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -115,7 +136,9 @@ export default function Brands() {
 
           {filtered.length === 0 && (
             <div className="text-center py-16">
-              <p className="text-[#888] text-lg">No products found matching your criteria.</p>
+              <p className="text-[#888] text-lg">
+                No products found matching your criteria.
+              </p>
             </div>
           )}
         </div>

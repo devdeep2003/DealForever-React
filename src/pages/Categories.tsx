@@ -48,7 +48,7 @@ export default function Categories() {
             {categories.map((cat, i) => (
               <div
                 key={i}
-                className="group relative rounded-2xl overflow-hidden shadow-lg card-hover h-[300px]"
+                className="group relative rounded-2xl overflow-hidden shadow-lg card-hover h-[360px] sm:h-[320px] md:h-[300px]"
               >
                 <img
                   src={cat.image}
@@ -56,16 +56,16 @@ export default function Categories() {
                   className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#191717] via-[#191717]/60 to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-6">
+                <div className="absolute bottom-0 left-0 right-0 p-6 pt-12 sm:pt-10 md:pt-6 flex flex-col justify-end min-h-[210px] sm:min-h-[190px] md:min-h-0">
                   <div
-                    className="inline-block px-3 py-1 rounded-full text-xs font-bold text-white mb-3"
+                    className="inline-block px-3 py-1 rounded-full text-xs font-bold text-white mb-3 w-fit"
                     style={{ backgroundColor: cat.color }}
                   >
                     {cat.count} Products
                   </div>
                   <h3 className="text-2xl font-bold text-white mb-2">{cat.name}</h3>
                   <p className="text-white/70 text-sm mb-4 line-clamp-2">{cat.description}</p>
-                  <div className="flex items-center justify-end">
+                  <div className="flex items-center justify-end mt-auto">
                     <Link
                       to={`/categories/${cat.name.toLowerCase().replace(/\s+/g, '-')}`}
                       className="inline-flex items-center gap-2 text-[#aa8453] font-semibold text-sm hover:underline"

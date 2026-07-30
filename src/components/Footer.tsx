@@ -182,7 +182,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  to="/business-opportunity"
+                  to="/success-stories"
                   className="text-sm text-white/60 hover:text-[#aa8453] transition-colors"
                 >
                   Success Stories
@@ -311,7 +311,7 @@ export default function Footer() {
           </div>
 
           {/* Stay In Touch */}
-          <div className="lg:col-span-1 py-4 md:py-0">
+          <div className="lg:col-span-1 md:py-0">
             <h4 className="text-sm font-semibold uppercase tracking-wider text-[#aa8453] mb-3 md:mb-4">
               Stay In Touch
             </h4>
@@ -371,7 +371,7 @@ export default function Footer() {
             </div>
             <p className="text-xs text-white/40">{siteConfig.copyright}</p>
           </div>
-          <div className="flex items-center flex-wrap justify-center gap-4">
+          {/* <div className="flex items-center flex-wrap justify-center gap-4">
             <Link
               to="/policy/privacy"
               className="text-xs text-white/40 hover:text-[#aa8453] transition-colors"
@@ -390,7 +390,7 @@ export default function Footer() {
             >
               Disclaimer
             </Link>
-          </div>
+          </div> */}
 
           {/* <div>
             <img

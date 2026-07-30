@@ -771,7 +771,7 @@ export default function Home() {
                   <img
                     src={brand.logo}
                     alt={brand.name}
-                    className="max-w-[80%] max-h-[60%] object-contain"
+                    className="max-w-[50%] max-h-[60%] object-contain"
                   />
                 ) : (
                   <span className="text-xs text-[#aa8453] font-semibold tracking-wide opacity-40">

@@ -71,22 +71,22 @@ export default function Gallery() {
       {/* Lightbox */}
       {selectedItem && (
         <div
-          className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center p-4"
+          className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center p-4 sm:p-6"
           onClick={() => setSelectedItem(null)}
         >
           <button
-            className="absolute top-4 right-4 text-white/80 hover:text-white transition-colors"
+            className="absolute top-4 right-4 z-[110] text-white/80 hover:text-white transition-colors bg-[#aa8453] rounded-xl"
             onClick={() => setSelectedItem(null)}
           >
             <X size={32} />
           </button>
 
           <div
-            className="flex flex-col max-w-4xl w-full"
+            className="flex flex-col max-w-4xl w-full max-h-[90vh] overflow-y-auto rounded-2xl scrollbar-hide"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Main Image Carousel */}
-            <div className="relative h-[55vh] rounded-2xl overflow-hidden group/carousel">
+            <div className="relative h-[40vh] sm:h-[55vh] rounded-2xl overflow-hidden group/carousel flex-shrink-0">
               {selectedItem.subImages.map((src, i) => (
                 <img
                   key={i}
@@ -144,14 +144,14 @@ export default function Gallery() {
             </div>
 
             {/* Title & Description */}
-            <div className="mt-5 px-1 border-l-4 border-[#aa8453] pl-4">
+            {/* <div className="mt-5 px-1 pb-4 border-l-4 border-[#aa8453] pl-4">
               <h3 className="text-white text-xl font-bold mb-2">
                 {selectedItem.title}
               </h3>
               <p className="text-white/60 text-sm leading-relaxed text-justify">
                 {selectedItem.description}
               </p>
-            </div>
+            </div> */}
           </div>
         </div>
       )}

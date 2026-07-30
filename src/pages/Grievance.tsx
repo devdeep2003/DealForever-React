@@ -204,6 +204,11 @@ export default function Grievance() {
                 <p className="text-white/80 text-xs sm:text-sm break-all">
                   grievanceredresscommittee@mydealforever.com
                 </p>
+                <a  href="#"
+                  className="text-green-500 text-xs sm:text-sm font-semibold hover:underline inline-block"
+                >
+                  Click here
+                </a>
               </div>
               <div className="border-t border-white/10 pt-4">
                 <h4 className="text-[#aa8453] font-bold text-xs sm:text-sm uppercase tracking-wider mb-2 flex items-center gap-2">
@@ -235,7 +240,7 @@ export default function Grievance() {
               </div>
 
               {/* Consumer Grievance Redress Committee */}
-              <div className="border-t border-white/10 pt-4">
+              {/* <div className="border-t border-white/10 pt-4">
                 <div className="space-y-4">
                   {[
                     {
@@ -271,7 +276,7 @@ export default function Grievance() {
                     </div>
                   ))}
                 </div>
-              </div>
+              </div> */}
             </div>
 
             {/* Right — Send Us a Message form */}

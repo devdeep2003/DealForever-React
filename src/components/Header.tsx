@@ -6,10 +6,23 @@ import {
   ChevronDown,
   User,
   Phone,
+  Mail,
+  MessageCircle,
+  MapPin,
   ShoppingBag,
   LogOut,
+  Home,
+  Info,
+  Building2,
+  ClipboardList,
+  Image,
+  Download,
+  CalendarCheck,
+  type LucideIcon,
+  LayoutGrid,
+  BadgeCheck,
 } from "lucide-react";
-import { navItems, siteConfig } from "../data/siteData";
+import { navItems, navMobItems, siteConfig } from "../data/siteData";
 import AuthModal from "./AuthModal";
 import {
   FaInstagram,
@@ -24,6 +37,19 @@ export const socialIcons: Record<string, IconType> = {
   twitter: FaXTwitter,
   facebook: FaFacebookF,
   youtube: FaYoutube,
+};
+
+// Icon for each mobile nav item, keyed by label
+const mobileNavIcons: Record<string, LucideIcon> = {
+  Home: Home,
+  About: Info,
+  Branches: Building2,
+  Categories: LayoutGrid,
+  Brand: BadgeCheck,
+  Offers: ClipboardList,
+  "News & Media": Image,
+  Downloads: Download,
+  Schedules: CalendarCheck,
 };
 
 const brandLogo =
@@ -71,16 +97,16 @@ export default function Header() {
         <div className="hidden lg:block bg-[#191717] text-white text-xs">
           <div className="container-custom flex items-center justify-between py-2">
             <div className="flex items-center gap-6">
-              
-              <a  href={`tel:${siteConfig.tollFree}`}
+              <a
+                href={`tel:${siteConfig.tollFree}`}
                 className="flex items-center gap-2 hover:text-[#aa8453] transition-colors"
               >
                 <Phone size={12} />
                 {siteConfig.tollFree}
               </a>
 
-              
-              <a  href={`mailto:${siteConfig.email}`}
+              <a
+                href={`mailto:${siteConfig.email}`}
                 className="hover:text-[#aa8453] transition-colors"
               >
                 {siteConfig.email}
@@ -107,9 +133,20 @@ export default function Header() {
 
         {/* Main Nav */}
         <nav className="container-custom">
-          <div className="flex items-center justify-between h-16 lg:h-20">
-            {/* Logo */}
-            <Link to="/" className="flex items-center shrink-0">
+          <div className="relative flex items-center justify-between h-16 lg:h-20">
+            {/* Mobile Menu Toggle - left on mobile */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="lg:hidden p-2 text-[#191717] hover:text-[#aa8453] transition-colors z-10"
+            >
+              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+
+            {/* Logo - centered on mobile, back in normal flow on desktop */}
+            <Link
+              to="/"
+              className="flex items-center shrink-0 absolute left-1/2 -translate-x-1/2 lg:static lg:left-auto lg:translate-x-0"
+            >
               {/* Logo Image */}
               <div className="w-[110px] h-[60px] sm:w-[130px] sm:h-[72px] lg:w-[150px] lg:h-[90px] overflow-hidden">
                 <img
@@ -180,26 +217,18 @@ export default function Header() {
                 </div>
               </div>
             </div>
-
-            {/* Mobile Menu Toggle */}
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2 text-[#191717] hover:text-[#aa8453] transition-colors"
-            >
-              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
           </div>
         </nav>
       </header>
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 z-50 lg:hidden">
+        <div className="fixed inset-x-0 top-0 bottom-16 z-50 lg:hidden">
           <div
             className="absolute inset-0 bg-black/50"
             onClick={() => setMobileMenuOpen(false)}
           />
-          <div className="absolute right-0 top-0 bottom-0 w-[85%] max-w-sm bg-white animate-slide-in-right overflow-y-auto">
+          <div className="absolute inset-x-0 top-0 bottom-0 w-full bg-white animate-slide-in-right overflow-y-auto">
             {/* Mobile Header */}
             <div className="flex items-center justify-between p-4 border-b">
               <Link
@@ -207,10 +236,13 @@ export default function Header() {
                 className="flex items-center gap-2"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                <div className="w-8 h-8 rounded-lg gradient-gold flex items-center justify-center">
-                  <span className="text-white font-bold text-sm">DF</span>
+                <div className="w-[110px] h-[60px] sm:w-[130px] sm:h-[72px] lg:w-[150px] lg:h-[90px] overflow-hidden">
+                  <img
+                    src={brandLogo}
+                    alt="Deal Forever Logo"
+                    className="w-full h-full object-contain"
+                  />
                 </div>
-                <span className="font-bold text-[#191717]">Deal Forever</span>
               </Link>
               <button
                 onClick={() => setMobileMenuOpen(false)}
@@ -243,8 +275,9 @@ export default function Header() {
 
             {/* Mobile Nav Items - Accordion style matching Main Head / Sub Head structure */}
             <div className="py-2">
-              {navItems.map((item) =>
-                item.children && item.children.length > 0 ? (
+              {navMobItems.map((item) => {
+                const ItemIcon = mobileNavIcons[item.label];
+                return item.children && item.children.length > 0 ? (
                   <div key={item.label} className="border-b border-gray-100">
                     <button
                       onClick={() => toggleMobileSubmenu(item.label)}
@@ -254,7 +287,12 @@ export default function Header() {
                           : "text-[#191717]"
                       }`}
                     >
-                      {item.label}
+                      <span className="flex items-center gap-3">
+                        {ItemIcon && (
+                          <ItemIcon size={18} className="text-[#aa8453]" />
+                        )}
+                        {item.label}
+                      </span>
                       <ChevronDown
                         size={16}
                         className={`transition-transform duration-300 text-[#aa8453] ${
@@ -284,55 +322,36 @@ export default function Header() {
                   <Link
                     key={item.label}
                     to={item.path}
-                    className={`block px-4 py-3 text-sm font-medium border-b border-gray-100 transition-colors ${
+                    className={`flex items-center gap-3 px-4 py-3 text-sm font-medium border-b border-gray-100 transition-colors ${
                       location.pathname === item.path
                         ? "text-[#aa8453]"
                         : "text-[#191717] hover:text-[#aa8453]"
                     }`}
                   >
+                    {ItemIcon && (
+                      <ItemIcon size={18} className="text-[#aa8453]" />
+                    )}
                     {item.label}
                   </Link>
-                ),
-              )}
+                );
+              })}
 
               {/* Logout */}
               <button
                 onClick={() => setMobileMenuOpen(false)}
-                className="w-full flex items-center gap-2 px-4 py-3 text-sm font-medium text-[#191717] hover:text-[#aa8453] transition-colors"
+                className="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-[#191717] hover:text-[#aa8453] transition-colors"
               >
-                <LogOut size={16} />
+                <LogOut size={18} className="text-[#aa8453]" />
                 Logout
               </button>
             </div>
 
-            {/* Mobile Contact */}
+            {/* Mobile Contact - Stay In Touch */}
             <div className="p-4 bg-[#191717] text-white">
-              <p className="text-xs font-semibold uppercase tracking-wider mb-3 text-[#aa8453]">
-                Talk To Us
-              </p>
-              <div className="space-y-2 text-sm">
-                
-                <a  href={`tel:${siteConfig.tollFree}`}
-                  className="block hover:text-[#aa8453] transition-colors"
-                >
-                  {siteConfig.tollFree}
-                </a>
-
-                
-                <a  href={`mailto:${siteConfig.email}`}
-                  className="block hover:text-[#aa8453] transition-colors"
-                >
-                  {siteConfig.email}
-                </a>
-
-                
-                <a  href={`https://wa.me/${siteConfig.whatsapp.replace("+", "")}`}
-                  className="block hover:text-[#aa8453] transition-colors"
-                >
-                  WhatsApp: {siteConfig.whatsapp}
-                </a>
-              </div>
-              <div className="flex gap-3 mt-4">
+              <h4 className="text-xs font-semibold uppercase tracking-wider text-[#aa8453] mb-3">
+                Stay In Touch
+              </h4>
+              <div className="flex gap-3 mb-4">
                 {Object.entries(siteConfig.social).map(([platform, url]) => {
                   const Icon = socialIcons[platform];
 
@@ -348,6 +367,32 @@ export default function Header() {
                     </a>
                   );
                 })}
+              </div>
+              <div className="space-y-2 text-sm text-white/60">
+                <a
+                  href={`tel:${siteConfig.tollFree}`}
+                  className="flex items-center gap-2 hover:text-[#aa8453] transition-colors"
+                >
+                  <Phone size={14} /> {siteConfig.tollFree}
+                </a>
+
+                <a
+                  href={`mailto:${siteConfig.email}`}
+                  className="flex items-center gap-2 hover:text-[#aa8453] transition-colors"
+                >
+                  <Mail size={14} /> {siteConfig.email}
+                </a>
+
+                <a
+                  href={`https://wa.me/${siteConfig.whatsapp.replace("+", "")}`}
+                  className="flex items-center gap-2 hover:text-[#aa8453] transition-colors"
+                >
+                  <MessageCircle size={14} /> WhatsApp
+                </a>
+                <div className="flex items-start gap-2">
+                  <MapPin size={14} className="mt-1 shrink-0" />
+                  <span>{siteConfig.address}</span>
+                </div>
               </div>
             </div>
           </div>

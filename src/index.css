@@ -60,7 +60,7 @@
   }
 
   .section-title {
-    @apply text-3xl md:text-4xl font-bold text-[#191717] mb-4 tracking-tight;
+    @apply text-2xl md:text-3xl lg:text-4xl font-bold text-[#191717] mb-4 tracking-tight;
   }
 
   .section-subtitle {
