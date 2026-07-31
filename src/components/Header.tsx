@@ -32,6 +32,9 @@ import {
 } from "react-icons/fa6";
 import type { IconType } from "react-icons";
 
+const playstore = import.meta.env.VITE_BASE_URL + "/images/PLASTORE.png";
+const appstore = import.meta.env.VITE_BASE_URL + "/images/APP STORE.png";
+
 export const socialIcons: Record<string, IconType> = {
   instagram: FaInstagram,
   twitter: FaXTwitter,
@@ -228,19 +231,19 @@ export default function Header() {
             className="absolute inset-0 bg-black/50"
             onClick={() => setMobileMenuOpen(false)}
           />
-          <div className="absolute inset-x-0 top-0 bottom-0 w-full bg-white animate-slide-in-right overflow-y-auto">
+          <div className="absolute inset-x-0 top-0 bottom-0 w-full bg-white animate-slide-in-right overflow-y-auto ">
             {/* Mobile Header */}
-            <div className="flex items-center justify-between p-4 border-b">
+            <div className="sticky top-0 z-20 flex items-center justify-between p-4 border-b bg-white">
               <Link
                 to="/"
                 className="flex items-center gap-2"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                <div className="w-[110px] h-[60px] sm:w-[130px] sm:h-[72px] lg:w-[150px] lg:h-[90px] overflow-hidden">
+                <div className="w-[120px]">
                   <img
                     src={brandLogo}
                     alt="Deal Forever Logo"
-                    className="w-full h-full object-contain"
+                    className="w-full h-auto object-contain"
                   />
                 </div>
               </Link>
@@ -392,6 +395,30 @@ export default function Header() {
                 <div className="flex items-start gap-2">
                   <MapPin size={14} className="mt-1 shrink-0" />
                   <span>{siteConfig.address}</span>
+                </div>
+                {/* Download */}
+                <div className="lg:col-span-1 py-2 md:py-0">
+                  <h4 className="text-xs font-semibold uppercase tracking-wider text-[#aa8453] mb-3 md:mb-4">
+                    Download
+                  </h4>
+
+                  <div className="flex flex-row md:flex-col gap-3 items-start">
+                    <a href="#" className="block">
+                      <img
+                        src={appstore}
+                        alt="Download from App Store"
+                        className="w-[130px] h-[40px] sm:w-[150px] sm:h-[44px] object-contain"
+                      />
+                    </a>
+
+                    <a href="#" className="block">
+                      <img
+                        src={playstore}
+                        alt="Download from Play Store"
+                        className="w-[130px] h-[40px] sm:w-[150px] sm:h-[44px] object-contain"
+                      />
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>

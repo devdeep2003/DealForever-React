@@ -159,7 +159,7 @@ export default function SuccessStories() {
         <div className="container-custom max-w-6xl">
           {/* Category Filters */}
 
-          <div className="flex gap-3 overflow-x-auto pb-1 mb-10 w-full md:w-auto md:flex-wrap md:overflow-visible md:justify-center [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <div className="flex gap-3 overflow-x-auto pb-1 w-full md:w-auto md:flex-wrap md:overflow-visible [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden mb-4">
             {categories.map((cat, idx) => (
               <div
                 key={cat}
@@ -173,7 +173,7 @@ export default function SuccessStories() {
                   onClick={() => setActiveCategory(cat)}
                   className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 whitespace-nowrap ${
                     activeCategory === cat
-                      ? "bg-[#aa8453] text-white shadow-lg"
+                      ? "bg-[#aa8453] text-white"
                       : "bg-[#faf8f5] text-[#555] hover:bg-[#f0ebe3] hover:text-[#191717]"
                   }`}
                 >
@@ -182,7 +182,6 @@ export default function SuccessStories() {
               </div>
             ))}
           </div>
-
           {/* Stories Grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {filteredStories.map((story) => (

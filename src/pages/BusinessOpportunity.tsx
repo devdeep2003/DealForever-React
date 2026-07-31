@@ -311,23 +311,23 @@ export default function BusinessOpportunity() {
           <h2 className="section-title text-center font-bold text-[#191717] mb-5">
             Your Benefits As A Partner With Deal Forever
           </h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+         <div className="flex lg:grid lg:grid-cols-4 gap-4 lg:gap-6 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-2 lg:pb-0">
             {benefits.map((b, i) => (
               <div
                 key={i}
-                className="bg-[#faf8f5] rounded-xl p-5 text-center border border-gray-200 hover:border-[#aa8453]/40 hover:shadow-lg transition-all duration-300"
+                className="bg-[#faf8f5] rounded-2xl p-8 text-center border border-gray-200 hover:border-[#aa8453]/40 hover:shadow-lg transition-all duration-300 shrink-0 w-[88%] sm:w-[48%] lg:w-auto snap-start"
               >
-                <div className="w-14 h-14 mx-auto mb-3 rounded-full bg-white border border-gray-200 flex items-center justify-center">
+                <div className="w-16 h-16 mx-auto mb-5 rounded-full bg-white border border-gray-200 flex items-center justify-center">
                   <img
                     src={`${IMG}${b.icon}`}
                     alt={b.title}
-                    className="w-7 h-7 object-contain"
+                    className="w-8 h-8 object-contain"
                   />
                 </div>
-                <h4 className="text-base font-bold text-[#191717] mb-2">
+                <h4 className="text-lg font-bold text-[#191717] mb-3 leading-snug">
                   {b.title}
                 </h4>
-                <p className="text-sm text-[#888] leading-relaxed">{b.desc}</p>
+                <p className="text-sm text-[#999] leading-relaxed">{b.desc}</p>
               </div>
             ))}
           </div>
@@ -1026,7 +1026,7 @@ export default function BusinessOpportunity() {
       </section>
 
       {/* ── 8. RANK ACHIEVEMENT ─────────────────────────────────── */}
-      <section className="section-padding bg-[#faf8f5]">
+ <section className="section-padding bg-[#faf8f5]">
         <div className="container-custom">
           <div className="flex items-center gap-3 mb-3">
             <SectionIcon src="icons8-star-50.png" />
@@ -1041,9 +1041,17 @@ export default function BusinessOpportunity() {
             all the way to executive leadership, with growing income and
             privileges at each level.
           </p>
-          <div className="grid md:grid-cols-2 gap-4 mb-5">
-            <ContainedImage src={TABLE3_IMG} alt="Rank Achievement Chart" />
-            <ContainedImage src={TABLE4_IMG} alt="Rank Achievement Details" />
+          <div className="flex flex-col md:grid md:grid-cols-2 gap-4 mb-5">
+            <div className="overflow-x-auto scrollbar-hide">
+              <div className="w-[160%] sm:w-[130%] md:w-full">
+                <ContainedImage src={TABLE3_IMG} alt="Rank Achievement Chart" />
+              </div>
+            </div>
+            <div className="overflow-x-auto scrollbar-hide">
+              <div className="w-[160%] sm:w-[130%] md:w-full">
+                <ContainedImage src={TABLE4_IMG} alt="Rank Achievement Details" />
+              </div>
+            </div>
           </div>
 
           {/* Fast start callout */}
@@ -1059,7 +1067,7 @@ export default function BusinessOpportunity() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-5">
+          <div className="flex flex-col md:grid md:grid-cols-2 gap-5">
             <div>
               <h3 className="font-bold text-sm text-[#191717] mb-1">
                 Fast Start Position (JSE, SSE, TC)
@@ -1068,10 +1076,14 @@ export default function BusinessOpportunity() {
                 Entry-level rank tiers with achievable volume targets for new
                 distributors.
               </p>
-              <ContainedImage
-                src={TABLE1_IMG}
-                alt="Fast Start Position (JSE, SSE, TC)"
-              />
+              <div className="overflow-x-auto scrollbar-hide">
+                <div className="w-[160%] sm:w-[130%] md:w-full">
+                  <ContainedImage
+                    src={TABLE1_IMG}
+                    alt="Fast Start Position (JSE, SSE, TC)"
+                  />
+                </div>
+              </div>
             </div>
             <div>
               <h3 className="font-bold text-sm text-[#191717] mb-1">
@@ -1081,10 +1093,14 @@ export default function BusinessOpportunity() {
                 Advanced rank unlocking leadership bonuses and exclusive
                 incentive programmes.
               </p>
-              <ContainedImage
-                src={TABLE2_IMG}
-                alt="Fast Start Executive Team Coordinator (ETC)"
-              />
+              <div className="overflow-x-auto scrollbar-hide">
+                <div className="w-[160%] sm:w-[130%] md:w-full">
+                  <ContainedImage
+                    src={TABLE2_IMG}
+                    alt="Fast Start Executive Team Coordinator (ETC)"
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>

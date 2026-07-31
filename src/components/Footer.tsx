@@ -285,34 +285,9 @@ export default function Footer() {
             </ul>
           </FooterAccordion>
 
-          {/* Download */}
-          <div className="lg:col-span-1 py-4 md:py-0 border-b border-white/10 md:border-none">
-            <h4 className="text-sm font-semibold uppercase tracking-wider text-[#aa8453] mb-3 md:mb-4">
-              Download
-            </h4>
-
-            <div className="flex flex-row md:flex-col gap-3 items-start">
-              <a href="#" className="block">
-                <img
-                  src={appstore}
-                  alt="Download from App Store"
-                  className="w-[130px] h-[40px] sm:w-[150px] sm:h-[44px] object-contain"
-                />
-              </a>
-
-              <a href="#" className="block">
-                <img
-                  src={playstore}
-                  alt="Download from Play Store"
-                  className="w-[130px] h-[40px] sm:w-[150px] sm:h-[44px] object-contain"
-                />
-              </a>
-            </div>
-          </div>
-
           {/* Stay In Touch */}
           <div className="lg:col-span-1 md:py-0">
-            <h4 className="text-sm font-semibold uppercase tracking-wider text-[#aa8453] mb-3 md:mb-4">
+            <h4 className="text-sm font-semibold uppercase tracking-wider text-[#aa8453] mb-3 md:mb-4 mt-4">
               Stay In Touch
             </h4>
             <div className="flex gap-3 mb-4 md:mb-6">
@@ -358,15 +333,39 @@ export default function Footer() {
                 <span>{siteConfig.address}</span>
               </div>
             </div>
+            {/* Download */}
+            <div className="lg:col-span-1 py-4 md:py-0 mt-2">
+              <h4 className="text-sm font-semibold uppercase tracking-wider text-[#aa8453] mb-3 md:mb-4">
+                Download
+              </h4>
+
+              <div className="flex flex-row md:flex-col gap-3 items-start">
+                <a href="#" className="block">
+                  <img
+                    src={appstore}
+                    alt="Download from App Store"
+                    className="w-[130px] h-[40px] sm:w-[150px] sm:h-[44px] object-contain"
+                  />
+                </a>
+
+                <a href="#" className="block">
+                  <img
+                    src={playstore}
+                    alt="Download from Play Store"
+                    className="w-[130px] h-[40px] sm:w-[150px] sm:h-[44px] object-contain"
+                  />
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Bottom Bar */}
       <div className="border-t border-white/10">
-        <div className="py-4 px-4 sm:px-8 lg:px-16 flex flex-col sm:flex-row items-center justify-between gap-3 bg-[#333333]">
+        <div className="py-6  px-4 sm:px-8 lg:px-16 flex flex-col sm:flex-row items-center justify-between gap-3 bg-[#333333]">
           <div className="flex items-center gap-2">
-            <div className="w-[50px] h-[50px] bg-gradient-to-br from-[#D4B483] to-[#B8915E] rounded-xl flex items-center justify-center text-white font-extrabold text-xl shadow-md">
+            <div className="w-12 h-12 bg-gradient-to-br from-[#D4B483] to-[#B8915E] rounded-md flex items-center justify-center text-white font-extrabold text-xl shadow-md px-2">
               DF
             </div>
             <p className="text-xs text-white/40">{siteConfig.copyright}</p>

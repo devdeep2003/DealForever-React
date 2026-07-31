@@ -329,7 +329,7 @@ export default function Home() {
             Join us to make a difference by marking an unprecedented way of
             enjoying quality and growing together
           </h2> */}
-          <div className="grid lg:grid-cols-2 gap-6 lg:gap-12 items-start">
+          <div className="grid lg:grid-cols-2 gap-3 lg:gap-6 items-start">
             <div className="flex flex-col justify-center">
               <p className="text-[#555] leading-relaxed mb-4 sm:mb-6 text-justify text-xs sm:text-sm">
                 Deal Forever represents an exemplary business model in the
@@ -342,7 +342,7 @@ export default function Home() {
                 This ethos underscores Deal Forever's dedication to fostering a
                 culture of entrepreneurship, innovation, and diligence.
               </p>
-              <p className="text-[#555] leading-relaxed mb-4 sm:mb-6 text-justify text-xs sm:text-sm">
+              <p className="text-[#555] leading-relaxed  text-justify text-xs sm:text-sm">
                 Deal Forever's strategy is marked by an aggressive approach to
                 enhancing infrastructure and integrating cutting-edge
                 technologies. This approach is aimed at not only meeting but
@@ -360,7 +360,7 @@ export default function Home() {
               <img
                 src="https://images.pexels.com/photos/3184405/pexels-photo-3184405.jpeg?auto=compress&cs=tinysrgb&w=800"
                 alt="About Deal Forever"
-                className="rounded-2xl shadow-2xl w-full object-cover h-[200px] sm:h-[330px] md:h-[350px]"
+                className="rounded-2xl shadow-2xl w-full object-cover h-[200px] sm:h-[330px] md:h-[350px] mb-4"
               />
               {/* <div className="absolute -bottom-4 -right-4 sm:-bottom-6 sm:-right-6 bg-[#aa8453] text-white p-4 sm:p-6 rounded-xl shadow-lg">
                 <p className="text-xl sm:text-3xl font-bold">1000+</p>
@@ -562,7 +562,7 @@ export default function Home() {
                 key={`${offersCarousel.page}-${i}`}
                 className="group rounded-xl overflow-hidden shadow-md card-hover animate-fade-in-up shrink-0 w-[88%] sm:w-[48%] lg:w-auto snap-start"
               >
-                <div className="relative h-36 sm:h-48">
+                <div className="relative h-60 sm:h-64">
                   <img
                     src={offer.image}
                     alt={offer.title}
@@ -611,7 +611,9 @@ export default function Home() {
           <div className="flex flex-col mb-4 sm:mb-8">
             <p className="section-subtitle">Latest Updates</p>
             <div className="flex items-center justify-between">
-              <h2 className="section-title py-2 sm:py-3">Latest News & Update</h2>
+              <h2 className="section-title py-2 sm:py-3">
+                Latest News & Update
+              </h2>
               <Link
                 to="/news"
                 className="flex items-center gap-1 text-[#aa8453] font-semibold text-xs sm:text-sm hover:underline"
@@ -630,7 +632,7 @@ export default function Home() {
                 key={`${newsCarousel.page}-${i}`}
                 className="bg-white rounded-xl overflow-hidden shadow-sm card-hover group animate-fade-in-up shrink-0 w-[88%] sm:w-[48%] lg:w-auto snap-start"
               >
-                <div className="relative h-36 sm:h-48 overflow-hidden">
+                <div className="relative h-60 sm:h-64 overflow-hidden">
                   <img
                     src={item.image}
                     alt={item.title}
@@ -765,7 +767,7 @@ export default function Home() {
             {getPage(brands, brandsCarousel.page, 4).map((brand, i) => (
               <div
                 key={`${brandsCarousel.page}-${i}`}
-                className="h-20 sm:h-24 bg-white rounded-xl shadow-sm border border-[#e8e0d5] flex items-center justify-center hover:shadow-md hover:border-[#aa8453]/40 transition-all duration-300 animate-fade-in-up shrink-0 w-[88%] sm:w-[48%] lg:w-auto snap-start"
+                className="h-20 sm:h-24 bg-white rounded-xl shadow-sm border border-[#e8e0d5] flex items-center justify-center hover:shadow-md hover:border-[#aa8453]/40 transition-all duration-300 animate-fade-in-up shrink-0 w-[46%] md:w-[31%] lg:w-auto snap-start"
               >
                 {brand.logo ? (
                   <img

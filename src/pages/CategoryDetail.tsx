@@ -73,13 +73,13 @@ export default function CategoryDetail() {
       <section className="section-padding bg-white">
         <div className="container-custom">
           {/* Filters */}
-          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-8">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-8 pr-4">
             {/* Horizontal scrollable filter tabs on mobile, with "All" pinned while scrolling */}
             <div className="flex gap-3 overflow-x-auto pb-1 w-full md:w-auto md:flex-wrap md:overflow-visible                [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {categoryTabs.map((tab, idx) => (
                     <div
                       key={tab.label}
-                      className={idx === 0 ? 'sticky left-0 z-10 bg-white pr-3 md:static md:bg-transparent md:pr-0 flex-shrink-0' : 'flex-shrink-0'}
+                      className={idx === 0 ? 'sticky left-0 z-10 bg-white pr-3 pl-3 md:static md:bg-transparent md:pr-0 flex-shrink-0' : 'flex-shrink-0'}
                     >
                       <button
                         onClick={() => handleTabClick(tab.slug)}
@@ -107,28 +107,28 @@ export default function CategoryDetail() {
           </div>
 
           {/* Products Grid with Flip Cards */}
-          <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5 md:gap-6">
             {filtered.map((product) => (
-              <div key={product.id} className="flip-card h-[440px] sm:h-[520px]">
+              <div key={product.id} className="flip-card h-[320px] xs:h-[360px] sm:h-[420px] md:h-[460px] lg:h-[500px] xl:h-[520px]">
                 <div className="flip-card-inner relative w-full h-full">
                   {/* Front */}
                   <div className="flip-card-front absolute inset-0 bg-white rounded-xl shadow-md overflow-hidden">
-                    <div className="w-full h-56 sm:h-80 md:h-[380px] overflow-hidden">
+                    <div className="w-full h-40 xs:h-48 sm:h-56 md:h-64 lg:h-72 xl:h-80 overflow-hidden">
                       <img src={product.image} alt={product.name} className="w-full h-full object-cover object-center" />
                     </div>
-                    <div className="p-3 sm:p-4 pt-6 sm:pt-8 flex flex-col gap-1">
-                      <h3 className="font-semibold text-[#aa8453] text-sm line-clamp-2">{product.name}</h3>
+                    <div className="p-3 sm:p-4 pt-4 sm:pt-6 md:pt-8 flex flex-col gap-1">
+                      <h3 className="font-semibold text-[#aa8453] text-xs sm:text-sm line-clamp-2">{product.name}</h3>
                       <p className="text-xs text-[#888]">{product.category}</p>
                       <div className="flex-col items-center justify-between mt-2">
-                        <p className="text-sm font-semibold text-[#191717]">MRP ₹ {product.price}.00 incl. of all taxes</p>
+                        <p className="text-xs sm:text-sm font-semibold text-[#191717]">MRP ₹ {product.price}.00 incl. of all taxes</p>
                         <p className="text-xs text-[#888] bg-gray-100 px-2 py-0.5 rounded-full w-fit">Net Content : {product.netContent}</p>
                       </div>
                     </div>
                   </div>
                   {/* Back */}
-                  <div className="flip-card-back absolute inset-0 bg-[#aa8453] rounded-xl shadow-md p-6 flex flex-col text-white">
+                  <div className="flip-card-back absolute inset-0 bg-[#aa8453] rounded-xl shadow-md p-4 sm:p-6 flex flex-col text-white">
                     <p className="text-xs font-semibold uppercase tracking-wider mb-2 text-white/70">{product.brand}</p>
-                    <h3 className="font-bold text-lg mb-3">{product.name}</h3>
+                    <h3 className="font-bold text-base sm:text-lg mb-3">{product.name}</h3>
                     <p className="text-sm text-white/80 mb-4 leading-relaxed">{product.description}</p>
                   </div>
                 </div>
