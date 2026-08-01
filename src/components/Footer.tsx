@@ -287,7 +287,7 @@ export default function Footer() {
 
           {/* Stay In Touch */}
           <div className="lg:col-span-1 md:py-0">
-            <h4 className="text-sm font-semibold uppercase tracking-wider text-[#aa8453] mb-3 md:mb-4 mt-4">
+            <h4 className="text-sm font-semibold uppercase tracking-wider text-[#aa8453] mb-3 md:mb-4 mt-4 md:mt-0">
               Stay In Touch
             </h4>
             <div className="flex gap-3 mb-4 md:mb-6">
@@ -333,29 +333,30 @@ export default function Footer() {
                 <span>{siteConfig.address}</span>
               </div>
             </div>
-            {/* Download */}
-            <div className="lg:col-span-1 py-4 md:py-0 mt-2">
-              <h4 className="text-sm font-semibold uppercase tracking-wider text-[#aa8453] mb-3 md:mb-4">
-                Download
-              </h4>
+          </div>
 
-              <div className="flex flex-row md:flex-col gap-3 items-start">
-                <a href="#" className="block">
-                  <img
-                    src={appstore}
-                    alt="Download from App Store"
-                    className="w-[130px] h-[40px] sm:w-[150px] sm:h-[44px] object-contain"
-                  />
-                </a>
+          {/* Download */}
+          <div className="lg:col-span-1 py-4 md:py-0 mt-2 md:mt-0">
+            <h4 className="text-sm font-semibold uppercase tracking-wider text-[#aa8453] mb-3 md:mb-4">
+              Download
+            </h4>
 
-                <a href="#" className="block">
-                  <img
-                    src={playstore}
-                    alt="Download from Play Store"
-                    className="w-[130px] h-[40px] sm:w-[150px] sm:h-[44px] object-contain"
-                  />
-                </a>
-              </div>
+            <div className="flex flex-row md:flex-col gap-3 items-start">
+              <a href="#" className="block">
+                <img
+                  src={appstore}
+                  alt="Download from App Store"
+                  className="w-[130px] h-[40px] sm:w-[150px] sm:h-[44px] object-contain"
+                />
+              </a>
+
+              <a href="#" className="block">
+                <img
+                  src={playstore}
+                  alt="Download from Play Store"
+                  className="w-[130px] h-[40px] sm:w-[150px] sm:h-[44px] object-contain"
+                />
+              </a>
             </div>
           </div>
         </div>

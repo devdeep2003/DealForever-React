@@ -1,6 +1,6 @@
 import { CheckCircle2, X, ChevronRight } from "lucide-react";
 import PageBanner from "../components/PageBanner";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import TermsAndConditionsModal from "../components/TermsandConditions";
 import {
   businessOpportunityImages,
@@ -169,6 +169,64 @@ export default function BusinessOpportunity() {
 
   const [isTermsOpen, setIsTermsOpen] = useState(false);
 
+  // Auto-scroll for the "Your Benefits As A Partner" horizontal scroller
+  // (only relevant below `lg`, since it becomes a static 4-col grid on desktop)
+  const benefitsScrollRef = useRef<HTMLDivElement>(null);
+  const [activeBenefit, setActiveBenefit] = useState(0);
+  const isBenefitsPaused = useRef(false);
+
+  useEffect(() => {
+    const container = benefitsScrollRef.current;
+    if (!container) return;
+
+    const interval = setInterval(() => {
+      if (isBenefitsPaused.current || !container) return;
+      const card = container.children[0] as HTMLElement | undefined;
+      if (!card) return;
+      const cardStep = card.offsetWidth + 16; // matches gap-4
+      const atEnd =
+        container.scrollLeft + container.clientWidth >=
+        container.scrollWidth - 10;
+
+      if (atEnd) {
+        container.scrollTo({ left: 0, behavior: "smooth" });
+        setActiveBenefit(0);
+      } else {
+        container.scrollBy({ left: cardStep, behavior: "smooth" });
+        setActiveBenefit((prev) => Math.min(prev + 1, benefits.length - 1));
+      }
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const handleBenefitsScroll = () => {
+    const container = benefitsScrollRef.current;
+    if (!container) return;
+    const card = container.children[0] as HTMLElement | undefined;
+    if (!card) return;
+    const cardStep = card.offsetWidth + 16;
+    const index = Math.round(container.scrollLeft / cardStep);
+    setActiveBenefit(Math.max(0, Math.min(index, benefits.length - 1)));
+  };
+
+  const pauseBenefitsAutoScroll = () => {
+    isBenefitsPaused.current = true;
+  };
+
+  const resumeBenefitsAutoScroll = () => {
+    isBenefitsPaused.current = false;
+  };
+
+  const scrollToBenefit = (index: number) => {
+    const container = benefitsScrollRef.current;
+    if (!container) return;
+    const card = container.children[index] as HTMLElement | undefined;
+    if (!card) return;
+    container.scrollTo({ left: card.offsetLeft, behavior: "smooth" });
+    setActiveBenefit(index);
+  };
+
   const howItWorksSteps = [
     {
       step: "01",
@@ -311,7 +369,15 @@ export default function BusinessOpportunity() {
           <h2 className="section-title text-center font-bold text-[#191717] mb-5">
             Your Benefits As A Partner With Deal Forever
           </h2>
-         <div className="flex lg:grid lg:grid-cols-4 gap-4 lg:gap-6 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-2 lg:pb-0">
+         <div
+            ref={benefitsScrollRef}
+            onScroll={handleBenefitsScroll}
+            onMouseEnter={pauseBenefitsAutoScroll}
+            onMouseLeave={resumeBenefitsAutoScroll}
+            onTouchStart={pauseBenefitsAutoScroll}
+            onTouchEnd={resumeBenefitsAutoScroll}
+            className="flex lg:grid lg:grid-cols-4 gap-4 lg:gap-6 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-2 lg:pb-0"
+          >
             {benefits.map((b, i) => (
               <div
                 key={i}
@@ -329,6 +395,22 @@ export default function BusinessOpportunity() {
                 </h4>
                 <p className="text-sm text-[#999] leading-relaxed">{b.desc}</p>
               </div>
+            ))}
+          </div>
+          {/* Pagination dots — only relevant on the scrollable (below-lg) layout */}
+          <div className="flex lg:hidden justify-center gap-1.5 mt-4">
+            {benefits.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => scrollToBenefit(i)}
+                aria-label={`Go to benefit ${i + 1}`}
+                className={`h-1.5 rounded-full transition-all duration-300 ${
+                  activeBenefit === i
+                    ? "w-6 bg-[#aa8453]"
+                    : "w-1.5 bg-[#aa8453]/30"
+                }`}
+              />
             ))}
           </div>
         </div>
@@ -493,63 +575,6 @@ export default function BusinessOpportunity() {
 
         <section className="section-padding bg-white">
           <div className="container-custom">
-            {/* <div className="mb-8">
-              <h3 className="text-2xl font-bold text-center mb-6">
-                Income Highlights
-              </h3>
-              <div className="flex justify-center">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl">
-                  {incomeHighlights.map((h, i) => (
-                    <div
-                      key={i}
-                      className="bg-[#191717] rounded-xl p-6 text-center hover:scale-105 transition duration-300"
-                    >
-                      <p className="text-5xl font-black text-[#aa8453] mb-4">
-                        {h.num}
-                      </p>
-                      <h4 className="text-white font-bold mb-2">{h.title}</h4>
-                      <p className="text-white/70 text-sm">{h.desc}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div> */}
-
-            {/* <div className="mb-8">
-              <h3 className="text-3xl font-bold text-center text-[#191717] mb-6">
-                Why Our Plan Stands Out
-              </h3>
-              <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-6">
-                {[
-                  "No rank demotion — your achievements are permanent.",
-                  "Accumulative BV — volume never resets or expires.",
-                  "Infinite depth — earn from every level of your network.",
-                  "No time pressure — rank up whenever you're ready.",
-                ].map((text, index) => {
-                  const [title, desc] = text.split("—");
-                  return (
-                    <div
-                      key={index}
-                      className="group bg-[#191717] rounded-2xl p-8 border border-[#2b2b2b] shadow-sm hover:shadow-xl hover:-translate-y-2 hover:border-[#aa8453] transition-all duration-300"
-                    >
-                      <div className="w-16 h-16 rounded-2xl bg-[#aa8453]/10 flex items-center justify-center mx-auto mb-6 group-hover:bg-[#aa8453] transition-colors duration-300">
-                        <span className="text-2xl font-bold text-[#aa8453] group-hover:text-white transition-colors duration-300">
-                          {index + 1}
-                        </span>
-                      </div>
-                      <p className="text-white text-center leading-8">
-                        <span className="font-bold text-[#aa8453]">
-                          {title.trim()}
-                        </span>
-                        <br />
-                        <span className="text-gray-300">{desc?.trim()}</span>
-                      </p>
-                    </div>
-                  );
-                })}
-              </div>
-            </div> */}
-
             <div className="flex items-center gap-4 mb-6">
               <div className="flex-1 h-px bg-gray-200" />
               <p className="text-center text-[#888] text-xs font-semibold tracking-wide uppercase whitespace-nowrap">
@@ -1314,11 +1339,6 @@ export default function BusinessOpportunity() {
                 </div>
               </div>
 
-              {/* <ContainedImage
-                  src={`${IMG}socialmedia.png`}
-                  alt="Social Media Support"
-                  size="sm"
-                /> */}
               <div className="hidden lg:block">
                 <ContainedImage src={MEDIA_IMG} alt="Media Kit" size="sm" />
               </div>
