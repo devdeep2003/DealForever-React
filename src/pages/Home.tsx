@@ -145,8 +145,16 @@ export default function Home() {
       try {
         const data = await DealsForeverApi.getAllOurBrands();
         const items = data && Array.isArray(data.items) ? data.items : [];
-        const mapped = items.map((brand: any) => ({
-          logo: getFullImageUrl(brand.imagePath),
+        const baseUrl = import.meta.env.VITE_BASE_URL || "";
+        const fallbackLogos = [
+          `${baseUrl}/images/resource/client1-1.png`,
+          `${baseUrl}/images/resource/client1-2.png`,
+          `${baseUrl}/images/resource/client1-3.png`,
+          `${baseUrl}/images/resource/client1-4.png`,
+          `${baseUrl}/images/resource/client1-5.png`,
+        ];
+        const mapped = items.map((brand: any, idx: number) => ({
+          logo: brand.imagePath ? getFullImageUrl(brand.imagePath) : fallbackLogos[idx % fallbackLogos.length],
           name: brand.ourBrandName,
         }));
         if (mapped.length > 0) {
