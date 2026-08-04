@@ -5,7 +5,7 @@ import {
 } from 'lucide-react';
 import PageBanner from '../components/PageBanner';
 
-const IMG = 'https://dealforever25.netlify.app/images/';
+const IMG = (import.meta.env.VITE_BASE_URL ?? '') + '/images/';
 
 const whyJoin = [
   {

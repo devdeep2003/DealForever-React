@@ -55,7 +55,7 @@ export default function TestimonialModal({ testimonial, isOpen, onClose }: Testi
                 <CheckCircle2 size={16} className="text-[#aa8453]" />
               </h3>
               <p className="text-sm text-white/70">
-                {testimonial.designation}, {testimonial.location}
+                {testimonial.designation}{testimonial.location ? `, ${testimonial.location}` : ""}
               </p>
             </div>
           </div>

@@ -1,40 +1,69 @@
 import PageBanner from "../components/PageBanner";
 import { siteConfig } from "../data/siteData";
-import { Phone, Mail, MapPin } from "lucide-react";
+import { Phone, Mail, MapPin, Loader2, CheckCircle2 } from "lucide-react";
 import { useState } from "react";
+import { DealsForeverApi } from "../services/api";
+
+const EMPTY_FORM = {
+  name: "",
+  distributionId: "",
+  contact: "",
+  email: "",
+  category: "",
+  message: "",
+};
 
 export default function Grievance() {
-  const [formData, setFormData] = useState({
-    name: "",
-    distributionId: "",
-    contact: "",
-    email: "",
-    category: "",
-    message: "",
-  });
+  const [formData, setFormData] = useState(EMPTY_FORM);
+  const [loading, setLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    setFormData({
-      name: "",
-      distributionId: "",
-      contact: "",
-      email: "",
-      category: "",
-      message: "",
-    });
+    setError(null);
+
+    // Basic required-field check
+    if (
+      !formData.name.trim() ||
+      !formData.distributionId.trim() ||
+      !formData.contact.trim() ||
+      !formData.email.trim() ||
+      !formData.message.trim()
+    ) {
+      setError("Please fill out all required fields.");
+      return;
+    }
+
+    const phoneRegex = /^[6-9]\d{9}$/;
+    if (!phoneRegex.test(formData.contact.trim())) {
+      setError("Please enter a valid 10-digit Indian phone number.");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      await DealsForeverApi.sendGrievanceMessage({
+        name: formData.name.trim(),
+        email: formData.email.trim(),
+        phone: formData.contact.trim(),
+        distributionId: formData.distributionId.trim(),
+        category: formData.category.trim() || null,
+        message: formData.message.trim(),
+      });
+      setSubmitted(true);
+      setFormData(EMPTY_FORM);
+    } catch (err: any) {
+      setError(err.message || "Failed to submit grievance. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleReset = () => {
-    setFormData({
-      name: "",
-      distributionId: "",
-      contact: "",
-      email: "",
-      category: "",
-      message: "",
-    });
+    setFormData(EMPTY_FORM);
+    setError(null);
+    setSubmitted(false);
   };
 
   return (
@@ -290,81 +319,114 @@ export default function Grievance() {
                 feedback, have complaints, or would simply like to request a
                 catalogue.
               </p>
-              <form onSubmit={handleSubmit} className="space-y-3">
-                <div className="grid sm:grid-cols-2 gap-3">
-                  <input
-                    type="text"
-                    placeholder="Your Name"
-                    value={formData.name}
-                    onChange={(e) =>
-                      setFormData({ ...formData, name: e.target.value })
-                    }
-                    className="w-full px-4 py-3 border border-gray-200 rounded-lg text-xs sm:text-sm text-[#555] placeholder-[#aaa] focus:outline-none focus:border-[#aa8453] transition-colors"
-                  />
-                  <input
-                    type="text"
-                    placeholder="Distribution ID"
-                    value={formData.distributionId}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        distributionId: e.target.value,
-                      })
-                    }
-                    className="w-full px-4 py-3 border border-gray-200 rounded-lg text-xs sm:text-sm text-[#555] placeholder-[#aaa] focus:outline-none focus:border-[#aa8453] transition-colors"
-                  />
-                </div>
-                <div className="grid sm:grid-cols-2 gap-3">
-                  <input
-                    type="email"
-                    placeholder="Email Address"
-                    value={formData.email}
-                    onChange={(e) =>
-                      setFormData({ ...formData, email: e.target.value })
-                    }
-                    className="w-full px-4 py-3 border border-gray-200 rounded-lg text-xs sm:text-sm text-[#555] placeholder-[#aaa] focus:outline-none focus:border-[#aa8453] transition-colors"
-                  />
-                  <input
-                    type="tel"
-                    placeholder="Phone Number"
-                    value={formData.contact}
-                    onChange={(e) =>
-                      setFormData({ ...formData, contact: e.target.value })
-                    }
-                    className="w-full px-4 py-3 border border-gray-200 rounded-lg text-xs sm:text-sm text-[#555] placeholder-[#aaa] focus:outline-none focus:border-[#aa8453] transition-colors"
-                  />
-                </div>
-                <select
-                  value={formData.category}
-                  onChange={(e) =>
-                    setFormData({ ...formData, category: e.target.value })
-                  }
-                  className="w-full px-4 py-3 border border-gray-200 rounded-lg text-xs sm:text-sm text-[#888] focus:outline-none focus:border-[#aa8453] transition-colors appearance-none"
-                >
-                  <option value="">Select Category</option>
-                  <option value="product">Product Quality</option>
-                  <option value="delivery">Delivery Issue</option>
-                  <option value="payment">Payment Issue</option>
-                  <option value="other">Other</option>
-                </select>
-                <textarea
-                  placeholder="Your Message"
-                  value={formData.message}
-                  onChange={(e) =>
-                    setFormData({ ...formData, message: e.target.value })
-                  }
-                  rows={5}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-lg text-xs sm:text-sm text-[#555] placeholder-[#aaa] focus:outline-none focus:border-[#aa8453] transition-colors resize-none"
-                />
-                <div className="flex justify-end">
+
+              {submitted ? (
+                <div className="bg-green-50 border border-green-200 rounded-xl p-6 text-center space-y-3">
+                  <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto text-green-600">
+                    <CheckCircle2 size={24} />
+                  </div>
+                  <h3 className="text-lg font-bold text-green-950">Grievance Submitted!</h3>
+                  <p className="text-sm text-green-800">
+                    Your grievance has been successfully submitted. Our team will review and address it within the specified timeframe.
+                  </p>
                   <button
-                    type="submit"
-                    className="px-8 py-3 bg-[#aa8453] hover:bg-[#96724A] text-white font-bold text-xs sm:text-sm rounded-lg transition-colors"
+                    onClick={handleReset}
+                    className="text-xs font-semibold text-[#aa8453] hover:underline"
                   >
-                    Send Message
+                    Submit another grievance
                   </button>
                 </div>
-              </form>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-3">
+                  {error && (
+                    <div className="bg-red-50 border border-red-200 text-red-600 rounded-lg p-4 text-xs font-medium">
+                      {error}
+                    </div>
+                  )}
+
+                  <div className="grid sm:grid-cols-2 gap-3">
+                    <input
+                      type="text" required
+                      disabled={loading}
+                      placeholder="Your Name *"
+                      value={formData.name}
+                      onChange={(e) =>
+                        setFormData({ ...formData, name: e.target.value })
+                      }
+                      className="w-full px-4 py-3 border border-gray-200 rounded-lg text-xs sm:text-sm text-[#555] placeholder-[#aaa] focus:outline-none focus:border-[#aa8453] transition-colors"
+                    />
+                    <input
+                      type="text" required
+                      disabled={loading}
+                      placeholder="Distribution ID *"
+                      value={formData.distributionId}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          distributionId: e.target.value,
+                        })
+                      }
+                      className="w-full px-4 py-3 border border-gray-200 rounded-lg text-xs sm:text-sm text-[#555] placeholder-[#aaa] focus:outline-none focus:border-[#aa8453] transition-colors"
+                    />
+                  </div>
+                  <div className="grid sm:grid-cols-2 gap-3">
+                    <input
+                      type="email" required
+                      disabled={loading}
+                      placeholder="Email Address *"
+                      value={formData.email}
+                      onChange={(e) =>
+                        setFormData({ ...formData, email: e.target.value })
+                      }
+                      className="w-full px-4 py-3 border border-gray-200 rounded-lg text-xs sm:text-sm text-[#555] placeholder-[#aaa] focus:outline-none focus:border-[#aa8453] transition-colors"
+                    />
+                    <input
+                      type="tel" required
+                      disabled={loading}
+                      placeholder="Phone Number *"
+                      value={formData.contact}
+                      onChange={(e) =>
+                        setFormData({ ...formData, contact: e.target.value })
+                      }
+                      className="w-full px-4 py-3 border border-gray-200 rounded-lg text-xs sm:text-sm text-[#555] placeholder-[#aaa] focus:outline-none focus:border-[#aa8453] transition-colors"
+                    />
+                  </div>
+                  <select
+                    disabled={loading}
+                    value={formData.category}
+                    onChange={(e) =>
+                      setFormData({ ...formData, category: e.target.value })
+                    }
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg text-xs sm:text-sm text-[#888] focus:outline-none focus:border-[#aa8453] transition-colors appearance-none"
+                  >
+                    <option value="">Select Category</option>
+                    <option value="product">Product Quality</option>
+                    <option value="delivery">Delivery Issue</option>
+                    <option value="payment">Payment Issue</option>
+                    <option value="other">Other</option>
+                  </select>
+                  <textarea
+                    required
+                    disabled={loading}
+                    placeholder="Your Message *"
+                    value={formData.message}
+                    onChange={(e) =>
+                      setFormData({ ...formData, message: e.target.value })
+                    }
+                    rows={5}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg text-xs sm:text-sm text-[#555] placeholder-[#aaa] focus:outline-none focus:border-[#aa8453] transition-colors resize-none"
+                  />
+                  <div className="flex justify-end">
+                    <button
+                      type="submit" disabled={loading}
+                      className="px-8 py-3 bg-[#aa8453] hover:bg-[#96724A] text-white font-bold text-xs sm:text-sm rounded-lg transition-colors flex items-center gap-2"
+                    >
+                      {loading && <Loader2 size={16} className="animate-spin" />}
+                      Send Message
+                    </button>
+                  </div>
+                </form>
+              )}
             </div>
           </div>
         </div>

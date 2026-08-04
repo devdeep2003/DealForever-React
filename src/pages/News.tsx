@@ -1,12 +1,46 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Calendar, X, ArrowRight, User } from "lucide-react";
 import PageBanner from "../components/PageBanner";
 import { newsItems } from "../data/siteData";
+import { DealsForeverApi } from "../services/api";
+
+const getFullImageUrl = (path: string) => {
+  if (!path) return '';
+  if (path.startsWith('http://') || path.startsWith('https://') || path.startsWith('data:')) return path;
+  
+  const apiUrl = import.meta.env.VITE_API_BASE_URL || 'https://mydealforever.com/api';
+  const baseApiUrl = apiUrl.replace(/\/api\/api\/?$/, '/api');
+  return `${baseApiUrl.replace(/\/+$/, '')}/${path.replace(/^\/+/, '')}`;
+};
 
 export default function News() {
-  const [selectedItem, setSelectedItem] = useState<
-    (typeof newsItems)[0] | null
-  >(null);
+  const [newsList, setNewsList] = useState<any[]>(newsItems);
+  const [selectedItem, setSelectedItem] = useState<any | null>(null);
+
+  useEffect(() => {
+    const fetchNews = async () => {
+      try {
+        const data = await DealsForeverApi.getAllNewsAndMedia();
+        const activeNews = (Array.isArray(data) ? data : [])
+          .filter((item: any) => item.isActive)
+          .map((item: any) => ({
+            id: item.blogId,
+            image: getFullImageUrl(item.imagePath),
+            title: item.title,
+            date: item.blogDate,
+            excerpt: item.content,
+            description: item.content,
+            from: "Admin"
+          }));
+        if (activeNews.length > 0) {
+          setNewsList(activeNews);
+        }
+      } catch (err) {
+        console.error("Failed to load news and media:", err);
+      }
+    };
+    fetchNews();
+  }, []);
 
   return (
     <div>
@@ -19,7 +53,7 @@ export default function News() {
       <section className="section-padding bg-white">
         <div className="container-custom">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {newsItems.map((item) => (
+            {newsList.map((item) => (
               <div
                 key={item.id}
                 className="bg-white rounded-xl overflow-hidden shadow-md card-hover group"

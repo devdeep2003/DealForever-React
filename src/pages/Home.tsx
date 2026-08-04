@@ -29,6 +29,7 @@ import { useState, useEffect, useRef } from "react";
 import TestimonialModal from "../components/TestimonialModal";
 import OfferModal from "../components/SpecialOfferModal";
 import NewsModal from "../components/NewsModal";
+import { DealsForeverApi } from "../services/api";
 
 //images
 const medicalInsurance =
@@ -46,6 +47,15 @@ const benefitIcons: Record<string, React.ElementType> = {
   award: Award,
   star: Star,
   "book-open": BookOpen,
+};
+
+const getFullImageUrl = (path: string) => {
+  if (!path) return '';
+  if (path.startsWith('http://') || path.startsWith('https://') || path.startsWith('data:')) return path;
+  
+  const apiUrl = import.meta.env.VITE_API_BASE_URL || 'https://mydealforever.com/api';
+  const baseApiUrl = apiUrl.replace(/\/api\/api\/?$/, '/api');
+  return `${baseApiUrl.replace(/\/+$/, '')}/${path.replace(/^\/+/, '')}`;
 };
 
 function useInView(threshold = 0.1) {
@@ -124,6 +134,110 @@ export default function Home() {
     },
   ];
 
+  const [popups, setPopups] = useState<any[]>(launchOffers);
+  const [offersList, setOffersList] = useState<any[]>(offers);
+  const [newsList, setNewsList] = useState<any[]>(newsItems);
+  const [testimonialsList, setTestimonialsList] = useState<any[]>(testimonials);
+  const [brandsList, setBrandsList] = useState<any[]>(brands);
+
+  useEffect(() => {
+    const fetchBrands = async () => {
+      try {
+        const data = await DealsForeverApi.getAllOurBrands();
+        const items = data && Array.isArray(data.items) ? data.items : [];
+        const mapped = items.map((brand: any) => ({
+          logo: getFullImageUrl(brand.imagePath),
+          name: brand.ourBrandName,
+        }));
+        if (mapped.length > 0) {
+          setBrandsList(mapped);
+        }
+      } catch (err) {
+        console.error("Failed to load brands:", err);
+      }
+    };
+    fetchBrands();
+  }, []);
+
+  useEffect(() => {
+    const fetchTestimonials = async () => {
+      try {
+        const data = await DealsForeverApi.getAllTestimonials();
+        const activeTestimonials = (Array.isArray(data) ? data : [])
+          .filter((t: any) => t.isActive)
+          .map((t: any) => ({
+            id: t.id,
+            name: t.name,
+            designation: t.designation,
+            location: "",
+            text: t.content,
+            image: getFullImageUrl(t.imagePath),
+          }));
+        if (activeTestimonials.length > 0) {
+          setTestimonialsList(activeTestimonials);
+        }
+      } catch (err) {
+        console.error("Failed to load testimonials:", err);
+      }
+    };
+    fetchTestimonials();
+  }, []);
+
+  useEffect(() => {
+    const fetchNews = async () => {
+      try {
+        const data = await DealsForeverApi.getAllNewsAndMedia();
+        const activeNews = (Array.isArray(data) ? data : [])
+          .filter((item: any) => item.isActive)
+          .map((item: any) => ({
+            image: getFullImageUrl(item.imagePath),
+            title: item.title,
+            date: item.blogDate,
+            excerpt: item.content,
+            description: item.content,
+          }));
+        if (activeNews.length > 0) {
+          setNewsList(activeNews);
+        }
+      } catch (err) {
+        console.error("Failed to load news and media:", err);
+      }
+    };
+    fetchNews();
+  }, []);
+
+  useEffect(() => {
+    const fetchOffers = async () => {
+      try {
+        const data = await DealsForeverApi.getAllOffers();
+        const mapped = (Array.isArray(data) ? data : []).map((item: any) => {
+          const subImages = Array.isArray(item.offerImages) && item.offerImages.length > 0
+            ? item.offerImages.map((img: any) => getFullImageUrl(img.imagePath))
+            : [getFullImageUrl(item.imagePath)];
+          return {
+            id: item.offerId,
+            title: item.offerTitle,
+            description: item.offerSubtitle,
+            fullDescription: item.offerSubtitle,
+            image: getFullImageUrl(item.imagePath),
+            validTill: new Date(item.offerDate).toLocaleDateString('en-IN', {
+              day: 'numeric',
+              month: 'short',
+              year: 'numeric'
+            }),
+            subImages
+          };
+        });
+        if (mapped.length > 0) {
+          setOffersList(mapped);
+        }
+      } catch (err) {
+        console.error("Failed to load offers:", err);
+      }
+    };
+    fetchOffers();
+  }, []);
+
   useEffect(() => {
     const modalTimer = setTimeout(() => {
       setShowOfferModal(true);
@@ -132,12 +246,33 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    if (!showOfferModal) return;
+    const fetchPopups = async () => {
+      try {
+        const data = await DealsForeverApi.getAllIndexPopups();
+        const activePopups = (Array.isArray(data) ? data : [])
+          .filter((p: any) => p.isactive)
+          .map((p: any) => ({
+            title: p.popupTitle,
+            description: p.popupSubtitle,
+            image: getFullImageUrl(p.desktopImagePath),
+          }));
+        if (activePopups.length > 0) {
+          setPopups(activePopups);
+        }
+      } catch (err) {
+        console.error("Failed to load index popups:", err);
+      }
+    };
+    fetchPopups();
+  }, []);
+
+  useEffect(() => {
+    if (!showOfferModal || popups.length <= 1) return;
     const timer = setInterval(() => {
-      setOfferIndex((prev) => (prev + 1) % launchOffers.length);
+      setOfferIndex((prev) => (prev + 1) % popups.length);
     }, 3000);
     return () => clearInterval(timer);
-  }, [showOfferModal]);
+  }, [showOfferModal, popups.length]);
 
   // Testimonial modal state
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -220,10 +355,10 @@ export default function Home() {
   const newsSection = useInView();
   const testimonialsSection = useInView();
 
-  const offersCarousel = usePagedCarousel(offers.length, 4, 3000);
-  const newsCarousel = usePagedCarousel(newsItems.length, 4, 3500);
-  const testimonialsCarousel = usePagedCarousel(testimonials.length, 4, 4000);
-  const brandsCarousel = usePagedCarousel(brands.length, 4, 3000);
+  const offersCarousel = usePagedCarousel(offersList.length, 4, 3000);
+  const newsCarousel = usePagedCarousel(newsList.length, 4, 3500);
+  const testimonialsCarousel = usePagedCarousel(testimonialsList.length, 4, 4000);
+  const brandsCarousel = usePagedCarousel(brandsList.length, 4, 3000);
   const marketingCarousel = usePagedCarousel(
     marketingHighlights.length,
     4,
@@ -238,7 +373,7 @@ export default function Home() {
   return (
     <div>
       {/* Pop up Modal */}
-      {showOfferModal && (
+      {showOfferModal && popups.length > 0 && (
         <div className="fixed inset-0 z-[999999] bg-black/70 backdrop-blur-sm flex items-center justify-center px-4">
           <div className="relative w-full max-w-2xl bg-white rounded-2xl overflow-hidden shadow-2xl animate-fade-in-up">
             <button
@@ -249,8 +384,8 @@ export default function Home() {
             </button>
             <div className="relative">
               <img
-                src={launchOffers[offerIndex].image}
-                alt={launchOffers[offerIndex].title}
+                src={popups[offerIndex].image}
+                alt={popups[offerIndex].title}
                 className="w-full h-[200px] sm:h-[300px] md:h-[360px] object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
@@ -259,16 +394,16 @@ export default function Home() {
                   Exclusive Offer
                 </span>
                 <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-2 sm:mb-3">
-                  {launchOffers[offerIndex].title}
+                  {popups[offerIndex].title}
                 </h2>
                 <p className="text-white/90 text-xs sm:text-sm max-w-lg">
-                  {launchOffers[offerIndex].description}
+                  {popups[offerIndex].description}
                 </p>
               </div>
             </div>
             <div className="p-4 sm:p-6 flex justify-between items-center">
               <div className="flex gap-2">
-                {launchOffers.map((_, i) => (
+                {popups.map((_, i) => (
                   <button
                     key={i}
                     onClick={() => setOfferIndex(i)}
@@ -557,7 +692,7 @@ export default function Home() {
             onMouseEnter={offersCarousel.onMouseEnter}
             onMouseLeave={offersCarousel.onMouseLeave}
           >
-            {getPage(offers, offersCarousel.page, 4).map((offer, i) => (
+            {getPage(offersList, offersCarousel.page, 4).map((offer, i) => (
               <div
                 key={`${offersCarousel.page}-${i}`}
                 className="group rounded-xl overflow-hidden shadow-md card-hover animate-fade-in-up shrink-0 w-[88%] sm:w-[48%] lg:w-auto snap-start"
@@ -627,7 +762,7 @@ export default function Home() {
             onMouseEnter={newsCarousel.onMouseEnter}
             onMouseLeave={newsCarousel.onMouseLeave}
           >
-            {getPage(newsItems, newsCarousel.page, 4).map((item, i) => (
+            {getPage(newsList, newsCarousel.page, 4).map((item, i) => (
               <div
                 key={`${newsCarousel.page}-${i}`}
                 className="bg-white rounded-xl overflow-hidden shadow-sm card-hover group animate-fade-in-up shrink-0 w-[88%] sm:w-[48%] lg:w-auto snap-start"
@@ -692,7 +827,7 @@ export default function Home() {
             onMouseEnter={testimonialsCarousel.onMouseEnter}
             onMouseLeave={testimonialsCarousel.onMouseLeave}
           >
-            {getPage(testimonials, testimonialsCarousel.page, 4).map(
+            {getPage(testimonialsList, testimonialsCarousel.page, 4).map(
               (item, i) => (
                 <div
                   key={`${testimonialsCarousel.page}-${i}`}
@@ -716,7 +851,7 @@ export default function Home() {
                         <CheckCircle2 size={14} className="text-[#aa8453]" />
                       </p>
                       <p className="text-xs text-[#888]">
-                        {item.designation}, {item.location}
+                        {item.designation}{item.location ? `, ${item.location}` : ""}
                       </p>
                     </div>
                   </div>
@@ -764,7 +899,7 @@ export default function Home() {
             onMouseEnter={brandsCarousel.onMouseEnter}
             onMouseLeave={brandsCarousel.onMouseLeave}
           >
-            {getPage(brands, brandsCarousel.page, 4).map((brand, i) => (
+            {getPage(brandsList, brandsCarousel.page, 4).map((brand, i) => (
               <div
                 key={`${brandsCarousel.page}-${i}`}
                 className="h-20 sm:h-24 bg-white rounded-xl shadow-sm border border-[#e8e0d5] flex items-center justify-center hover:shadow-md hover:border-[#aa8453]/40 transition-all duration-300 animate-fade-in-up shrink-0 w-[46%] md:w-[31%] lg:w-auto snap-start"
