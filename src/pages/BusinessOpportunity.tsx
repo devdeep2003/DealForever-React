@@ -1,0 +1,1512 @@
+import { CheckCircle2, X, ChevronRight } from "lucide-react";
+import PageBanner from "../components/PageBanner";
+import { useState, useRef, useEffect } from "react";
+import TermsAndConditionsModal from "../components/TermsandConditions";
+import {
+  businessOpportunityImages,
+  businessOpportunityBenefits as benefits,
+  businessIncomeHighlights as incomeHighlights,
+  compensationPlanBenefits as planBenefits,
+  compensationTables,
+  financialIncomeItems as financialItems,
+  physicalStoreBullets,
+  ecommerceBullets,
+  directSellingBullets,
+  glossaryTerms,
+  codeOfEthics,
+  distributionStats,
+  supportFaqs,
+} from "../data/siteData";
+
+const {
+  IMG,
+  BIZ_IMG,
+  SALES_IMG,
+  PULSE_CIRCLE_IMG,
+  TABLE1_IMG,
+  TABLE2_IMG,
+  TABLE3_IMG,
+  TABLE4_IMG,
+  SUPPORT_IMG,
+  FLOW_IMG,
+  MEDIA_IMG,
+  TEAM_IMG,
+  WARNING_IMG,
+  CASH_IMG,
+  SPONSOR_NETWORK_IMG,
+  ECART_IMG,
+  PLACEMENT_NETWORK_IMG,
+  BUSINESS_PLAN_IMG,
+  SPILLOVER_IMG,
+  BUSINESS_OPPORTUNITY_IMG,
+  BUILDING_IMG,
+  BUSINESS_FLOW_IMG,
+  THINKING_IMG,
+} = businessOpportunityImages;
+
+// ─── helpers ─────────────────────────────────────────────────────────────────
+
+function SectionIcon({ src }: { src: string }) {
+  return (
+    <div className="w-10 h-10 rounded-full bg-[#faf8f5] border border-[#aa8453]/30 flex items-center justify-center shrink-0">
+      <img src={`${IMG}${src}`} alt="" className="w-5 h-5 object-contain" />
+    </div>
+  );
+}
+
+function BulletList({ items }: { items: { point: string; detail: string }[] }) {
+  return (
+    <ul className="space-y-2 mt-2">
+      {items.map((item, i) => (
+        <li key={i} className="flex items-start gap-3">
+          <span className="mt-2 w-1.5 h-1.5 rounded-full bg-[#aa8453] shrink-0" />
+          <div>
+            <span className="text-sm font-semibold text-[#191717]">
+              {item.point}
+            </span>
+            <span className="text-sm text-[#666]"> — {item.detail}</span>
+          </div>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+// Uniform, fixed-height image frame so every image on the page renders at the
+// same size (never small, never oversized) regardless of its source aspect
+// ratio. `size` controls the frame height: "lg" for hero/full-width spots,
+// "sm" for images that sit beside floated text.
+function ContainedImage({
+  src,
+  alt,
+  className = "",
+  size = "lg",
+}: {
+  src: string;
+  alt: string;
+  className?: string;
+  size?: "lg" | "sm";
+}) {
+  const frameHeight =
+    size === "lg" ? "h-64 sm:h-80 md:h-96" : "h-40 sm:h-48 md:h-56";
+  return (
+    <div
+      className={`w-full flex justify-center overflow-hidden rounded-2xl ${className}`}
+    >
+      <img
+        src={src}
+        alt={alt}
+        className="max-w-full h-auto object-contain rounded-2xl"
+      />
+    </div>
+  );
+}
+
+// Floated image so text/bullets that run longer than the image wrap
+// around and below it instead of leaving empty space beside it.
+// On mobile (below `sm`, where floats don't apply), the image normally
+// stacks at the very top. Pass `introContent` to instead have the image
+// appear after that intro block on mobile — desktop float behavior is
+// unaffected either way.
+function FloatWrapSection({
+  image,
+  alt,
+  icon,
+  title,
+  children,
+  float = "left",
+  introContent,
+}: {
+  image: string;
+  alt: string;
+  icon: string;
+  title: string;
+  children: React.ReactNode;
+  float?: "left" | "right";
+  introContent?: React.ReactNode;
+}) {
+  const floatClass =
+    float === "left" ? "sm:float-left sm:mr-6" : "sm:float-right sm:ml-6";
+  return (
+    <div>
+      <div
+        className={`w-full sm:w-64 mb-3 ${floatClass} ${introContent ? "hidden sm:block" : ""
+          }`}
+      >
+        <ContainedImage src={image} alt={alt} size="sm" />
+      </div>
+      <div className="flex items-center gap-3 mb-2">
+        <SectionIcon src={icon} />
+        <h3 className="font-bold text-[#191717] leading-tight">{title}</h3>
+      </div>
+      {introContent}
+      {introContent && (
+        <div className="sm:hidden w-full mb-3">
+          <ContainedImage src={image} alt={alt} size="sm" />
+        </div>
+      )}
+      {children}
+      <div className="clear-both" />
+    </div>
+  );
+}
+
+// ─── component ───────────────────────────────────────────────────────────────
+
+export default function BusinessOpportunity() {
+  type FinancialItem = (typeof financialItems)[number];
+  const [selectedFinancialItem, setSelectedFinancialItem] =
+    useState<FinancialItem | null>(null);
+  const [isFinancialModalOpen, setIsFinancialModalOpen] = useState(false);
+
+  const openFinancialModal = (item: (typeof financialItems)[number]) => {
+    setSelectedFinancialItem(item);
+    setIsFinancialModalOpen(true);
+  };
+  const closeFinancialModal = () => {
+    setIsFinancialModalOpen(false);
+  };
+
+  const [isTermsOpen, setIsTermsOpen] = useState(false);
+
+  // Auto-scroll for the "Your Benefits As A Partner" horizontal scroller
+  // (only relevant below `lg`, since it becomes a static 4-col grid on desktop)
+  const benefitsScrollRef = useRef<HTMLDivElement>(null);
+  const [activeBenefit, setActiveBenefit] = useState(0);
+  const isBenefitsPaused = useRef(false);
+
+  useEffect(() => {
+    const container = benefitsScrollRef.current;
+    if (!container) return;
+
+    const interval = setInterval(() => {
+      if (isBenefitsPaused.current || !container) return;
+      const card = container.children[0] as HTMLElement | undefined;
+      if (!card) return;
+      const cardStep = card.offsetWidth + 16; // matches gap-4
+      const atEnd =
+        container.scrollLeft + container.clientWidth >=
+        container.scrollWidth - 10;
+
+      if (atEnd) {
+        container.scrollTo({ left: 0, behavior: "smooth" });
+        setActiveBenefit(0);
+      } else {
+        container.scrollBy({ left: cardStep, behavior: "smooth" });
+        setActiveBenefit((prev) => Math.min(prev + 1, benefits.length - 1));
+      }
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const handleBenefitsScroll = () => {
+    const container = benefitsScrollRef.current;
+    if (!container) return;
+    const card = container.children[0] as HTMLElement | undefined;
+    if (!card) return;
+    const cardStep = card.offsetWidth + 16;
+    const index = Math.round(container.scrollLeft / cardStep);
+    setActiveBenefit(Math.max(0, Math.min(index, benefits.length - 1)));
+  };
+
+  const pauseBenefitsAutoScroll = () => {
+    isBenefitsPaused.current = true;
+  };
+
+  const resumeBenefitsAutoScroll = () => {
+    isBenefitsPaused.current = false;
+  };
+
+  const scrollToBenefit = (index: number) => {
+    const container = benefitsScrollRef.current;
+    if (!container) return;
+    const card = container.children[index] as HTMLElement | undefined;
+    if (!card) return;
+    container.scrollTo({ left: card.offsetLeft, behavior: "smooth" });
+    setActiveBenefit(index);
+  };
+
+  const howItWorksSteps = [
+    {
+      step: "01",
+      label: "Submit Your Details",
+      detail:
+        "Fill out the form with your basic information and we will reach out to you.",
+    },
+    {
+      step: "02",
+      label: "Attend an Orientation",
+      detail:
+        "Our team will walk you through the business plan and compensation structure.",
+    },
+    {
+      step: "03",
+      label: "Get Registered",
+      detail: "Complete your free registration on www.mydealforever.com.",
+    },
+    {
+      step: "04",
+      label: "Start Earning",
+      detail:
+        "Begin selling, building your team, and unlocking bonuses from day one.",
+    },
+  ];
+
+  return (
+    <div>
+      <PageBanner
+        title="Business Opportunity"
+        subtitle="Discover the Deal Forever advantage"
+        breadcrumbs={[{ label: "Business Opportunity" }]}
+      />
+
+      {/* ── 1. MY BUSINESS PLAN ─────────────────────────────────── */}
+      <section className="section-padding bg-white">
+        <div className="container-custom">
+          {/* Hero Section */}
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-5 mb-6">
+            {/* Left Content */}
+            <div className="w-full lg:w-1/2 text-center lg:text-left">
+              <p className="section-subtitle">My Business Plan</p>
+              <h2 className="section-title mb-3">Learn The Law of Wealth</h2>
+              <p className="text-[#555] text-lg font-medium mb-3">
+                Plan Your Future, Live Your Dreams.
+              </p>
+              <p className="text-[#888] text-base leading-7 max-w-xl mx-auto lg:mx-0">
+                Deal Forever is more than a business — it's a movement built on
+                the belief that financial freedom is achievable by anyone
+                willing to put in the work. Our plan is transparent, scalable,
+                and designed to reward effort at every level.
+              </p>
+            </div>
+            {/* Right Image */}
+            <div className="w-full lg:w-1/2">
+              <ContainedImage
+                src={THINKING_IMG}
+                alt="Business Opportunity Banner"
+              />
+            </div>
+          </div>
+
+          {/* Question + Quote + Stat strip */}
+          <div className="grid md:grid-cols-2 gap-5 mb-6">
+            <div className="bg-[#faf8f5] rounded-xl p-5 flex flex-col border border-gray-200">
+              <div className="flex gap-4 items-start mb-3">
+                <div className="w-9 h-9 rounded-full bg-white border border-gray-200 flex items-center justify-center shrink-0 mt-0.5">
+                  <img
+                    src={`${IMG}icons8-question-mark-50.png`}
+                    alt="Question"
+                    className="w-5 h-5 object-contain"
+                  />
+                </div>
+                <div>
+                  <p className="text-[#333] leading-relaxed font-medium mb-2">
+                    What's the probability of your current job allowing you to
+                    achieve your life goals?
+                  </p>
+                  <p className="text-sm text-[#777] leading-relaxed">
+                    Most people trade 40+ years of their prime time for a fixed
+                    salary that never quite covers their dreams. Deal Forever
+                    offers a different equation — one where your input directly
+                    determines your output.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="bg-[#191717] rounded-xl p-5 flex flex-col items-center justify-center gap-3">
+              <p className="text-white leading-relaxed font-medium italic text-center text-lg">
+                "In This Business, You Have The Power To Shape Your Own
+                Destiny."
+              </p>
+              <div className="flex flex-wrap gap-4 sm:gap-6 pt-2 border-t border-white/10 w-full justify-center">
+                {[
+                  ["1M+", "Active distributors"],
+                  ["50+", "Product categories"],
+                  ["Pan-India", "Network reach"],
+                ].map(([v, l]) => (
+                  <div key={l} className="text-center">
+                    <p className="text-[#aa8453] font-black text-lg leading-tight">
+                      {v}
+                    </p>
+                    <p className="text-white/60 text-[10px] mt-0.5">{l}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* How It Works — 4 Simple Steps To Start */}
+          <div className="mb-6">
+            <div className="flex flex-col items-center text-center mb-5">
+              <p className="section-subtitle">How It Works</p>
+              <h2 className="section-title">4 Simple Steps To Start</h2>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+              {howItWorksSteps.map((s, i) => (
+                <div key={s.step} className="relative">
+                  <div className="bg-[#faf8f5] rounded-xl p-5 h-full hover:shadow-md transition-all duration-300">
+                    <p className="text-4xl font-black text-[#aa8453]/20 mb-2">
+                      {s.step}
+                    </p>
+                    <p className="font-bold text-[#191717] mb-2">{s.label}</p>
+                    <p className="text-sm text-[#888] leading-relaxed">
+                      {s.detail}
+                    </p>
+                  </div>
+                  {i < howItWorksSteps.length - 1 && (
+                    <ChevronRight
+                      size={18}
+                      className="hidden lg:block absolute top-1/2 -right-4 -translate-y-1/2 text-[#aa8453]"
+                    />
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Benefits */}
+          <h2 className="section-title text-center font-bold text-[#191717] mb-5">
+            Your Benefits As A Partner With Deal Forever
+          </h2>
+          <div
+            ref={benefitsScrollRef}
+            onScroll={handleBenefitsScroll}
+            onMouseEnter={pauseBenefitsAutoScroll}
+            onMouseLeave={resumeBenefitsAutoScroll}
+            onTouchStart={pauseBenefitsAutoScroll}
+            onTouchEnd={resumeBenefitsAutoScroll}
+            className="flex lg:grid lg:grid-cols-4 gap-4 lg:gap-6 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-2 lg:pb-0"
+          >
+            {benefits.map((b, i) => (
+              <div
+                key={i}
+                className="bg-[#faf8f5] rounded-2xl p-8 text-center border border-gray-200 hover:border-[#aa8453]/40 hover:shadow-lg transition-all duration-300 shrink-0 w-[88%] sm:w-[48%] lg:w-auto snap-start"
+              >
+                <div className="w-16 h-16 mx-auto mb-5 rounded-full bg-white border border-gray-200 flex items-center justify-center">
+                  <img
+                    src={`${IMG}${b.icon}`}
+                    alt={b.title}
+                    className="w-8 h-8 object-contain"
+                  />
+                </div>
+                <h4 className="text-lg font-bold text-[#191717] mb-3 leading-snug">
+                  {b.title}
+                </h4>
+                <p className="text-sm text-[#999] leading-relaxed">{b.desc}</p>
+              </div>
+            ))}
+          </div>
+          {/* Pagination dots — only relevant on the scrollable (below-lg) layout */}
+          <div className="flex lg:hidden justify-center gap-1.5 mt-4">
+            {benefits.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => scrollToBenefit(i)}
+                aria-label={`Go to benefit ${i + 1}`}
+                className={`h-1.5 rounded-full transition-all duration-300 ${activeBenefit === i
+                    ? "w-6 bg-[#aa8453]"
+                    : "w-1.5 bg-[#aa8453]/30"
+                  }`}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── 2. BUSINESS OPPORTUNITIES ───────────────────────────── */}
+      <section className="section-padding bg-[#faf8f5]">
+        <div className="container-custom">
+          <div className="grid lg:grid-cols-2 gap-5 items-center">
+            <div>
+              <p className="section-subtitle">Business Opportunities</p>
+              <h2 className="section-title">An Unprecedented Opportunity</h2>
+              {/* Mobile-only: image placed right after the heading */}
+              <div className="lg:hidden mb-3">
+                <ContainedImage
+                  src={BUSINESS_OPPORTUNITY_IMG}
+                  alt="Deal Forever Business Opportunity"
+                />
+              </div>
+              <p className="text-[#555] text-sm leading-relaxed mb-3">
+                Deal Forever introduces an unprecedented opportunity to showcase
+                unique products from various innovators on a single multilevel
+                marketing platform. Enjoy the benefit of e-commerce combined
+                with Deal Forever branded chain stores, creating a robust
+                platform for success.
+              </p>
+              <p className="text-[#555] text-sm leading-relaxed mb-3">
+                Join Deal Forever today and explore a diverse range of unique
+                products. Benefit from our integrated approach to marketing and
+                retail, and seize the opportunity to expand your business and
+                achieve new heights.
+              </p>
+              {/* Key pillars */}
+              <div className="grid grid-cols-2 gap-3">
+                {[
+                  {
+                    label: "Physical Stores",
+                    detail: "Nationwide branded retail locations.",
+                  },
+                  {
+                    label: "E-Commerce",
+                    detail: "Online ordering to 10,000+ pin codes.",
+                  },
+                  {
+                    label: "MLM Network",
+                    detail: "Sponsor-based multilevel income tree.",
+                  },
+                  {
+                    label: "Mobile App",
+                    detail: "24/7 ordering and business management.",
+                  },
+                ].map((p) => (
+                  <div
+                    key={p.label}
+                    className="bg-white border border-gray-200 rounded-lg p-3"
+                  >
+                    <p className="text-xs font-bold text-[#191717] mb-0.5">
+                      {p.label}
+                    </p>
+                    <p className="text-xs text-[#888]">{p.detail}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+            {/* Desktop-only: image stays in its own right-hand column */}
+            <div className="hidden lg:block">
+              <ContainedImage
+                src={BUSINESS_OPPORTUNITY_IMG}
+                alt="Deal Forever Business Opportunity"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 3. COMPENSATION PLAN ────────────────────────────────── */}
+      <>
+        {/* sustainable direct selling system with strong management team — full bleed, outside container */}
+        <section className="section-padding bg-white">
+          <div className="container-custom">
+            <div className="mb-6">
+              <p className="section-subtitle">Compensation Plan</p>
+              <h2 className="section-title mb-3">
+                A Highly Simplified Dual Plan with Multiple Benefits to All
+              </h2>
+              <p className="text-[#666] leading-7 text-base">
+                Deal Forever upholds an inspiring ideology of bringing happiness
+                into the lives of billions through an exceptional range of
+                high-quality life care products. Its unique compensation plan
+                offers unlimited opportunities through an advanced consumer
+                loyalty program. Join us to make a difference and grow together.
+              </p>
+            </div>
+
+            <div className="flex flex-col lg:flex-row items-start gap-8">
+              <div className="w-full lg:w-1/2">
+                <ContainedImage
+                  src={BUSINESS_PLAN_IMG}
+                  alt="Compensation Plan"
+                />
+              </div>
+
+              <div className="w-full lg:w-1/2">
+                <h3 className="text-xl font-bold text-[#aa8453] mb-4 tracking-wide">
+                  Income Highlights
+                </h3>
+                <div className="space-y-3">
+                  {incomeHighlights.map((h, i) => (
+                    <div
+                      key={i}
+                      className={`flex items-center gap-6 rounded-2xl p-6 ${i % 2 === 0 ? "bg-[#efe9e2]" : "bg-[#faf8f5]"
+                        }`}
+                    >
+                      <p className="text-5xl font-black text-[#aa8453] shrink-0 w-20">
+                        {h.num}
+                      </p>
+                      <div>
+                        <h4 className="text-[#191717] font-bold mb-1">
+                          {h.title}
+                        </h4>
+                        <p className="text-[#666] text-sm leading-6">
+                          {h.desc}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Sustainable Direct Selling System — full-bleed, top-level section (same pattern as Financial Freedom) */}
+        <section className="py-10 md:py-20 bg-[#191717] relative overflow-hidden">
+          <div className="absolute inset-0 bg-[url('https://images.pexels.com/photos/3184405/pexels-photo-3184405.jpeg?auto=compress&cs=tinysrgb&w=1920')] bg-cover bg-center opacity-10" />
+          <div className="relative container-custom text-center">
+            <h2 className="text-xl sm:text-2xl md:text-4xl font-bold text-white mb-5 sm:mb-8">
+              Sustainable Direct Selling System With Strong Management Team
+            </h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6 max-w-4xl mx-auto">
+              {[
+                "ISO certified delivery system",
+                "Full scale business automation",
+                "World class leadership",
+                "Cutting edge technology",
+              ].map((item, i) => (
+                <div
+                  key={i}
+                  className="flex items-center gap-2 sm:gap-3 text-white/80 bg-white/5 rounded-xl p-3 sm:p-4"
+                >
+                  <CheckCircle2
+                    size={18}
+                    className="text-[#aa8453] shrink-0 sm:w-5 sm:h-5"
+                  />
+                  <span className="text-xs sm:text-sm">{item}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="section-padding bg-white">
+          <div className="container-custom">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="flex-1 h-px bg-gray-200" />
+              <p className="text-center text-[#888] text-xs font-semibold tracking-wide uppercase whitespace-nowrap">
+                8 structural advantages of the dual plan
+              </p>
+              <div className="flex-1 h-px bg-gray-200" />
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+              {planBenefits.map((b, i) => (
+                <div
+                  key={i}
+                  className="bg-[#faf8f5] rounded-lg p-4 text-center border border-gray-200 hover:border-[#aa8453]/40 transition-colors duration-200"
+                >
+                  <div className="w-10 h-10 mx-auto mb-2.5 rounded-full bg-white border border-gray-200 flex items-center justify-center">
+                    <img
+                      src={`${IMG}${b.icon}`}
+                      alt={b.title}
+                      className="w-5 h-5 object-contain"
+                    />
+                  </div>
+                  <p className="text-xs font-semibold text-[#191717] leading-snug mb-1">
+                    {b.title}
+                  </p>
+                  <p className="text-[10px] text-[#999] leading-relaxed">
+                    {b.desc}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      </>
+
+      {/* ── 4. FINANCIAL FREEDOM ────────────────────────────────── */}
+      <section className="section-padding bg-[#191717]">
+        <div className="container-custom">
+          <div className="text-center mb-5">
+            <p className="text-[#aa8453] font-semibold text-xs tracking-widest uppercase mb-2">
+              Financial Freedom
+            </p>
+            <h2 className="section-title font-bold text-white mb-2">
+              12 Income Streams, One Business
+            </h2>
+            <p className="text-white/50 text-sm max-w-2xl mx-auto">
+              From daily retail commissions to yearly profit sharing — Deal
+              Forever's compensation architecture is engineered so that every
+              level of effort is rewarded proportionally.
+            </p>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+            {financialItems.map((f, i) => (
+              <button
+                key={i}
+                onClick={() => openFinancialModal(f)}
+                className="text-left bg-white/5 rounded-lg p-4 border border-white/10 hover:border-[#aa8453]/50 transition-colors duration-200 cursor-pointer"
+              >
+                <div className="flex items-start gap-3 mb-2">
+                  <div className="w-9 h-9 shrink-0 rounded-full bg-white/10 flex items-center justify-center">
+                    <img
+                      src={`${IMG}${f.icon}`}
+                      alt={f.title}
+                      className="w-5 h-5 object-contain"
+                    />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-xs font-semibold text-white/90 leading-snug break-words">
+                      {f.title}
+                    </p>
+                    <p className="text-[#aa8453] font-black text-sm">{f.sub}</p>
+                  </div>
+                </div>
+                <p className="text-[10px] text-white/40 leading-relaxed">
+                  {f.desc}
+                </p>
+              </button>
+            ))}
+          </div>
+
+          {/* Modal */}
+          {isFinancialModalOpen && selectedFinancialItem && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+              {/* Overlay */}
+              <div
+                className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+                onClick={closeFinancialModal}
+              />
+              {/* Modal */}
+              <div className="relative bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] min-h-[60vh] flex flex-col overflow-hidden animate-scale-in">
+                {/* Close Button */}
+                <button
+                  onClick={closeFinancialModal}
+                  className="absolute top-4 right-4 z-10 w-8 h-8 flex items-center justify-center rounded-full bg-[#faf8f5] text-[#555] hover:bg-black hover:text-white transition-colors"
+                >
+                  <X size={18} />
+                </button>
+                {/* Quote-style accent */}
+                <div className="absolute top-8 left-6 text-[#aa8453]/10 text-8xl font-serif leading-none pointer-events-none">
+                  &ldquo;
+                </div>
+                {/* Header */}
+                <div className="relative bg-[#aa8453] px-6 py-6">
+                  <div className="flex items-center gap-4">
+                    <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center border-2 shrink-0">
+                      <img
+                        src={`${IMG}${selectedFinancialItem.icon}`}
+                        alt={selectedFinancialItem.title}
+                        className="w-8 h-8 object-contain"
+                      />
+                    </div>
+                    <div className="min-w-0">
+                      <h3 className="font-bold text-white text-lg break-words">
+                        {selectedFinancialItem.title}
+                      </h3>
+                      <p className="text-sm text-white/70">
+                        {selectedFinancialItem.sub}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                {/* Content */}
+                <div className="px-6 py-5 overflow-y-auto max-h-[50vh]">
+                  <p className="text-[#555] text-sm leading-relaxed">
+                    {selectedFinancialItem.detail}
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* ── 5. DISTRIBUTOR / WARNING ─────────────────────────────── */}
+      <section className="section-padding bg-white">
+        <div className="container-custom w-full mx-auto">
+          <div className="grid lg:grid-cols-2 gap-5 items-center">
+            {/* Desktop-only: image stays in its own left-hand column */}
+            <div className="hidden lg:block">
+              <ContainedImage
+                src={WARNING_IMG}
+                alt="Stay informed and protected"
+              />
+            </div>
+            {/* Right Content */}
+            <div>
+              <span className="inline-flex items-center gap-1.5 bg-red-50 text-red-600 text-xs font-bold px-3 py-1.5 rounded-full mb-3">
+                ⚠ WARNING
+              </span>
+              <h2 className="section-title font-bold text-[#191717] mb-3">
+                Stay Informed, Stay Protected
+              </h2>
+              <p className="text-[#888] leading-7 mb-3">
+                Deal Forever operates as a fully compliant direct-selling
+                organisation under Indian law. Before joining any network
+                marketing opportunity, be aware of the following legal
+                protections:
+              </p>
+              {/* Mobile-only: image placed right after this paragraph */}
+              <div className="lg:hidden mb-3">
+                <ContainedImage
+                  src={WARNING_IMG}
+                  alt="Stay informed and protected"
+                />
+              </div>
+              <div className="space-y-2">
+                <div className="flex gap-3 bg-red-50 rounded-xl p-4">
+                  <span className="font-bold text-red-500 shrink-0">1.</span>
+                  <p className="text-sm text-[#444] leading-relaxed">
+                    Promoters and participants in trading schemes are prohibited
+                    from soliciting payments by promising benefits contingent
+                    upon the recruitment of others.
+                  </p>
+                </div>
+                <div className="flex gap-3 bg-red-50 rounded-xl p-4">
+                  <span className="font-bold text-red-500 shrink-0">2.</span>
+                  <p className="text-sm text-[#444] leading-relaxed">
+                    Be wary of assertions that substantial income can be readily
+                    obtained without adequate effort or time investment.
+                    Earnings depend entirely on individual performance.
+                  </p>
+                </div>
+              </div>
+              <p className="text-sm text-[#999] leading-relaxed mt-3">
+                Deal Forever encourages all prospects to read the full
+                compensation plan and consult with existing distributors before
+                making any business commitment.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 6. SPECIAL BENEFITS (zigzag) ────────────────────────── */}
+      <section className="section-padding bg-[#faf8f5]">
+        <div className="container-custom">
+          <div className="text-center mb-5 max-w-2xl mx-auto">
+            <p className="section-subtitle">Special Benefits</p>
+            <h2 className="section-title mb-3">Exclusive Member Rewards</h2>
+            <p className="text-sm text-[#888] leading-relaxed">
+              Beyond income, Deal Forever empowers its rank achievers with
+              healthcare, education, and lifestyle benefits.
+            </p>
+          </div>
+          <div className="grid md:grid-cols-2 gap-5">
+            {/* Medical Insurance Card */}
+            <div className="group relative bg-white rounded-2xl border border-gray-200 p-5 overflow-hidden hover:shadow-lg transition-shadow duration-300">
+              <img
+                src="https://images.pexels.com/photos/40568/medical-appointment-doctor-healthcare-40568.jpeg?auto=compress&cs=tinysrgb&w=800"
+                alt="Medical Insurance Coverage"
+                className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+              />
+              <div className="absolute inset-0 bg-white/90 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="relative">
+                <div className="flex gap-4 items-start mb-3">
+                  <div className="w-12 h-12 shrink-0 rounded-lg bg-[#faf8f5] flex items-center justify-center border border-gray-200">
+                    <img
+                      src={`${IMG}special1.png`}
+                      alt="Medical Insurance"
+                      className="w-7 h-7 object-contain"
+                    />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-sm text-[#191717] mb-1.5 leading-snug">
+                      FREE MEDICAL INSURANCE POLICY
+                    </h3>
+                    <p className="text-sm text-[#555] leading-relaxed">
+                      Deal Forever provides a free medical insurance policy to
+                      all State Team Coordinators (STC) Rank Achievers.
+                    </p>
+                  </div>
+                </div>
+                <ul className="space-y-1.5 pl-2 border-t border-gray-200 pt-3">
+                  {[
+                    "Full family coverage included",
+                    "No premium required from the distributor",
+                    "Activated automatically on rank achievement",
+                  ].map((b) => (
+                    <li
+                      key={b}
+                      className="flex items-start gap-2 text-xs text-[#666]"
+                    >
+                      <span className="mt-1.5 w-1 h-1 rounded-full bg-[#aa8453] shrink-0" />
+                      {b}
+                    </li>
+                  ))}
+                </ul>
+                <button
+                  type="button"
+                  onClick={() => setIsTermsOpen(true)}
+                  className="block mt-3 ml-auto text-right text-xs font-semibold text-[#aa8453] hover:underline transition-colors"
+                >
+                  Terms & Conditions apply
+                </button>
+              </div>
+            </div>
+            {/* Scholarship Card */}
+            <div className="group relative bg-white rounded-2xl border border-gray-200 p-5 overflow-hidden hover:shadow-lg transition-shadow duration-300">
+              <img
+                src="https://images.pexels.com/photos/267885/pexels-photo-267885.jpeg?auto=compress&cs=tinysrgb&w=800"
+                alt="Higher Educational Scholarship"
+                className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+              />
+              <div className="absolute inset-0 bg-white/90 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="relative">
+                <div className="flex gap-4 items-start mb-3">
+                  <div className="w-12 h-12 shrink-0 rounded-lg bg-[#faf8f5] flex items-center justify-center border border-gray-200">
+                    <img
+                      src={`${IMG}special2.png`}
+                      alt="Educational Scholarship"
+                      className="w-7 h-7 object-contain"
+                    />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-sm text-[#191717] mb-1.5 leading-snug">
+                      HIGHER EDUCATIONAL SCHOLARSHIP PROGRAMME
+                    </h3>
+                    <p className="text-sm text-[#555] leading-relaxed">
+                      A wonderful opportunity for recommending your beloved ones
+                      for a higher educational scholarship to all Regional Team
+                      Coordinator (RTC) Rank Achievers.
+                    </p>
+                  </div>
+                </div>
+                <ul className="space-y-1.5 pl-2 border-t border-gray-200 pt-3">
+                  {[
+                    "Supports undergraduate and postgraduate studies",
+                    "Available to children or dependants of the achiever",
+                    "Renewable annually based on academic performance",
+                  ].map((b) => (
+                    <li
+                      key={b}
+                      className="flex items-start gap-2 text-xs text-[#666]"
+                    >
+                      <span className="mt-1.5 w-1 h-1 rounded-full bg-[#aa8453] shrink-0" />
+                      {b}
+                    </li>
+                  ))}
+                </ul>
+                <button
+                  type="button"
+                  onClick={() => setIsTermsOpen(true)}
+                  className="block mt-3 ml-auto text-right text-xs font-semibold text-[#aa8453] hover:underline transition-colors"
+                >
+                  Terms & Conditions apply
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 7. IMPORTANT THINGS TO REMEMBER ─────────────────────── */}
+      <section className="section-padding bg-white">
+        <div className="container-custom">
+          <div className="text-center mb-5">
+            <p className="section-subtitle">Overview</p>
+            <h2 className="section-title">Important Things To Remember</h2>
+            <p className="text-sm text-[#888] max-w-xl mx-auto">
+              Understanding the foundations of how Deal Forever operates — from
+              product distribution to direct selling principles — sets every
+              distributor up for long-term success.
+            </p>
+          </div>
+          <div className="space-y-6">
+            {/* 7a. Product Distribution System — image after intro paragraph on mobile, floats on desktop */}
+            <FloatWrapSection
+              image={BUSINESS_FLOW_IMG}
+              alt="Product Distribution System"
+              icon="icons8-tesseract-64 .png"
+              title="Product Distribution System"
+              float="right"
+              introContent={
+                <p className="text-sm text-[#555] leading-relaxed mb-3">
+                  Deal Forever blends a nationwide physical retail presence with
+                  a powerful e-commerce backbone, so every product reaches every
+                  distributor and customer — wherever they are. Orders placed
+                  through the app are fulfilled via our centrally managed
+                  warehouse and last-mile delivery partners, ensuring speed and
+                  reliability.
+                </p>
+              }
+            >
+              <div className="grid grid-cols-3 gap-3 mb-3">
+                {distributionStats.map((d, i) => (
+                  <div
+                    key={i}
+                    className="bg-[#faf8f5] rounded-lg p-3 text-center border border-gray-200"
+                  >
+                    <p className="text-sm font-black text-[#aa8453] leading-tight">
+                      {d.value}
+                    </p>
+                    <p className="text-[10px] text-[#888] font-medium mt-1 leading-snug">
+                      {d.label}
+                    </p>
+                  </div>
+                ))}
+              </div>
+              <p className="text-xs text-[#999] leading-relaxed">
+                Our logistics partners are integrated directly with the Deal
+                Forever platform, giving distributors and customers full
+                visibility from warehouse dispatch to doorstep delivery.
+              </p>
+            </FloatWrapSection>
+
+            {/* 7b. Advantages of Physical Store — image after intro paragraph on mobile, floats on desktop */}
+            <FloatWrapSection
+              image={BUILDING_IMG}
+              alt="Physical Store"
+              icon="icons8-store-50.png"
+              title="Advantages of Physical Stores"
+              float="left"
+              introContent={
+                <p className="text-sm text-[#555] leading-relaxed mb-2">
+                  Deal Forever's branded retail locations give distributors a
+                  credible, professional space to showcase products and attract
+                  walk-in customers — building trust that translates to repeat
+                  business and stronger referrals.
+                </p>
+              }
+            >
+              <BulletList items={physicalStoreBullets} />
+            </FloatWrapSection>
+
+            {/* 7c. Benefits of E-Commerce — image after intro paragraph on mobile, floats on desktop */}
+            <FloatWrapSection
+              image={ECART_IMG}
+              alt="E-Commerce Benefits"
+              icon="icons8-shopping-cart-100.png"
+              title="Benefits of E-Commerce"
+              float="right"
+              introContent={
+                <p className="text-sm text-[#555] leading-relaxed mb-2">
+                  The Deal Forever e-commerce platform removes every
+                  geographical and time barrier from your business. Sell to
+                  customers across India around the clock, and let technology
+                  handle the heavy lifting of order processing and delivery.
+                </p>
+              }
+            >
+              <BulletList items={ecommerceBullets} />
+            </FloatWrapSection>
+
+            {/* 7d. Benefits of Direct Selling — image after intro paragraph on mobile, floats on desktop */}
+            <FloatWrapSection
+              image={`${BIZ_IMG}09 BENIFITS OF DIRECT SELLING.png`}
+              alt="Direct Selling"
+              icon="icons8-cart-96.png"
+              title="Benefits of Direct Selling"
+              float="left"
+              introContent={
+                <p className="text-sm text-[#555] leading-relaxed mb-2">
+                  Direct selling is one of the world's oldest and most proven
+                  business models — and Deal Forever has built a modern,
+                  technology-enabled version of it that combines personal
+                  relationships with the scale of a nationwide network.
+                </p>
+              }
+            >
+              <BulletList items={directSellingBullets} />
+            </FloatWrapSection>
+
+            {/* 7e. Glossary of Terms */}
+            <div>
+              <div className="flex items-center gap-3 mb-2">
+                <SectionIcon src="icons8-list-64.png" />
+                <h3 className="font-bold text-[#191717] leading-tight">
+                  Glossary Of Terms
+                </h3>
+              </div>
+              <p className="text-sm text-[#555] leading-relaxed mb-3">
+                Familiarise yourself with these core terms before you begin —
+                understanding the language of the plan will help you explain it
+                clearly to prospects and track your own progress accurately.
+              </p>
+              <div className="space-y-2">
+                {glossaryTerms.map((g, i) => (
+                  <div
+                    key={i}
+                    className="flex gap-3 bg-[#faf8f5] border border-gray-200 rounded-lg p-3"
+                  >
+                    <span className="text-xs font-black text-[#aa8453] shrink-0 w-20">
+                      {g.term}
+                    </span>
+                    <span className="text-xs text-[#555] leading-relaxed">
+                      {g.def}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* 7f. Sponsor Network / Placement Network / Spillover — images */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 items-center justify-items-center">
+              <ContainedImage
+                src={PLACEMENT_NETWORK_IMG}
+                alt="Placement Network"
+                size="lg"
+              />
+
+              <ContainedImage
+                src={SPILLOVER_IMG}
+                alt="Spillover Concept"
+                size="lg"
+              />
+
+              <ContainedImage
+                src={SPONSOR_NETWORK_IMG}
+                alt="Sponsor Network"
+                size="lg"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 8. RANK ACHIEVEMENT ─────────────────────────────────── */}
+      <section className="section-padding bg-[#faf8f5]">
+        <div className="container-custom">
+          <div className="flex items-center gap-3 mb-3">
+            <SectionIcon src="icons8-star-50.png" />
+            <h2 className="section-title font-bold text-[#191717] leading-tight">
+              Rank Achievement
+            </h2>
+          </div>
+          <p className="text-sm text-[#666] leading-relaxed mb-2">
+            Deal Forever's rank structure is a clear roadmap from Day 1 to
+            Diamond. Every rank you earn is permanent — no demotion, no clock
+            resetting. The milestones below show the path from your first sale
+            all the way to executive leadership, with growing income and
+            privileges at each level.
+          </p>
+          <div className="flex flex-col md:grid md:grid-cols-2 gap-4 mb-5">
+            <div className="overflow-x-auto scrollbar-hide">
+              <div className="w-[160%] sm:w-[130%] md:w-full">
+                <ContainedImage src={TABLE3_IMG} alt="Rank Achievement Chart" />
+              </div>
+            </div>
+            <div className="overflow-x-auto scrollbar-hide">
+              <div className="w-[160%] sm:w-[130%] md:w-full">
+                <ContainedImage src={TABLE4_IMG} alt="Rank Achievement Details" />
+              </div>
+            </div>
+          </div>
+
+          {/* Fast start callout */}
+          <div className="bg-[#191717] rounded-xl p-5 mb-5">
+            <p className="text-[#aa8453] font-bold text-xs tracking-widest uppercase mb-2">
+              Fast Start Advantage
+            </p>
+            <p className="text-white/70 text-sm leading-relaxed max-w-3xl">
+              Distributors who hit qualifying volumes in their first 90 days
+              unlock accelerated rank placement and additional Fast Start
+              bonuses — giving early movers a compounding head start on their
+              network and income.
+            </p>
+          </div>
+
+          <div className="flex flex-col md:grid md:grid-cols-2 gap-5">
+            <div>
+              <h3 className="font-bold text-sm text-[#191717] mb-1">
+                Fast Start Position (JSE, SSE, TC)
+              </h3>
+              <p className="text-xs text-[#888] mb-2">
+                Entry-level rank tiers with achievable volume targets for new
+                distributors.
+              </p>
+              <div className="overflow-x-auto scrollbar-hide">
+                <div className="w-[160%] sm:w-[130%] md:w-full">
+                  <ContainedImage
+                    src={TABLE1_IMG}
+                    alt="Fast Start Position (JSE, SSE, TC)"
+                  />
+                </div>
+              </div>
+            </div>
+            <div>
+              <h3 className="font-bold text-sm text-[#191717] mb-1">
+                Fast Start Executive Team Coordinator (ETC)
+              </h3>
+              <p className="text-xs text-[#888] mb-2">
+                Advanced rank unlocking leadership bonuses and exclusive
+                incentive programmes.
+              </p>
+              <div className="overflow-x-auto scrollbar-hide">
+                <div className="w-[160%] sm:w-[130%] md:w-full">
+                  <ContainedImage
+                    src={TABLE2_IMG}
+                    alt="Fast Start Executive Team Coordinator (ETC)"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 9. CODE OF ETHICS ───────────────────────────────────── */}
+      <section className="section-padding bg-white">
+        <div className="container-custom max-w-4xl">
+          <div className="mb-5">
+            <div className="flex items-center gap-3 mb-3">
+              <SectionIcon src="icons8-protect-64.png" />
+              <h2 className="section-title font-bold text-[#191717] leading-tight">
+                Code of Ethics
+              </h2>
+            </div>
+            <p className="text-sm text-[#555] leading-relaxed mb-3">
+              Distributors are obligated to maintain adherence to the Deal
+              Forever Code of Ethics at all times. The Company reserves the
+              right to terminate distributorship for any infraction. Upon
+              enrolment, distributors are required to pledge the following:
+            </p>
+            <p className="text-xs text-[#999]">
+              These commitments are not formalities — they are the backbone of a
+              community built on trust, transparency, and mutual respect.
+              Adherence to this code protects every distributor in the network.
+            </p>
+          </div>
+          <ol className="space-y-2">
+            {codeOfEthics.map((item, i) => (
+              <li
+                key={i}
+                className="flex gap-4 bg-[#faf8f5] rounded-lg p-4 border border-gray-200"
+              >
+                <span className="font-black text-[#aa8453] shrink-0">
+                  {i + 1}.
+                </span>
+                <p className="text-sm text-[#555] leading-relaxed">{item}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      {/* ── 10. SUPPORT ──────────────────────────────────────────── */}
+      <section className="section-padding bg-[#faf8f5]">
+        <div className="container-custom">
+          <div className="text-center mb-5">
+            <p className="section-subtitle">Support</p>
+            <h2 className="section-title">
+              We're Here To Support Your Drive Every Step Of The Way
+            </h2>
+            <p className="text-sm text-[#888] max-w-xl mx-auto">
+              From a mobile app to personalised training, Deal Forever wraps its
+              entire distributor network in a comprehensive support ecosystem so
+              you're never figuring things out alone.
+            </p>
+          </div>
+          <div className="space-y-6">
+            {/* 10a. Digital — text left, image right on desktop; image after the paragraph on mobile */}
+            <div className="grid lg:grid-cols-2 gap-5 items-center">
+              <div>
+                <div className="flex items-center gap-3 mb-2">
+                  <SectionIcon src="icons8-digital-66.png" />
+                  <h3 className="font-bold text-[#191717]">
+                    Digital Accessibility And Assistance
+                  </h3>
+                </div>
+                <p className="text-[#555] text-sm leading-relaxed mb-3">
+                  Download <strong>DEAL FOREVER</strong>'s mobile app to shop or
+                  manage your business anytime, anywhere! Get it on Play Store /
+                  App Store or visit{" "}
+                  <a
+                    href="https://www.mydealforever.com"
+                    className="text-[#aa8453] hover:underline break-words"
+                  >
+                    www.mydealforever.com
+                  </a>{" "}
+                  to place your order.
+                </p>
+                <div className="lg:hidden mb-3">
+                  <ContainedImage
+                    src={`${BIZ_IMG}17 DIGITAL ACCESSIBILTY AND ASSISTANCE.png`}
+                    alt="Digital Access"
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  {[
+                    {
+                      label: "Order Tracking",
+                      detail: "Real-time updates from dispatch to door.",
+                    },
+                    {
+                      label: "Income Dashboard",
+                      detail: "Live view of all bonuses and volumes.",
+                    },
+                    {
+                      label: "Team Management",
+                      detail: "Monitor your network's performance.",
+                    },
+                    {
+                      label: "Product Catalogue",
+                      detail: "Full range browsable any time.",
+                    },
+                  ].map((f) => (
+                    <div
+                      key={f.label}
+                      className="bg-white border border-gray-200 rounded-lg p-3"
+                    >
+                      <p className="text-xs font-bold text-[#191717] mb-0.5">
+                        {f.label}
+                      </p>
+                      <p className="text-[10px] text-[#999]">{f.detail}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="hidden lg:block">
+                <ContainedImage
+                  src={`${IMG}digital.png`}
+                  alt="Digital Access"
+                />
+              </div>
+            </div>
+
+            {/* 10b. Learning — image left, text right on desktop; image after the paragraph on mobile */}
+            <div className="grid lg:grid-cols-2 gap-5 items-center">
+              <div className="hidden lg:block">
+                <ContainedImage
+                  src={`${IMG}learning.png`}
+                  alt="Learning and Development"
+                />
+              </div>
+              <div>
+                <div className="flex items-center gap-3 mb-2">
+                  <SectionIcon src="icons8-learning-100.png" />
+                  <h3 className="font-bold text-[#191717]">
+                    Learning And Development
+                  </h3>
+                </div>
+                <p className="text-[#555] text-sm leading-relaxed mb-3">
+                  Deal Forever provides online, mobile, and instructor-led
+                  training to sharpen your product, business, and industry
+                  knowledge. Visit the Learning Center at{" "}
+                  <a
+                    href="https://www.mydealforever.com"
+                    className="text-[#aa8453] hover:underline break-words"
+                  >
+                    www.mydealforever.com
+                  </a>{" "}
+                  for the full curriculum.
+                </p>
+                <div className="lg:hidden mb-3">
+                  <ContainedImage
+                    src={`${BIZ_IMG}18 LEARNING AND DEVELOPMENT.png`}
+                    alt="Learning and Development"
+                  />
+                </div>
+                <ul className="space-y-2">
+                  {[
+                    "Onboarding modules for brand-new distributors",
+                    "Product knowledge certifications for each category",
+                    "Business plan presentation training",
+                    "Leadership and team management workshops",
+                    "Regional-language support for non-English speakers",
+                  ].map((t) => (
+                    <li
+                      key={t}
+                      className="flex items-start gap-2 text-xs text-[#666]"
+                    >
+                      <span className="mt-1.5 w-1 h-1 rounded-full bg-[#aa8453] shrink-0" />
+                      {t}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            {/* 10c. Social Media — text left, image right on desktop; image after the paragraph on mobile */}
+            <div className="grid lg:grid-cols-2 gap-5 items-center">
+              <div>
+                <div className="flex items-center gap-3 mb-2">
+                  <SectionIcon src="icons8-social-media-marketing-64.png" />
+                  <h3 className="font-bold text-[#191717]">
+                    Social Media Support
+                  </h3>
+                </div>
+                <p className="text-[#555] text-sm leading-relaxed mb-3">
+                  Deal Forever offers guidance on using social media effectively
+                  to promote products and build your network — including
+                  training, pre-written post templates, and access to approved
+                  brand creatives.
+                </p>
+                <div className="lg:hidden mb-3">
+                  <ContainedImage src={MEDIA_IMG} alt="Media Kit" size="sm" />
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {[
+                    "Instagram",
+                    "Facebook",
+                    "WhatsApp",
+                    "YouTube",
+                    "Telegram",
+                  ].map((p) => (
+                    <span
+                      key={p}
+                      className="bg-white border border-gray-200 text-xs font-semibold text-[#191717] px-3 py-1.5 rounded-full"
+                    >
+                      {p}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="hidden lg:block">
+                <ContainedImage src={MEDIA_IMG} alt="Media Kit" size="sm" />
+              </div>
+            </div>
+
+            {/* 10d. Contact — image left, text right on desktop; image after the paragraph on mobile */}
+            <div className="grid lg:grid-cols-2 gap-5 items-center">
+              <div className="hidden lg:block">
+                <ContainedImage src={`${BIZ_IMG}20 FREE FEEL TO CONTACT US.png`} alt="Contact Us" />
+              </div>
+              <div>
+                <div className="flex items-center gap-3 mb-2">
+                  <SectionIcon src="icons8-contact-us-96.png" />
+                  <h3 className="font-bold text-[#191717]">
+                    Feel Free To Contact Us
+                  </h3>
+                </div>
+                <p className="text-[#555] text-sm leading-relaxed mb-3">
+                  Our support team is ready to help with product orders,
+                  business plan queries, or any technical questions about your
+                  distributor account.
+                </p>
+                <div className="lg:hidden mb-3">
+                  <ContainedImage
+                    src={`${IMG}contactus.png`}
+                    alt="Contact Us"
+                  />
+                </div>
+                <div className="space-y-2">
+                  {[
+                    { label: "Phone", value: "+91 9995320886 / +91 995320776" },
+                    { label: "Email", value: "info@mydealforever.com" },
+                    { label: "Website", value: "www.mydealforever.com" },
+                  ].map((c) => (
+                    <div
+                      key={c.label}
+                      className="flex gap-3 bg-[#faf8f5] border border-gray-200 rounded-lg p-3"
+                    >
+                      <span className="text-xs font-bold text-[#aa8453] w-14 shrink-0">
+                        {c.label}
+                      </span>
+                      <span className="text-xs text-[#555] min-w-0 break-words">
+                        {c.value}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* FAQ */}
+                <div className="mt-5 space-y-2">
+                  <p className="text-xs font-bold text-[#191717] mb-2">
+                    Frequently Asked Questions
+                  </p>
+                  {supportFaqs.map((f) => (
+                    <details
+                      key={f.q}
+                      className="bg-white border border-gray-200 rounded-lg group"
+                    >
+                      <summary className="cursor-pointer p-3 text-xs font-semibold text-[#191717] list-none flex justify-between items-center">
+                        {f.q}
+                        <span className="text-[#aa8453] text-base leading-none">
+                          +
+                        </span>
+                      </summary>
+                      <p className="px-3 pb-3 text-xs text-[#666] leading-relaxed">
+                        {f.a}
+                      </p>
+                    </details>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* 10e. Supply Chain — text left, image right on desktop; image after the paragraph on mobile */}
+            <div className="grid lg:grid-cols-2 gap-5 items-center">
+              <div>
+                <div className="flex items-center gap-3 mb-2">
+                  <SectionIcon src="icons8-networking-64.png" />
+                  <h3 className="font-bold text-[#191717]">
+                    Supply Chain And Distribution Network
+                  </h3>
+                </div>
+                <p className="text-[#555] text-sm leading-relaxed mb-3">
+                  With stores and pickup centres nationwide, and home delivery
+                  to over 10,000 pin codes, accessing Deal Forever products is
+                  never a barrier — for you or your customers.
+                </p>
+                <div className="lg:hidden mb-3">
+                  <ContainedImage
+                    src={`${BIZ_IMG}21 SUPPLY CHAIN AND DISTRIBUTION NETWORK.png`}
+                    alt="Supply Chain"
+                  />
+                </div>
+                <div className="grid grid-cols-3 gap-3">
+                  {[
+                    { v: "10,000+", l: "Delivery pin codes" },
+                    { v: "Pan-India", l: "Pickup network" },
+                    { v: "48 hr", l: "Average dispatch time" },
+                  ].map((d) => (
+                    <div
+                      key={d.l}
+                      className="bg-white border border-gray-200 rounded-lg p-3 text-center"
+                    >
+                      <p className="font-black text-sm text-[#aa8453]">{d.v}</p>
+                      <p className="text-[10px] text-[#888] mt-0.5">{d.l}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="hidden lg:block">
+                <ContainedImage
+                  src={`${IMG}supplychain.png`}
+                  alt="Supply Chain"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 11. ENTREPRENEURSHIP CTA ────────────────────────────── */}
+      <section className="section-padding bg-white">
+        <div className="container-custom">
+          <div className="text-center mb-5">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 mb-3">
+              <span className="text-3xl sm:text-4xl md:text-5xl font-black text-[#aa8453] tracking-tight">
+                PULSE
+              </span>
+              <div className="hidden sm:block w-px h-10 md:h-12 bg-gray-300" />
+              <h2 className="section-title font-bold text-[#191717] text-center sm:text-left leading-snug">
+                An <span className="text-[#aa8453]">Approach</span> To
+                Successful{" "}
+                <span className="text-[#aa8453]">Entrepreneurship</span>
+              </h2>
+            </div>
+            <p className="text-sm text-[#888] max-w-xl mx-auto">
+              Register free, pick up the plan, and take your first step toward
+              financial independence with the support of a nationwide network
+              behind you.
+            </p>
+          </div>
+
+          <div className="max-w-2xl mx-auto">
+            <ContainedImage src={PULSE_CIRCLE_IMG} alt="Pulse circle img" />
+          </div>
+
+          <div className="mt-6 rounded-2xl px-6 py-6">
+            <div className="flex flex-wrap justify-center gap-4">
+              <a
+                href="https://www.mydealforever.com"
+                className="bg-[#aa8453] text-white text-sm font-bold px-8 py-3 rounded-lg hover:bg-[#956e3f] transition-colors"
+              >
+                Register Free Today
+              </a>
+
+              <a
+                href="mailto:info@mydealforever.com"
+                className="bg-white border border-[#aa8453] text-[#aa8453] text-sm font-bold px-8 py-3 rounded-lg hover:bg-[#faf8f5] transition-colors"
+              >
+                Talk to an Advisor
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <TermsAndConditionsModal
+        isOpen={isTermsOpen}
+        onClose={() => setIsTermsOpen(false)}
+      />
+    </div>
+  );
+}
