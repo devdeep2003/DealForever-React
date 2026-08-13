@@ -12,6 +12,11 @@ const mission =
   import.meta.env.VITE_BASE_URL + "/images/icons/icons8-mission-50.png";
 const messagetoDistributors =
   import.meta.env.VITE_BASE_URL + "/images/resource/about-main-image.png";
+const aboutus =
+  import.meta.env.VITE_BASE_URL + "/images/banner/about-us.png";
+const messageTo =
+  import.meta.env.VITE_BASE_URL + "/images/banner/message.png";
+
 
 export default function About() {
   const coreValuesRef = useRef<HTMLDivElement>(null);
@@ -26,6 +31,7 @@ export default function About() {
       behavior: "smooth",
     });
   };
+
 
   return (
     <div>
@@ -42,44 +48,30 @@ export default function About() {
             {/* Text column - desktop only (all 3 paragraphs together) */}
             <div className="hidden lg:block">
               <h2 className="section-title mb-4">
-                Qualities Mark The Difference
+                Excellence That Sets Us Apart
               </h2>
+
               <p className="text-[#555] leading-relaxed mb-4 text-sm">
-                Deal Forever is a high-profile direct selling company based on
-                an advanced concept of multi-level marketing. It was initiated
-                by a group of successful professionals who have hands-on
-                experience in both traditional business and the direct selling
-                industry. Their unique blend of expertise allows them to lead
-                the company with a deep understanding of market dynamics and
-                customer needs.
+                Deal Forever stands as a distinguished direct selling enterprise rooted in an advanced direct selling framework. It was founded by a collective of accomplished professionals bringing extensive, practical experience from both conventional commerce and the direct selling sector. This unique combination of insights empowers leadership with a profound grasp of market evolution and consumer demands.
               </p>
+
               <p className="text-[#555] leading-relaxed mb-4 text-sm">
-                The team behind Deal Forever upholds an inspiring ideology of
-                bringing happiness into the lives of billions of people. They
-                achieve this by offering products of excellent quality, ensuring
-                that every item meets the highest standards of performance and
-                reliability. This commitment to quality is a cornerstone of
-                their business, reflecting their dedication to customer
-                satisfaction and well-being.
+                The driving force behind Deal Forever is anchored in a visionary mission to bring joy to millions of lives globally. This objective is realized by delivering premium-grade merchandise, guaranteeing that every offering adheres to rigorous benchmarks of excellence and dependability. Such unwavering focus on quality remains foundational to the enterprise, mirroring a steadfast commitment to consumer happiness and overall welfare.
               </p>
+
               <p className="text-[#555] leading-relaxed text-sm">
-                In addition to providing outstanding products, Deal Forever has
-                developed a proven compensation plan that rewards their
-                associates generously. This plan is designed to offer financial
-                opportunities and personal growth for those involved in the
-                business. By combining high-quality products with an effective
-                compensation strategy, Deal Forever strives to make a positive
-                impact on the lives of their associates and customers alike.
+                Beyond delivering exceptional products, Deal Forever features a robust remuneration structure that generously compensates its independent partners. This framework is engineered to foster financial empowerment and personal advancement for all participants. By merging superior merchandise with an efficient reward mechanism, Deal Forever endeavours to enrich the lives of its associates and patrons alike.
               </p>
             </div>
 
             {/* Image column - desktop only */}
             <div className="relative hidden lg:block">
               <img
-                src="https://images.pexels.com/photos/3184405/pexels-photo-3184405.jpeg?auto=compress&cs=tinysrgb&w=800"
+                src={aboutus}
                 alt="About Deal Forever"
                 className="rounded-2xl shadow-2xl w-full object-cover h-[280px] sm:h-[360px] md:h-[450px]"
               />
+
               <div className="absolute -bottom-6 -right-6 bg-[#aa8453] text-white p-6 rounded-xl shadow-lg">
                 <p className="text-3xl font-bold">1000+</p>
                 <p className="text-sm">Happy Distributors</p>
@@ -91,6 +83,7 @@ export default function About() {
               <h2 className="section-title mb-3">
                 Qualities Mark The Difference
               </h2>
+
               <p className="text-[#555] leading-relaxed mb-3 text-xs sm:text-sm">
                 Deal Forever is a high-profile direct selling company based on
                 an advanced concept of multi-level marketing. It was initiated
@@ -100,6 +93,7 @@ export default function About() {
                 the company with a deep understanding of market dynamics and
                 customer needs.
               </p>
+
               <p className="text-[#555] leading-relaxed mb-4 text-xs sm:text-sm">
                 The team behind Deal Forever upholds an inspiring ideology of
                 bringing happiness into the lives of billions of people. They
@@ -116,6 +110,7 @@ export default function About() {
                   alt="About Deal Forever"
                   className="rounded-2xl shadow-2xl w-full object-cover h-[200px] sm:h-[280px]"
                 />
+
                 <div className="absolute -bottom-4 -right-4 bg-[#aa8453] text-white p-3 sm:p-4 rounded-xl shadow-lg">
                   <p className="text-lg sm:text-xl font-bold">1000+</p>
                   <p className="text-xs">Happy Distributors</p>
@@ -135,35 +130,16 @@ export default function About() {
           </div>
         </div>
       </section>
-
       {/* Mission, Vision, Values */}
       <section className="py-8 md:py-12 bg-[#faf8f5]">
         <div className="container-custom">
           <h2 className="section-title text-center mb-5 md:mb-8">
             Vision & Mission
           </h2>
+
           <div className="grid md:grid-cols-2 gap-4 sm:gap-8">
-            <div className="bg-white rounded-xl p-5 sm:p-8 shadow-sm text-center card-hover">
-              <div className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-3 sm:mb-4 flex items-center justify-center">
-                <img
-                  src={mission}
-                  alt="Vision"
-                  className="w-12 h-12 sm:w-16 sm:h-16 object-contain"
-                />
-              </div>
-              <h3 className="text-base sm:text-xl font-bold text-[#191717] mb-2 sm:mb-3">
-                Our Mission
-              </h3>
-              <p className="text-xs sm:text-sm text-[#555] leading-relaxed">
-                "Our goal is to grow globally and become the best in the direct
-                selling industry. We want to be known for our innovative
-                products, excellent service, and fair practices. By helping
-                people succeed as independent sellers and maintaining high
-                ethical standards, we aim to lead the market. Our focus is on
-                supporting our distributors and setting new standards of
-                excellence in direct selling."
-              </p>
-            </div>
+
+            {/* Vision - LEFT */}
             <div className="bg-white rounded-xl p-5 sm:p-8 shadow-sm text-center card-hover">
               <div className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-3 sm:mb-4 flex items-center justify-center">
                 <img
@@ -172,16 +148,35 @@ export default function About() {
                   className="w-12 h-12 sm:w-16 sm:h-16 object-contain"
                 />
               </div>
+
               <h3 className="text-base sm:text-xl font-bold text-[#191717] mb-2 sm:mb-3">
                 Our Vision
               </h3>
+
               <p className="text-xs sm:text-sm text-[#555] leading-relaxed">
-                "Our vision is to revolutionize the direct selling industry by
-                providing top-tier products and services, supported by a robust
-                and ethical multi-level marketing system that promotes growth
-                and success for all."
+                "To be a globally recognized Direct selling company by providing quality products, services and business opportunities through an innovative and sustainable Direct Selling system of product distribution."
               </p>
             </div>
+
+            {/* Mission - RIGHT */}
+            <div className="bg-white rounded-xl p-5 sm:p-8 shadow-sm text-center card-hover">
+              <div className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-3 sm:mb-4 flex items-center justify-center">
+                <img
+                  src={mission}
+                  alt="Mission"
+                  className="w-12 h-12 sm:w-16 sm:h-16 object-contain"
+                />
+              </div>
+
+              <h3 className="text-base sm:text-xl font-bold text-[#191717] mb-2 sm:mb-3">
+                Our Mission
+              </h3>
+
+              <p className="text-xs sm:text-sm text-[#555] leading-relaxed">
+                "To create a professional network independent distributors and nurturing them to be world class entrepreneurs  through an innovative and sustainable Direct Selling system of product distribution while adhering to the highest standards of integrity and excellence."
+              </p>
+            </div>
+
           </div>
         </div>
       </section>
@@ -210,12 +205,14 @@ export default function About() {
               </button>
             </div>
           </div>
+
           <div
             ref={coreValuesRef}
             className="flex gap-4 sm:gap-6 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-2"
           >
             {coreValues.map((item, i) => {
               const icon = item.icon;
+
               return (
                 <div
                   key={i}
@@ -228,10 +225,12 @@ export default function About() {
                       className="w-8 h-8 sm:w-10 sm:h-10 object-contain"
                     />
                   </div>
+
                   <div>
                     <h3 className="font-bold text-[#191717] text-xs sm:text-sm mb-1">
                       {item.title}
                     </h3>
+
                     <p className="text-[11px] sm:text-xs text-[#888] leading-relaxed">
                       {item.desc}
                     </p>
@@ -242,10 +241,10 @@ export default function About() {
           </div>
         </div>
       </section>
-
       {/* Message to Distributors */}
       <section className="py-8 md:py-12 bg-[#faf8f5]">
         <div className="container-custom">
+
           {/* Heading */}
           <h2 className="section-title text-center mb-5 md:mb-8">
             Message to Distributors
@@ -253,10 +252,11 @@ export default function About() {
 
           {/* Main Content */}
           <div className="grid lg:grid-cols-2 gap-6 lg:gap-10 items-start">
+
             {/* Left Image Section */}
             <div className="relative flex justify-center">
               <img
-                src="https://images.pexels.com/photos/3184405/pexels-photo-3184405.jpeg?auto=compress&cs=tinysrgb&w=800"
+                src={messageTo}
                 alt="Message to Distributors"
                 className="relative z-20 w-full max-w-[560px] h-auto object-cover shadow-lg hover:scale-110 transition-transform duration-500 rounded-xl"
               />
@@ -265,38 +265,28 @@ export default function About() {
             {/* Right Content */}
             <div className="text-[#666] leading-relaxed text-xs sm:text-sm space-y-2 sm:space-y-3">
               <p>
-                It is our privilege to introduce Deal Forever Enterprises, one
-                of the leading Direct Selling company.
+                Welcome to Deal Forever, a gateway to limitless opportunities and boundless potential. By embracing this remarkable venture, you have stepped onto a path designed to transform your professional life and personal future.
               </p>
 
               <p>
-                Welcome to a world of endless possibilities and boundless
-                potential. By choosing the remarkable opportunity presented by
-                Deal Forever, you've embarked on a journey that will redefine
-                your career and life.
+                Align with forward-thinking entrepreneurs who are shaping their own destinies through direct selling. As an independent distributor with Deal Forever, you take charge of your journey, building a solid foundation for lasting prosperity and self-reliance.
               </p>
 
               <p>
-                Join the ranks of visionary entrepreneurs who have forged their
-                destinies through the power of direct selling.
+                We offer far more than just a supplementary income; we equip you to earn genuine respect, emerge as an exemplary leader, and inspire those around you.
               </p>
 
               <p>
-                By charting a path as an independent distributor with Deal
-                Forever, you are crafting your own destiny and constructing a
-                bedrock for a prosperous and self-reliant future.
+                Believing that everyone deserves a fulfilling life, we dedicate ourselves entirely to your success. We walk the extra mile to provide steadfast guidance as you pursue greatness.
               </p>
 
               <p>
-                At Deal Forever, we don't just provide you with an alternative
-                income source; we empower you to earn respect and become an
-                exceptional leader, setting a unique example for others to
-                follow.
+                Step into Deal Forever, where your extraordinary career begins, and start writing your success story today.
               </p>
             </div>
           </div>
 
-          {/* Bottom Paragraphs */}
+          {/* Bottom Paragraphs
           <div className="mt-4 sm:mt-6 text-[#666] leading-relaxed text-xs sm:text-sm space-y-2 sm:space-y-3">
             <p>
               We firmly believe that everyone deserves the opportunity to lead a
@@ -310,7 +300,8 @@ export default function About() {
               Welcome to Deal Forever, where your journey to an astounding
               career begins. Start writing your success story today.
             </p>
-          </div>
+          </div> */}
+
         </div>
       </section>
 
@@ -321,6 +312,7 @@ export default function About() {
             <h2 className="section-title mb-3 sm:mb-4">
               Deal Forever Promises
             </h2>
+
             <PromiseSlider />
           </div>
         </div>
