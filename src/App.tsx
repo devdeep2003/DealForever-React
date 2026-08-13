@@ -27,6 +27,7 @@ const Team             = lazy(() => import('./pages/Team'));
 const SuccessStories   = lazy(() => import('./pages/SuccessStories'));
 const StartBusiness    = lazy(() => import('./pages/StartABusiness'));
 const CategoryDetail   = lazy(() => import('./pages/CategoryDetail'));
+const NotFound         = lazy(() => import('./pages/NotFound'));
 
 // ── Minimal fallback shown while a page chunk loads ─────────────────────────
 function PageLoader() {
@@ -68,6 +69,7 @@ export default function App() {
             <Route path="/grievance"             element={<Grievance />} />
             <Route path="/start-a-business"      element={<StartBusiness />} />
             <Route path="/categories/:slug"      element={<CategoryDetail />} />
+            <Route path="*"                      element={<NotFound />} />
           </Route>
         </Routes>
       </Suspense>

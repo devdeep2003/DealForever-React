@@ -156,20 +156,29 @@ export const navItems = [
   {
     label: "Categories",
     path: "/categories",
+    // children: [
+    //   { label: "Health & Wellness", path: "/categories?cat=health" },
+    //   { label: "Personal Care", path: "/categories?cat=personal-care" },
+    //   { label: "Home Care", path: "/categories?cat=home-care" },
+    //   { label: "Digital Products", path: "/categories?cat=digital" },
+    // ],
     children: [
-      { label: "Health & Wellness", path: "/categories?cat=health" },
-      { label: "Personal Care", path: "/categories?cat=personal-care" },
-      { label: "Home Care", path: "/categories?cat=home-care" },
-      { label: "Digital Products", path: "/categories?cat=digital" },
+      { label: "Personal Care", path: "/categories/personal-care" },
+      { label: "Paints", path: "/categories/paints" },
+      { label: "Veg", path: "/categories/veg" },
+      { label: "Health & Wellness", path: "/categories/health-&-wellness" },
     ],
   },
   {
     label: "Brand",
     path: "/brands",
+    // children: [
+    //   { label: "Assura", path: "/brands?brand=assura" },
+    //   { label: "Athulya", path: "/brands?brand=athulya" },
+    //   { label: "Orianna", path: "/brands?brand=orianna" },
+    // ],
     children: [
-      { label: "Assura", path: "/brands?brand=assura" },
-      { label: "Athulya", path: "/brands?brand=athulya" },
-      { label: "Orianna", path: "/brands?brand=orianna" },
+      { label: "Atulya", path: "/brands?brand=atulya" },
     ],
   },
   { label: "Offers", path: "/offers" },
@@ -218,15 +227,18 @@ export const navMobItems = [
   //     { label: "Digital Products", path: "/categories?cat=digital" },
   //   ],
   // },
-  // {
-  //   label: "Brand",
-  //   path: "/brands",
-  //   children: [
-  //     { label: "Assura", path: "/brands?brand=assura" },
-  //     { label: "Athulya", path: "/brands?brand=athulya" },
-  //     { label: "Orianna", path: "/brands?brand=orianna" },
-  //   ],
-  // },
+  {
+    label: "Brand",
+    path: "/brands",
+    // children: [
+    //   { label: "Assura", path: "/brands?brand=assura" },
+    //   { label: "Athulya", path: "/brands?brand=athulya" },
+    //   { label: "Orianna", path: "/brands?brand=orianna" },
+    // ],
+    children: [
+      { label: "Atulya", path: "/brands?brand=atulya" },
+    ],
+  },
   { label: "Branches", path: "/branches" },
   { label: "Offers", path: "/offers" },
 
@@ -1106,32 +1118,33 @@ export const brands = [
 // ─── Business Opportunity Page Data ─────────────────────────────────────────
 
 const BIZ_IMG = import.meta.env.VITE_BASE_URL + "/images/";
-const BIZ_OPP_IMG = `${BIZ_IMG}BusinessOpportunity/`;
+const BIZ_OPP_IMG = `${BIZ_IMG}BusinessOpportunity/UPDATED/`;
+const BUSY = `${BIZ_IMG}BusinessOpportunity/`;
 
 export const businessOpportunityImages = {
   IMG: BIZ_IMG,
   BIZ_IMG: BIZ_OPP_IMG,
   SALES_IMG: `${BIZ_OPP_IMG}Sales.jpeg`,
-  PULSE_CIRCLE_IMG: `${BIZ_OPP_IMG}pulse-circle.png`,
-  TABLE1_IMG: `${BIZ_OPP_IMG}table1.jpeg`,
-  TABLE2_IMG: `${BIZ_OPP_IMG}table2.jpeg`,
-  TABLE3_IMG: `${BIZ_OPP_IMG}table3.jpeg`,
-  TABLE4_IMG: `${BIZ_OPP_IMG}table4.jpeg`,
+  PULSE_CIRCLE_IMG: `${BIZ_OPP_IMG}22 PULSE.png`,
+  TABLE1_IMG: `${BUSY}table1.jpeg`,
+  TABLE2_IMG: `${BUSY}table2.jpeg`,
+  TABLE3_IMG: `${BUSY}table3.jpeg`,
+  TABLE4_IMG: `${BUSY}table4.jpeg`,
   SUPPORT_IMG: `${BIZ_OPP_IMG}support.jpeg`,
   FLOW_IMG: `${BIZ_OPP_IMG}flow.jpeg`,
-  MEDIA_IMG: `${BIZ_OPP_IMG}media.png`,
+  MEDIA_IMG: `${BIZ_OPP_IMG}19 SOCIAL MEDIA SUPPORT.png`,
   TEAM_IMG: `${BIZ_OPP_IMG}team.jpeg`,
-  WARNING_IMG: `${BIZ_OPP_IMG}warning.jpeg`,
+  WARNING_IMG: `${BIZ_OPP_IMG}05 WARNING.png`,
   CASH_IMG: `${BIZ_OPP_IMG}cash.jpeg`,
-  SPONSOR_NETWORK_IMG: `${BIZ_OPP_IMG}sponsornetwork.jpeg`,
-  ECART_IMG: `${BIZ_OPP_IMG}ecart.jpeg`,
-  PLACEMENT_NETWORK_IMG: `${BIZ_OPP_IMG}placementnetwork.jpeg`,
-  BUSINESS_PLAN_IMG: `${BIZ_OPP_IMG}businessPlan.jpeg`,
-  SPILLOVER_IMG: `${BIZ_OPP_IMG}spillover.jpeg`,
-  BUSINESS_OPPORTUNITY_IMG: `${BIZ_OPP_IMG}businessopp.jpeg`,
-  BUILDING_IMG: `${BIZ_OPP_IMG}building.jpeg`,
-  BUSINESS_FLOW_IMG: `${BIZ_OPP_IMG}businessflow.jpeg`,
-  THINKING_IMG: `${BIZ_OPP_IMG}thinking.jpeg`,
+  SPONSOR_NETWORK_IMG: `${BIZ_OPP_IMG}12 GLOSSORY OF TERMS.png`,
+  ECART_IMG: `${BIZ_OPP_IMG}08 BENIFITS OF E COMMERCE.png`,
+  PLACEMENT_NETWORK_IMG: `${BIZ_OPP_IMG}10 GLOSSORY OF TERMS.png`,
+  BUSINESS_PLAN_IMG: `${BIZ_OPP_IMG}04 BUSINESS PLAN.png`,
+  SPILLOVER_IMG: `${BIZ_OPP_IMG}11 GLOSSORY OF TERMS.png`,
+  BUSINESS_OPPORTUNITY_IMG: `${BIZ_OPP_IMG}03 BUSINESS OPPROTUNITY.png`,
+  BUILDING_IMG: `${BIZ_OPP_IMG}07 ADVANTAGE OF PHYSICAL STORE.png`,
+  BUSINESS_FLOW_IMG: `${BIZ_OPP_IMG}06 PRODUCT DISTRIBUTION SYSTEM.png`,
+  THINKING_IMG: `${BIZ_OPP_IMG}02 WHAT WOULD YOU DO.png`,
 };
 
 export const businessOpportunityBenefits = [

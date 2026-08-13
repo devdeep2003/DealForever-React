@@ -327,7 +327,7 @@ export default function Home() {
     setSelectedNews(null);
   };
 
-  const slides = [
+  const defaultSlides = [
     {
       image:
         "https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=1920",
@@ -348,13 +348,39 @@ export default function Home() {
     },
   ];
 
+  const [slidesList, setSlidesList] = useState<any[]>(defaultSlides);
+
+  useEffect(() => {
+    const fetchBanners = async () => {
+      try {
+        const data = await DealsForeverApi.getAllBanners({ PageSize: 100 });
+        const items = data && Array.isArray(data.items) ? data.items : [];
+        const activeBanners = items
+          .filter((b: any) => b.isActive)
+          .sort((a: any, b: any) => (b.bannerPriority || 0) - (a.bannerPriority || 0))
+          .map((b: any) => ({
+            image: getFullImageUrl(b.imagePath),
+            title: b.bannerTitle,
+            subtitle: b.bannerDescription,
+          }));
+        
+        if (activeBanners.length > 0) {
+          setSlidesList(activeBanners);
+        }
+      } catch (err) {
+        console.error("Failed to load banners:", err);
+      }
+    };
+    fetchBanners();
+  }, []);
+
   useEffect(() => {
     const timer = setInterval(
-      () => setCurrentSlide((p) => (p + 1) % slides.length),
+      () => setCurrentSlide((p) => (p + 1) % slidesList.length),
       5000,
     );
     return () => clearInterval(timer);
-  }, [slides.length]);
+  }, [slidesList.length]);
 
   const about = useInView();
   const highlightsSection = useInView();
@@ -435,7 +461,7 @@ export default function Home() {
       )}
       {/* Hero Slider */}
       <section className="relative h-[400px] sm:h-[500px] md:h-[650px] overflow-hidden -mt-16 lg:-mt-[120px] pt-16 lg:pt-[120px]">
-        {slides.map((slide, i) => (
+        {slidesList.map((slide, i) => (
           <div
             key={i}
             className={`absolute inset-0 transition-opacity duration-1000 ${
@@ -447,10 +473,28 @@ export default function Home() {
               style={{ backgroundImage: `url(${slide.image})` }}
             />
             <div className="absolute inset-0 bg-gradient-to-r from-[#191717]/80 via-[#191717]/50 to-transparent" />
+            
+            {/* Slide Text Content Overlay */}
+            {(slide.title || slide.subtitle) && (
+              <div className="absolute inset-0 flex items-center justify-start px-8 sm:px-16 md:px-24">
+                <div className="max-w-2xl text-white">
+                  {slide.title && (
+                    <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight mb-4 font-serif drop-shadow-md">
+                      {slide.title}
+                    </h1>
+                  )}
+                  {slide.subtitle && (
+                    <p className="text-sm sm:text-lg md:text-xl text-white/90 font-light max-w-xl leading-relaxed drop-shadow-sm">
+                      {slide.subtitle}
+                    </p>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
         ))}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3">
-          {slides.map((_, i) => (
+          {slidesList.map((_, i) => (
             <button
               key={i}
               onClick={() => setCurrentSlide(i)}

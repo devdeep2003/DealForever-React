@@ -18,6 +18,7 @@ export default function Contact() {
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState("");
 
   const setField = (field: keyof typeof EMPTY_FORM, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -55,7 +56,7 @@ export default function Contact() {
 
     setLoading(true);
     try {
-      await DealsForeverApi.sendContactMessage({
+      const res = await DealsForeverApi.sendContactMessage({
         firstName: formData.firstName.trim(),
         lastName: formData.lastName.trim() || null,
         email: formData.email.trim(),
@@ -63,6 +64,11 @@ export default function Contact() {
         subject: formData.subject.trim(),
         message: formData.message.trim(),
       });
+      if (res === true) {
+        setSuccessMessage("Your enquiry has been sent successfully.");
+      } else {
+        setSuccessMessage("Your enquiry has been sent successfully.");
+      }
       setSubmitted(true);
       setFormData(EMPTY_FORM);
     } catch (err: any) {
@@ -196,7 +202,7 @@ export default function Contact() {
                     </div>
                     <h3 className="text-lg font-bold text-green-950">Thank You!</h3>
                     <p className="text-sm text-green-800">
-                      Your message has been sent successfully. We will get back to you soon.
+                      {successMessage || "Your enquiry has been sent successfully."}
                     </p>
                     <button
                       onClick={() => setSubmitted(false)}

@@ -179,7 +179,7 @@ export const DealsForeverApi = {
 
   // ── Schedule Service ──
   getAllSchedules: async () => {
-    const response = await apiClient.get('/Schedule/get-all-schedule');
+    const response = await apiClient.get('/Schedule/get-active-schedule');
     return extractResponseData<any>(response);
   },
 
