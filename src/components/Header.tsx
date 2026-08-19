@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import { navItems, navMobItems, siteConfig } from "../data/siteData";
 import AuthModal from "./AuthModal";
+import { DealsForeverApi } from "../services/api";
 import {
   FaInstagram,
   FaFacebookF,
@@ -68,6 +69,82 @@ export default function Header() {
   );
   const location = useLocation();
 
+  const [navItemsList, setNavItemsList] = useState<any[]>(navItems);
+  const [navMobItemsList, setNavMobItemsList] = useState<any[]>(navMobItems);
+
+  useEffect(() => {
+    const fetchNavData = async () => {
+      try {
+        const [categoriesRes, brandsRes] = await Promise.all([
+          DealsForeverApi.getAllCategories(),
+          DealsForeverApi.getAllOurBrands({ PageSize: 100 }),
+        ]);
+
+        let activeCategories = [];
+        const categoryItems = categoriesRes && Array.isArray(categoriesRes.items) ? categoriesRes.items : [];
+        if (categoryItems.length > 0) {
+          activeCategories = categoryItems
+            .filter((cat: any) => cat.isActive !== false)
+            .map((cat: any) => ({
+              label: cat.categoryName,
+              path: `/categories/${cat.categoryName.toLowerCase().trim().replace(/\s+/g, "-")}`,
+            }));
+        }
+
+        let activeBrands = [];
+        const brandItems = brandsRes && Array.isArray(brandsRes.items) ? brandsRes.items : [];
+        if (brandItems.length > 0) {
+          activeBrands = brandItems
+            .map((brand: any) => ({
+              label: brand.ourBrandName,
+              path: `/brands?brand=${brand.ourBrandName.toLowerCase().trim().replace(/\s+/g, "-")}`,
+            }));
+        }
+
+        // Replace children of "Categories" and "Brand" in navItems List
+        const updatedNavItems = navItems.map((item) => {
+          if (item.label === "Categories" && activeCategories.length > 0) {
+            return {
+              ...item,
+              children: activeCategories,
+            };
+          }
+          if (item.label === "Brand" && activeBrands.length > 0) {
+            return {
+              ...item,
+              children: activeBrands,
+            };
+          }
+          return item;
+        });
+
+        // Also check if they are in navMobItems
+        const updatedNavMobItems = navMobItems.map((item) => {
+          if (item.label === "Categories" && activeCategories.length > 0) {
+            return {
+              ...item,
+              children: activeCategories,
+            };
+          }
+          if (item.label === "Brand" && activeBrands.length > 0) {
+            return {
+              ...item,
+              children: activeBrands,
+            };
+          }
+          return item;
+        });
+
+        setNavItemsList(updatedNavItems);
+        setNavMobItemsList(updatedNavMobItems);
+      } catch (err) {
+        console.error("Failed to load navigation categories/brands:", err);
+      }
+    };
+
+    fetchNavData();
+  }, []);
+
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
@@ -92,9 +169,8 @@ export default function Header() {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled ? "bg-white shadow-lg" : "bg-white/95 backdrop-blur-sm"
-        }`}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? "bg-white shadow-lg" : "bg-white/95 backdrop-blur-sm"
+          }`}
       >
         {/* Top Bar */}
         <div className="hidden lg:block bg-[#191717] text-white text-xs">
@@ -161,7 +237,7 @@ export default function Header() {
             </Link>
             {/* Desktop Nav */}
             <div className="hidden lg:flex items-center gap-1">
-              {navItems.map((item) => (
+              {navItemsList.map((item) => (
                 <div key={item.label} className="relative group">
                   <Link
                     to={item.path}
@@ -278,17 +354,16 @@ export default function Header() {
 
             {/* Mobile Nav Items - Accordion style matching Main Head / Sub Head structure */}
             <div className="py-2">
-              {navMobItems.map((item) => {
+              {navMobItemsList.map((item) => {
                 const ItemIcon = mobileNavIcons[item.label];
                 return item.children && item.children.length > 0 ? (
                   <div key={item.label} className="border-b border-gray-100">
                     <button
                       onClick={() => toggleMobileSubmenu(item.label)}
-                      className={`w-full flex items-center justify-between px-4 py-3 text-sm font-medium transition-colors ${
-                        location.pathname === item.path
+                      className={`w-full flex items-center justify-between px-4 py-3 text-sm font-medium transition-colors ${location.pathname === item.path
                           ? "text-[#aa8453]"
                           : "text-[#191717]"
-                      }`}
+                        }`}
                     >
                       <span className="flex items-center gap-3">
                         {ItemIcon && (
@@ -298,17 +373,15 @@ export default function Header() {
                       </span>
                       <ChevronDown
                         size={16}
-                        className={`transition-transform duration-300 text-[#aa8453] ${
-                          openMobileSubmenu === item.label ? "rotate-180" : ""
-                        }`}
+                        className={`transition-transform duration-300 text-[#aa8453] ${openMobileSubmenu === item.label ? "rotate-180" : ""
+                          }`}
                       />
                     </button>
                     <div
-                      className={`overflow-hidden transition-all duration-300 bg-[#faf8f5] ${
-                        openMobileSubmenu === item.label
+                      className={`overflow-hidden transition-all duration-300 bg-[#faf8f5] ${openMobileSubmenu === item.label
                           ? "max-h-96 opacity-100"
                           : "max-h-0 opacity-0"
-                      }`}
+                        }`}
                     >
                       {item.children.map((child) => (
                         <Link
@@ -325,11 +398,10 @@ export default function Header() {
                   <Link
                     key={item.label}
                     to={item.path}
-                    className={`flex items-center gap-3 px-4 py-3 text-sm font-medium border-b border-gray-100 transition-colors ${
-                      location.pathname === item.path
+                    className={`flex items-center gap-3 px-4 py-3 text-sm font-medium border-b border-gray-100 transition-colors ${location.pathname === item.path
                         ? "text-[#aa8453]"
                         : "text-[#191717] hover:text-[#aa8453]"
-                    }`}
+                      }`}
                   >
                     {ItemIcon && (
                       <ItemIcon size={18} className="text-[#aa8453]" />

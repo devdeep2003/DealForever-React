@@ -2,15 +2,68 @@ import { useState, useEffect } from "react";
 import { X, ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import PageBanner from "../components/PageBanner";
 import { galleryImages } from "../data/siteData";
+import { DealsForeverApi } from "../services/api";
+
+const getFullImageUrl = (path: string) => {
+  if (!path) return '';
+  if (path.startsWith('http://') || path.startsWith('https://') || path.startsWith('data:')) return path;
+
+  let baseUrl = import.meta.env.VITE_API_BASE_URL || '';
+  if (!baseUrl) {
+    baseUrl = 'https://mydealforever.com/api';
+  } else {
+    baseUrl = baseUrl.replace(/\/+$/, '');
+  }
+  return `${baseUrl}/${path.replace(/^\/+/, '')}`;
+};
 
 export default function Gallery() {
-  const [selectedItem, setSelectedItem] = useState<
-    (typeof galleryImages)[0] | null
-  >(null);
+  const [galleryList, setGalleryList] = useState<any[]>(galleryImages);
+  const [selectedItem, setSelectedItem] = useState<any | null>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!selectedItem) return;
+    const fetchGallery = async () => {
+      try {
+        setLoading(true);
+        const data = await DealsForeverApi.getAllGallery({ PageSize: 100 });
+        const items = data && Array.isArray(data.items) ? data.items : [];
+        if (items.length > 0) {
+          const activeItems = items
+            .filter((item: any) => item.isActive !== false)
+            .map((item: any) => {
+              const mainImg = getFullImageUrl(item.imagePath);
+              const extraImgs = (item.galleryImages || [])
+                .map((img: any) => getFullImageUrl(img.imagePath))
+                .filter(Boolean);
+
+              return {
+                id: item.galleryId,
+                src: mainImg,
+                alt: item.gallerySubTitle || item.galleryTitle || '',
+                title: item.galleryTitle || '',
+                description: item.galleryDescription || '',
+                subImages: [mainImg, ...extraImgs],
+              };
+            });
+          setGalleryList(activeItems);
+        }
+        setError(null);
+      } catch (err: any) {
+        console.error('Failed to fetch gallery images:', err);
+        setError('Failed to fetch latest gallery images. Showing offline gallery.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchGallery();
+  }, []);
+
+  useEffect(() => {
+    if (!selectedItem || !selectedItem.subImages || selectedItem.subImages.length <= 1) return;
     setCurrentSlide(0);
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % selectedItem.subImages.length);
@@ -28,43 +81,62 @@ export default function Gallery() {
 
       <section className="section-padding bg-white">
         <div className="container-custom">
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4">
-            {galleryImages.map((image) => (
-              <div
-                key={image.id}
-                className="rounded-xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-md transition-shadow"
+          {error && (
+            <div className="mb-6 p-4 bg-amber-50 border-l-4 border-amber-500 rounded-r-xl flex items-center justify-between text-amber-800 text-sm">
+              <span>{error}</span>
+              <button
+                onClick={() => setError(null)}
+                className="text-amber-500 hover:text-amber-700 font-semibold"
               >
-                <div
-                  className="relative group cursor-pointer h-44 sm:h-52 md:h-56"
-                  onClick={() => setSelectedItem(image)}
-                >
-                  <img
-                    src={image.src}
-                    alt={image.alt}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors flex items-center justify-center">
-                    <span className="text-white opacity-0 group-hover:opacity-100 transition-opacity text-sm font-medium">
-                      {image.alt}
-                    </span>
-                  </div>
-                </div>
+                Dismiss
+              </button>
+            </div>
+          )}
 
-                <div className="flex items-center justify-between px-4 py-3 bg-white">
-                  <span className="text-black text-sm font-medium truncate pr-2">
-                    {image.title}
-                  </span>
-                  <button
-                    className="flex items-center gap-1 text-[#aa8453] font-semibold text-sm whitespace-nowrap hover:gap-2 transition-all"
+          {loading ? (
+            <div className="flex flex-col items-center justify-center py-20">
+              <div className="w-12 h-12 border-4 border-[#aa8453] border-t-transparent rounded-full animate-spin mb-4" />
+              <p className="text-gray-500 font-medium">Loading gallery...</p>
+            </div>
+          ) : (
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4">
+              {galleryList.map((image) => (
+                <div
+                  key={image.id}
+                  className="rounded-xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-md transition-shadow"
+                >
+                  <div
+                    className="relative group cursor-pointer h-44 sm:h-52 md:h-56"
                     onClick={() => setSelectedItem(image)}
                   >
-                    See More
-                    <ArrowRight size={14} />
-                  </button>
+                    <img
+                      src={image.src}
+                      alt={image.alt}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors flex items-center justify-center">
+                      <span className="text-white opacity-0 group-hover:opacity-100 transition-opacity text-sm font-medium">
+                        {image.alt}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between px-4 py-3 bg-white">
+                    <span className="text-black text-sm font-medium truncate pr-2">
+                      {image.title}
+                    </span>
+                    <button
+                      className="flex items-center gap-1 text-[#aa8453] font-semibold text-sm whitespace-nowrap hover:gap-2 transition-all"
+                      onClick={() => setSelectedItem(image)}
+                    >
+                      See More
+                      <ArrowRight size={14} />
+                    </button>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
@@ -87,7 +159,7 @@ export default function Gallery() {
           >
             {/* Main Image Carousel */}
             <div className="relative h-[40vh] sm:h-[55vh] rounded-2xl overflow-hidden group/carousel flex-shrink-0">
-              {selectedItem.subImages.map((src, i) => (
+              {selectedItem.subImages.map((src: string, i: number) => (
                 <img
                   key={i}
                   src={src}
@@ -102,56 +174,64 @@ export default function Gallery() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
 
               {/* Prev */}
-              <button
-                onClick={() =>
-                  setCurrentSlide(
-                    (prev) =>
-                      (prev - 1 + selectedItem.subImages.length) %
-                      selectedItem.subImages.length,
-                  )
-                }
-                className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/50 hover:bg-black/80 text-white flex items-center justify-center transition-all opacity-0 group-hover/carousel:opacity-100 backdrop-blur-sm border border-white/10"
-              >
-                <ChevronLeft size={18} />
-              </button>
+              {selectedItem.subImages.length > 1 && (
+                <button
+                  onClick={() =>
+                    setCurrentSlide(
+                      (prev) =>
+                        (prev - 1 + selectedItem.subImages.length) %
+                        selectedItem.subImages.length,
+                    )
+                  }
+                  className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/50 hover:bg-black/80 text-white flex items-center justify-center transition-all opacity-0 group-hover/carousel:opacity-100 backdrop-blur-sm border border-white/10"
+                >
+                  <ChevronLeft size={18} />
+                </button>
+              )}
 
               {/* Next */}
-              <button
-                onClick={() =>
-                  setCurrentSlide(
-                    (prev) => (prev + 1) % selectedItem.subImages.length,
-                  )
-                }
-                className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/50 hover:bg-black/80 text-white flex items-center justify-center transition-all opacity-0 group-hover/carousel:opacity-100 backdrop-blur-sm border border-white/10"
-              >
-                <ChevronRight size={18} />
-              </button>
+              {selectedItem.subImages.length > 1 && (
+                <button
+                  onClick={() =>
+                    setCurrentSlide(
+                      (prev) => (prev + 1) % selectedItem.subImages.length,
+                    )
+                  }
+                  className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/50 hover:bg-black/80 text-white flex items-center justify-center transition-all opacity-0 group-hover/carousel:opacity-100 backdrop-blur-sm border border-white/10"
+                >
+                  <ChevronRight size={18} />
+                </button>
+              )}
 
               {/* Dots */}
-              <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2">
-                {selectedItem.subImages.map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setCurrentSlide(i)}
-                    className={`h-1.5 rounded-full transition-all duration-300 ${
-                      i === currentSlide
-                        ? "bg-white w-5"
-                        : "bg-white/40 w-1.5 hover:bg-white/70"
-                    }`}
-                  />
-                ))}
-              </div>
+              {selectedItem.subImages.length > 1 && (
+                <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2">
+                  {selectedItem.subImages.map((_: any, i: number) => (
+                    <button
+                      key={i}
+                      onClick={() => setCurrentSlide(i)}
+                      className={`h-1.5 rounded-full transition-all duration-300 ${
+                        i === currentSlide
+                          ? "bg-white w-5"
+                          : "bg-white/40 w-1.5 hover:bg-white/70"
+                      }`}
+                    />
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Title & Description */}
-            {/* <div className="mt-5 px-1 pb-4 border-l-4 border-[#aa8453] pl-4">
-              <h3 className="text-white text-xl font-bold mb-2">
-                {selectedItem.title}
-              </h3>
-              <p className="text-white/60 text-sm leading-relaxed text-justify">
-                {selectedItem.description}
-              </p>
-            </div> */}
+            {selectedItem.description && (
+              <div className="mt-5 px-1 pb-4 border-l-4 border-[#aa8453] pl-4">
+                <h3 className="text-white text-xl font-bold mb-2">
+                  {selectedItem.title}
+                </h3>
+                <p className="text-white/60 text-sm leading-relaxed text-justify">
+                  {selectedItem.description}
+                </p>
+              </div>
+            )}
           </div>
         </div>
       )}

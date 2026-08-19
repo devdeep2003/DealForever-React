@@ -43,7 +43,7 @@ export const siteConfig = {
   address:
     "Door No. 13/501, 2nd Floor, Metal Mart Building, Palayam Jn., Kallai Road, Kozhikode, Kerala - 673002",
   copyright:
-    "Copyrights 2025 Deal Forever Enterprises LLP | All Rights Reserved",
+    "Copyrights 2026 Deal Forever Enterprises LLP | All Rights Reserved",
   brands: ["Assura", "Athulya", "Orianna"],
   social: {
     instagram: "https://instagram.com/dealforever",
@@ -251,16 +251,16 @@ export const navMobItems = [
 ];
 
 export const policyLinks = [
-  { label: "Buyback Policy", path: "/policy/buyback" },
-  { label: "Cancellation Policy", path: "/policy/cancellation" },
+  // { label: "Buyback Policy", path: "/policy/buyback" },
+  { label: "Cancellation & Refund Policy", path: "/policy/cancellation" },
   // { label: "Disclaimer", path: "/policy/disclaimer" },
-  { label: "Exchange Policy", path: "/policy/exchange" },
+  // { label: "Exchange Policy", path: "/policy/exchange" },
   // { label: "Privacy Policy", path: "/policy/privacy" },
-  { label: "Refund Policy", path: "/policy/refund" },
+  // { label: "Refund Policy", path: "/policy/refund" },
   { label: "Shipping Policy", path: "/policy/shipping" },
   // { label: "Terms & Conditions", path: "/policy/terms" },
-  { label: "Privacy", path: "/policy/privacy" },
-  { label: "Terms", path: "/policy/terms" },
+  { label: "Privacy Policy", path: "/policy/privacy" },
+  { label: "Terms & Conditions", path: "/policy/terms" },
   { label: "Disclaimer", path: "/policy/disclaimer" },
   // { label: "Terms of Use", path: "/policy/terms-of-use" },
 ];
@@ -672,44 +672,79 @@ export const testimonials = [
 
 export const faqItems = [
   {
-    question: "What is Deal Forever?",
+    question: "What is Direct Selling?",
     answer:
-      "Deal Forever is a direct selling company that offers high-quality products across health & wellness, personal care, and home care categories. We provide a sustainable business opportunity for individuals to earn income through our dual marketing plan.",
+      "Direct Selling is a method of marketing and distributing products or services directly to consumers, bypassing traditional retail stores. It involves independent sellers or distributors, often referred to as Direct Sellers, who sell products through personal relationships, face-to-face interactions, home parties, events, or online platforms.\n\nIn this model, there are typically no permanent physical storefronts, and sales are made through one-on-one or group settings, such as in-home demonstrations or through digital channels. Direct Selling allows individuals to earn commissions based on the sales they generate, and in some cases, they may also earn income by recruiting and mentoring other sellers within their network.\n\nThis approach is widely used in industries such as wellness, beauty, household products, and personal care. It provides flexibility for sellers, who can often work part-time or full-time, and offers consumers a more personalized shopping experience.",
   },
   {
-    question: "How do I become a distributor?",
+    question: "How to Become a DEAL FOREVER Direct Seller?",
     answer:
-      "You can become a distributor by signing up through our website or contacting an existing distributor. You'll need a sponsor ID to register. Once registered, you can start building your business and earning income.",
+      "To become a DEAL FOREVER Direct Seller, an individual must be introduced to the business by an active Deal Forever Direct Seller, who will provide guidance and support in understanding the business and its operations. The sponsoring Direct Seller is responsible for guiding the new seller and helping them understand the business.",
   },
   {
-    question: "What is the compensation plan?",
+    question: "How Much Does It Cost to Start DEAL FOREVER Business?",
     answer:
-      "Our compensation plan includes daily income, weekly income, monthly income, and 7 types of universal genology income. We offer a simplified dual marketing plan with accumulative BV, infinite depth calculation, and no rank demotion.",
+      "There’s No Cost to Start DEAL FOREVER Business It’s Free to Join. Compared to other business ventures that require significant upfront investment, Deal Forever’s start-up cost is zero. It’s a low-risk opportunity with the added assurance of a product refund policy, so you can begin your journey with confidence.",
   },
   {
-    question: "Are the products genuine?",
+    question: "Are DEAL FOREVER Business Owners Considered Employees of the Company?",
     answer:
-      "Yes, all Deal Forever products are genuine and undergo strict quality control. We source the best ingredients and follow industry-standard manufacturing processes. Our products come with a satisfaction guarantee.",
+      "DEAL FOREVER Business Owners operate as independent contractors, not as employees of the company.",
   },
   {
-    question: "Is there a buyback policy?",
+    question: "What Products Does DEAL FOREVER Sell?",
     answer:
-      "Yes, Deal Forever has a comprehensive buyback policy. If you're not satisfied with a product, you can return it within the specified period as per our buyback and refund policy.",
+      "Deal Forever offers a wide range of high-quality consumer products, including Nutrition, Beauty, Personal Care, Home Care accessories, and Consumer Durables. Visit our products section to explore more.",
   },
   {
-    question: "How do I contact customer support?",
+    question: "How Can I Buy DEAL FOREVER Products?",
     answer:
-      "You can reach our customer support team through our toll-free number 1800-103-1025, email at customercare@dealfreever.com, or WhatsApp at +91 9898922113.",
+      "DEAL FOREVER products are sold by DEAL FOREVER Business Owners only. Feel free to share your interest on our website, and our team will reach out to assist you with your query shortly.",
   },
   {
-    question: "What are the special benefits?",
+    question: "How Can I Earn Money with DEAL FOREVER?",
     answer:
-      "Deal Forever offers special benefits including free medical insurance, higher educational scholarships, travel rewards, car fund, house fund, leadership bonuses, recognition programs, and training & development opportunities.",
+      "DEAL FOREVER Business Owners earn money when customers purchase products directly from them and when members of their DEAL FOREVER network sell products to their own customers or self-consume them. To learn more about DEAL FOEVER Sales Plan. The bonuses earned by Deal Forever Consultants depend on product sales, which reflect the time and effort they invest in the business. DEAL FOREVER does not pay commissions on joining fees.",
   },
   {
-    question: "Is there a time frame to achieve ranks?",
+    question: "Is Recruitment Necessary to Start Earning?",
     answer:
-      "No, there is no time frame for achievers at Deal Forever. You can achieve ranks at your own pace. Once achieved, there is no rank demotion, ensuring your hard work is always recognized.",
+      "Recruiting is not necessary to start making money; you can earn retail profits simply by selling products yourself and through your network.",
+  },
+  {
+    question: "How do I check the status of my order?",
+    answer:
+      "You can track your order on the DEAL FOREVER app or by visiting our website at www.mydealforever.com. Simply click on “Track Orders” under Shopping Information and enter your order number to view the status of your order.",
+  },
+  {
+    question: "What steps do I need to take to cancel an order?",
+    answer:
+      "Orders can only be cancelled if they haven’t been dispatched from the warehouse. Consultants should log into the DEAL FOREVER website or app and submit an online service request with all relevant details to proceed with cancellation.",
+  },
+  {
+    question: "What steps should I take if I receive the wrong products upon delivery?",
+    answer:
+      "If any product is incorrect from the shipment, the consultant should report it within 24-48 working hours via the Online Service Request on the website or mobile app. Please provide the necessary information when submitting the complaint.\n• Distributor Number\n• Order Invoice, Packing list Number\n• Incorrect product details\n• Short product count and qty",
+  },
+  {
+    question: "What should I do if the product I received is damaged during delivery?",
+    answer:
+      "If a consultant receives a box that is visibly damaged or broken, they should note this on the Proof of Delivery. Additionally, the consultant should report the issue within 24-48 working hours via the Online Service Request on the website or app, or email us with full details. All relevant information should be provided when submitting the complaint.\n• Distributor Number\n• Invoice, Packing list Number\n• Damaged product image\n• Damaged product code and qty\n\nThe company will review the damage report, and if the product is indeed damaged, a replacement will be dispatched.",
+  },
+  {
+    question: "What is the Estimated Delivery Time?",
+    answer:
+      "Generally, products ordered are delivered within 4 to 5 business days, excluding public holidays and Sundays. Delivery to certain destinations may take up to 7 business days based on their geographic location and reach.",
+  },
+  {
+    question: "Am I required to Keep Products in Stock Inventory?",
+    answer:
+      "There is no requirement for DEAL FOREVER Consultants, also known as Direct Sellers, to hold an inventory of DEAL FOREVER products.",
+  },
+  {
+    question: "What is a Pick-Up Center (PUC)?",
+    answer:
+      "It is a DEAL FOREVER authorized centre for online orders and services for all DEAL FOREVER Consultants.",
   },
 ];
 
@@ -1106,32 +1141,33 @@ export const brands = [
 // ─── Business Opportunity Page Data ─────────────────────────────────────────
 
 const BIZ_IMG = import.meta.env.VITE_BASE_URL + "/images/";
-const BIZ_OPP_IMG = `${BIZ_IMG}BusinessOpportunity/`;
+const BIZ_OPP_IMG = `${BIZ_IMG}BusinessOpportunity/UPDATED/`;
+const BUSY = `${BIZ_IMG}BusinessOpportunity/`;
 
 export const businessOpportunityImages = {
   IMG: BIZ_IMG,
   BIZ_IMG: BIZ_OPP_IMG,
   SALES_IMG: `${BIZ_OPP_IMG}Sales.jpeg`,
-  PULSE_CIRCLE_IMG: `${BIZ_OPP_IMG}pulse-circle.png`,
-  TABLE1_IMG: `${BIZ_OPP_IMG}table1.jpeg`,
-  TABLE2_IMG: `${BIZ_OPP_IMG}table2.jpeg`,
-  TABLE3_IMG: `${BIZ_OPP_IMG}table3.jpeg`,
-  TABLE4_IMG: `${BIZ_OPP_IMG}table4.jpeg`,
+  PULSE_CIRCLE_IMG: `${BIZ_OPP_IMG}22 PULSE.png`,
+  TABLE1_IMG: `${BUSY}table1.jpeg`,
+  TABLE2_IMG: `${BUSY}table2.jpeg`,
+  TABLE3_IMG: `${BUSY}table3.jpeg`,
+  TABLE4_IMG: `${BUSY}table4.jpeg`,
   SUPPORT_IMG: `${BIZ_OPP_IMG}support.jpeg`,
   FLOW_IMG: `${BIZ_OPP_IMG}flow.jpeg`,
-  MEDIA_IMG: `${BIZ_OPP_IMG}media.png`,
+  MEDIA_IMG: `${BIZ_OPP_IMG}19 SOCIAL MEDIA SUPPORT.png`,
   TEAM_IMG: `${BIZ_OPP_IMG}team.jpeg`,
-  WARNING_IMG: `${BIZ_OPP_IMG}warning.jpeg`,
+  WARNING_IMG: `${BIZ_OPP_IMG}05 WARNING.png`,
   CASH_IMG: `${BIZ_OPP_IMG}cash.jpeg`,
-  SPONSOR_NETWORK_IMG: `${BIZ_OPP_IMG}sponsornetwork.jpeg`,
-  ECART_IMG: `${BIZ_OPP_IMG}ecart.jpeg`,
-  PLACEMENT_NETWORK_IMG: `${BIZ_OPP_IMG}placementnetwork.jpeg`,
-  BUSINESS_PLAN_IMG: `${BIZ_OPP_IMG}businessPlan.jpeg`,
-  SPILLOVER_IMG: `${BIZ_OPP_IMG}spillover.jpeg`,
-  BUSINESS_OPPORTUNITY_IMG: `${BIZ_OPP_IMG}businessopp.jpeg`,
-  BUILDING_IMG: `${BIZ_OPP_IMG}building.jpeg`,
-  BUSINESS_FLOW_IMG: `${BIZ_OPP_IMG}businessflow.jpeg`,
-  THINKING_IMG: `${BIZ_OPP_IMG}thinking.jpeg`,
+  SPONSOR_NETWORK_IMG: `${BIZ_OPP_IMG}12 GLOSSORY OF TERMS.png`,
+  ECART_IMG: `${BIZ_OPP_IMG}08 BENIFITS OF E COMMERCE.png`,
+  PLACEMENT_NETWORK_IMG: `${BIZ_OPP_IMG}10 GLOSSORY OF TERMS.png`,
+  BUSINESS_PLAN_IMG: `${BIZ_OPP_IMG}04 BUSINESS PLAN.png`,
+  SPILLOVER_IMG: `${BIZ_OPP_IMG}11 GLOSSORY OF TERMS.png`,
+  BUSINESS_OPPORTUNITY_IMG: `${BIZ_OPP_IMG}03 BUSINESS OPPROTUNITY.png`,
+  BUILDING_IMG: `${BIZ_OPP_IMG}07 ADVANTAGE OF PHYSICAL STORE.png`,
+  BUSINESS_FLOW_IMG: `${BIZ_OPP_IMG}06 PRODUCT DISTRIBUTION SYSTEM.png`,
+  THINKING_IMG: `${BIZ_OPP_IMG}02 WHAT WOULD YOU DO.png`,
 };
 
 export const businessOpportunityBenefits = [

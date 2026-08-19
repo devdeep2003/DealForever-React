@@ -8,9 +8,13 @@ interface PageBannerProps {
 }
 
 export default function PageBanner({ title, subtitle, breadcrumbs }: PageBannerProps) {
+  const bannerUrl = (import.meta.env.VITE_BASE_URL || '') + '/images/BusinessOpportunity/UPDATED/01%20BANNER%20BUSINESS_OPPORTUNITY.jpg.jpeg';
   return (
     <div className="page-banner">
-      <div className="absolute inset-0 bg-[url('https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=1920')] bg-cover bg-center opacity-20" />
+      <div 
+        className="absolute inset-0 bg-cover bg-center opacity-20" 
+        style={{ backgroundImage: `url('${bannerUrl}')` }}
+      />
       <div className="relative container-custom text-center">
         <h1 className="text-4xl md:text-5xl font-bold text-white mb-3 animate-fade-in-up">{title}</h1>
         {subtitle && <p className="text-white/70 text-lg max-w-2xl mx-auto animate-fade-in-up delay-100">{subtitle}</p>}

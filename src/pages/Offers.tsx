@@ -1,11 +1,51 @@
 import { useState, useEffect } from 'react';
 import { X, ChevronLeft, ChevronRight , ArrowRight} from 'lucide-react';
 import PageBanner from '../components/PageBanner';
-import { offers } from '../data/siteData';
+import { DealsForeverApi } from '../services/api';
+
+const getFullImageUrl = (path: string) => {
+  if (!path) return '';
+  if (path.startsWith('http://') || path.startsWith('https://') || path.startsWith('data:')) return path;
+  
+  const apiUrl = import.meta.env.VITE_API_BASE_URL || 'https://mydealforever.com/api';
+  const baseApiUrl = apiUrl.replace(/\/api\/api\/?$/, '/api');
+  return `${baseApiUrl.replace(/\/+$/, '')}/${path.replace(/^\/+/, '')}`;
+};
 
 export default function Offers() {
-  const [selectedOffer, setSelectedOffer] = useState<typeof offers[0] | null>(null);
+  const [offersList, setOffersList] = useState<any[]>([]);
+  const [selectedOffer, setSelectedOffer] = useState<any | null>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
+
+  useEffect(() => {
+    const fetchOffers = async () => {
+      try {
+        const data = await DealsForeverApi.getAllOffers();
+        const mapped = (Array.isArray(data) ? data : []).map((item: any) => {
+          const subImages = Array.isArray(item.offerImages) && item.offerImages.length > 0
+            ? item.offerImages.map((img: any) => getFullImageUrl(img.imagePath))
+            : [getFullImageUrl(item.imagePath)];
+          return {
+            id: item.offerId,
+            title: item.offerTitle,
+            description: item.offerSubtitle,
+            fullDescription: item.offerSubtitle,
+            image: getFullImageUrl(item.imagePath),
+            validTill: new Date(item.offerDate).toLocaleDateString('en-IN', {
+              day: 'numeric',
+              month: 'short',
+              year: 'numeric'
+            }),
+            subImages
+          };
+        });
+        setOffersList(mapped);
+      } catch (err) {
+        console.error("Failed to load offers:", err);
+      }
+    };
+    fetchOffers();
+  }, []);
 
   useEffect(() => {
     if (!selectedOffer) return;
@@ -27,12 +67,12 @@ export default function Offers() {
       <section className="section-padding bg-white">
         <div className="container-custom">
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {offers.map((offer) => (
+            {offersList.map((offer) => (
               <div
                 key={offer.id}
                 className="group rounded-xl overflow-hidden shadow-md card-hover bg-white"
               >
-                <div className="relative h-44 sm:h-52 md:h-56">
+                <div className="relative h-80 sm:h-96">
                   <img
                     src={offer.image}
                     alt={offer.title}

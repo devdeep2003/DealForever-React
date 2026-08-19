@@ -1,6 +1,7 @@
 import { CheckCircle2, X, ChevronRight } from "lucide-react";
 import PageBanner from "../components/PageBanner";
 import { useState, useRef, useEffect } from "react";
+import { DealsForeverApi } from "../services/api";
 import TermsAndConditionsModal from "../components/TermsandConditions";
 import {
   businessOpportunityImages,
@@ -20,6 +21,7 @@ import {
 
 const {
   IMG,
+  BIZ_IMG,
   SALES_IMG,
   PULSE_CIRCLE_IMG,
   TABLE1_IMG,
@@ -129,9 +131,8 @@ function FloatWrapSection({
   return (
     <div>
       <div
-        className={`w-full sm:w-64 mb-3 ${floatClass} ${
-          introContent ? "hidden sm:block" : ""
-        }`}
+        className={`w-full sm:w-64 mb-3 ${floatClass} ${introContent ? "hidden sm:block" : ""
+          }`}
       >
         <ContainedImage src={image} alt={alt} size="sm" />
       </div>
@@ -151,15 +152,27 @@ function FloatWrapSection({
   );
 }
 
+const getFullImageUrl = (path: string) => {
+  if (!path) return "";
+  if (path.startsWith("http://") || path.startsWith("https://") || path.startsWith("data:")) return path;
+
+  let baseUrl = import.meta.env.VITE_API_BASE_URL || "";
+  if (!baseUrl) {
+    baseUrl = "https://mydealforever.com/api";
+  } else {
+    baseUrl = baseUrl.replace(/\/+$/, "");
+  }
+  return `${baseUrl}/${path.replace(/^\/+/, "")}`;
+};
+
 // ─── component ───────────────────────────────────────────────────────────────
 
 export default function BusinessOpportunity() {
-  type FinancialItem = (typeof financialItems)[number];
   const [selectedFinancialItem, setSelectedFinancialItem] =
-    useState<FinancialItem | null>(null);
+    useState<any>(null);
   const [isFinancialModalOpen, setIsFinancialModalOpen] = useState(false);
 
-  const openFinancialModal = (item: (typeof financialItems)[number]) => {
+  const openFinancialModal = (item: any) => {
     setSelectedFinancialItem(item);
     setIsFinancialModalOpen(true);
   };
@@ -168,6 +181,44 @@ export default function BusinessOpportunity() {
   };
 
   const [isTermsOpen, setIsTermsOpen] = useState(false);
+
+  const [financialList, setFinancialList] = useState<any[]>(financialItems);
+
+  useEffect(() => {
+    const fetchFinancialFreedom = async () => {
+      try {
+        const data = await DealsForeverApi.getAllFinancialFreedom({ PageSize: 100 });
+        const items = data && Array.isArray(data.items) ? data.items : [];
+        if (items.length > 0) {
+          const activeItems = items
+            .filter((item: any) => item.isActive !== false)
+            .sort((a: any, b: any) => (a.priority ?? 0) - (b.priority ?? 0))
+            .map((item: any) => {
+              const matchedStatic = financialItems.find(
+                (fi) => fi.title.toLowerCase() === item.title.toLowerCase()
+              );
+
+              const desc = item.description || "";
+              const excerpt = desc.length > 80 ? desc.slice(0, 80) + "..." : desc;
+
+              return {
+                title: item.title,
+                sub: item.percentage ? `${item.percentage}%` : matchedStatic?.sub || "",
+                desc: excerpt || matchedStatic?.desc || "",
+                detail: desc || matchedStatic?.detail || "",
+                icon: matchedStatic?.icon || "",
+                imagePath: item.imagePath ? getFullImageUrl(item.imagePath) : "",
+              };
+            });
+          setFinancialList(activeItems);
+        }
+      } catch (err) {
+        console.error("Failed to load financial freedom items:", err);
+      }
+    };
+
+    fetchFinancialFreedom();
+  }, []);
 
   // Auto-scroll for the "Your Benefits As A Partner" horizontal scroller
   // (only relevant below `lg`, since it becomes a static 4-col grid on desktop)
@@ -369,7 +420,7 @@ export default function BusinessOpportunity() {
           <h2 className="section-title text-center font-bold text-[#191717] mb-5">
             Your Benefits As A Partner With Deal Forever
           </h2>
-         <div
+          <div
             ref={benefitsScrollRef}
             onScroll={handleBenefitsScroll}
             onMouseEnter={pauseBenefitsAutoScroll}
@@ -405,11 +456,10 @@ export default function BusinessOpportunity() {
                 type="button"
                 onClick={() => scrollToBenefit(i)}
                 aria-label={`Go to benefit ${i + 1}`}
-                className={`h-1.5 rounded-full transition-all duration-300 ${
-                  activeBenefit === i
+                className={`h-1.5 rounded-full transition-all duration-300 ${activeBenefit === i
                     ? "w-6 bg-[#aa8453]"
                     : "w-1.5 bg-[#aa8453]/30"
-                }`}
+                  }`}
               />
             ))}
           </div>
@@ -521,9 +571,8 @@ export default function BusinessOpportunity() {
                   {incomeHighlights.map((h, i) => (
                     <div
                       key={i}
-                      className={`flex items-center gap-6 rounded-2xl p-6 ${
-                        i % 2 === 0 ? "bg-[#efe9e2]" : "bg-[#faf8f5]"
-                      }`}
+                      className={`flex items-center gap-6 rounded-2xl p-6 ${i % 2 === 0 ? "bg-[#efe9e2]" : "bg-[#faf8f5]"
+                        }`}
                     >
                       <p className="text-5xl font-black text-[#aa8453] shrink-0 w-20">
                         {h.num}
@@ -626,32 +675,35 @@ export default function BusinessOpportunity() {
             </p>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-            {financialItems.map((f, i) => (
-              <button
-                key={i}
-                onClick={() => openFinancialModal(f)}
-                className="text-left bg-white/5 rounded-lg p-4 border border-white/10 hover:border-[#aa8453]/50 transition-colors duration-200 cursor-pointer"
-              >
-                <div className="flex items-start gap-3 mb-2">
-                  <div className="w-9 h-9 shrink-0 rounded-full bg-white/10 flex items-center justify-center">
-                    <img
-                      src={`${IMG}${f.icon}`}
-                      alt={f.title}
-                      className="w-5 h-5 object-contain"
-                    />
+            {financialList.map((f, i) => {
+              const imgUrl = f.imagePath || `${IMG}${f.icon}`;
+              return (
+                <button
+                  key={i}
+                  onClick={() => openFinancialModal(f)}
+                  className="text-left bg-white/5 rounded-lg p-4 border border-white/10 hover:border-[#aa8453]/50 transition-colors duration-200 cursor-pointer"
+                >
+                  <div className="flex items-start gap-3 mb-2">
+                    <div className="w-9 h-9 shrink-0 rounded-full bg-white/10 flex items-center justify-center overflow-hidden">
+                      <img
+                        src={imgUrl}
+                        alt={f.title}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-xs font-semibold text-white/90 leading-snug break-words">
+                        {f.title}
+                      </p>
+                      <p className="text-[#aa8453] font-black text-sm">{f.sub}</p>
+                    </div>
                   </div>
-                  <div className="min-w-0">
-                    <p className="text-xs font-semibold text-white/90 leading-snug break-words">
-                      {f.title}
-                    </p>
-                    <p className="text-[#aa8453] font-black text-sm">{f.sub}</p>
-                  </div>
-                </div>
-                <p className="text-[10px] text-white/40 leading-relaxed">
-                  {f.desc}
-                </p>
-              </button>
-            ))}
+                  <p className="text-[10px] text-white/40 leading-relaxed line-clamp-3">
+                    {f.desc}
+                  </p>
+                </button>
+              );
+            })}
           </div>
 
           {/* Modal */}
@@ -678,11 +730,11 @@ export default function BusinessOpportunity() {
                 {/* Header */}
                 <div className="relative bg-[#aa8453] px-6 py-6">
                   <div className="flex items-center gap-4">
-                    <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center border-2 shrink-0">
+                    <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center border-2 shrink-0 overflow-hidden">
                       <img
-                        src={`${IMG}${selectedFinancialItem.icon}`}
+                        src={selectedFinancialItem.imagePath || `${IMG}${selectedFinancialItem.icon}`}
                         alt={selectedFinancialItem.title}
-                        className="w-8 h-8 object-contain"
+                        className="w-full h-full object-cover"
                       />
                     </div>
                     <div className="min-w-0">
@@ -979,7 +1031,7 @@ export default function BusinessOpportunity() {
 
             {/* 7d. Benefits of Direct Selling — image after intro paragraph on mobile, floats on desktop */}
             <FloatWrapSection
-              image={`${IMG}direct-selling.png`}
+              image={`${BIZ_IMG}09 BENIFITS OF DIRECT SELLING.png`}
               alt="Direct Selling"
               icon="icons8-cart-96.png"
               title="Benefits of Direct Selling"
@@ -1051,7 +1103,7 @@ export default function BusinessOpportunity() {
       </section>
 
       {/* ── 8. RANK ACHIEVEMENT ─────────────────────────────────── */}
- <section className="section-padding bg-[#faf8f5]">
+      <section className="section-padding bg-[#faf8f5]">
         <div className="container-custom">
           <div className="flex items-center gap-3 mb-3">
             <SectionIcon src="icons8-star-50.png" />
@@ -1207,7 +1259,7 @@ export default function BusinessOpportunity() {
                 </p>
                 <div className="lg:hidden mb-3">
                   <ContainedImage
-                    src={`${IMG}digital.png`}
+                    src={`${BIZ_IMG}17 DIGITAL ACCESSIBILTY AND ASSISTANCE.png`}
                     alt="Digital Access"
                   />
                 </div>
@@ -1279,7 +1331,7 @@ export default function BusinessOpportunity() {
                 </p>
                 <div className="lg:hidden mb-3">
                   <ContainedImage
-                    src={`${IMG}learning.png`}
+                    src={`${BIZ_IMG}18 LEARNING AND DEVELOPMENT.png`}
                     alt="Learning and Development"
                   />
                 </div>
@@ -1347,7 +1399,7 @@ export default function BusinessOpportunity() {
             {/* 10d. Contact — image left, text right on desktop; image after the paragraph on mobile */}
             <div className="grid lg:grid-cols-2 gap-5 items-center">
               <div className="hidden lg:block">
-                <ContainedImage src={`${IMG}contactus.png`} alt="Contact Us" />
+                <ContainedImage src={`${BIZ_IMG}20 FREE FEEL TO CONTACT US.png`} alt="Contact Us" />
               </div>
               <div>
                 <div className="flex items-center gap-3 mb-2">
@@ -1428,7 +1480,7 @@ export default function BusinessOpportunity() {
                 </p>
                 <div className="lg:hidden mb-3">
                   <ContainedImage
-                    src={`${IMG}supplychain.png`}
+                    src={`${BIZ_IMG}21 SUPPLY CHAIN AND DISTRIBUTION NETWORK.png`}
                     alt="Supply Chain"
                   />
                 </div>

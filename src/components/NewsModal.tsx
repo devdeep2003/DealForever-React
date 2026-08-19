@@ -37,7 +37,7 @@ export default function NewsModal({
         onClick={(e) => e.stopPropagation()}
       >
         {/* Hero Image — fixed, does not scroll */}
-        <div className="relative h-48 sm:h-56 md:h-64 w-full flex-shrink-0">
+        <div className="relative h-64 sm:h-80 md:h-96 w-full flex-shrink-0">
           <img
             src={newsItem.image}
             alt={newsItem.title}
@@ -69,9 +69,9 @@ export default function NewsModal({
           <div className="w-16 h-1 bg-[#aa8453] rounded-full mb-6" />
 
           {/* Excerpt as lead paragraph */}
-          <p className="text-base font-semibold text-[#444] leading-relaxed mb-5 border-l-4 border-[#aa8453] pl-4 italic">
+          {/* <p className="text-base font-semibold text-[#444] leading-relaxed mb-5 border-l-4 border-[#aa8453] pl-4 italic">
             {newsItem.excerpt}
-          </p>
+          </p> */}
 
           {/* Full Description */}
           <p className="text-sm text-[#666] leading-7 text-justify">
