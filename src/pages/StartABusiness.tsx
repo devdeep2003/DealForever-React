@@ -6,6 +6,7 @@ import {
 import PageBanner from '../components/PageBanner';
 
 const IMG = (import.meta.env.VITE_BASE_URL ?? '') + '/images/';
+const getintouch = (import.meta.env.VITE_BASE_URL ?? '') + 'images/banner/get-in-touch.png';
 
 const whyJoin = [
   {
@@ -140,14 +141,14 @@ export default function StartBusiness() {
             </div>
             <div className="relative rounded-2xl overflow-hidden shadow-2xl">
               <img
-                src="https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&w=900"
+                src={getintouch}
                 alt="Start Your Business"
                 className="w-full h-[280px] md:h-[420px] object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#191717]/60 to-transparent flex items-end p-6 md:p-8">
-                <p className="text-white text-base md:text-lg font-semibold leading-snug">
+                {/* <p className="text-white text-base md:text-lg font-semibold leading-snug">
                   Join thousands of successful Deal Forever distributors across India.
-                </p>
+                </p> */}
               </div>
             </div>
           </div>

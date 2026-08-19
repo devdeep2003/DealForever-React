@@ -58,14 +58,14 @@ export default function News() {
                 key={item.id}
                 className="bg-white rounded-xl overflow-hidden shadow-md card-hover group"
               >
-                <div className="relative h-44 sm:h-52 md:h-56 overflow-hidden">
+                <div className="relative h-80 sm:h-96 overflow-hidden">
                   <img
                     src={item.image}
                     alt={item.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                 </div>
-                <div className="p-6 flex flex-col">
+                <div className="p-6 flex flex-col"> 
                   <div className="flex items-center gap-2 text-xs text-[#aa8453] font-semibold mb-3 justify-between">
                     <div className="flex items-center gap-2">
                       <Calendar size={14} />
@@ -149,9 +149,9 @@ export default function News() {
               <div className="w-16 h-1 bg-[#aa8453] rounded-full mb-6" />
 
               {/* Excerpt as lead paragraph */}
-              <p className="text-base font-semibold text-[#444] leading-relaxed mb-5 border-l-4 border-[#aa8453] pl-4 italic">
+              {/* <p className="text-base font-semibold text-[#444] leading-relaxed mb-5 border-l-4 border-[#aa8453] pl-4 italic">
                 {selectedItem.excerpt}
-              </p>
+              </p> */}
 
               {/* Full Description */}
               <p className="text-sm text-[#666] leading-7 text-justify">

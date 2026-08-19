@@ -39,11 +39,11 @@ export default function FAQ() {
                   />
                 </button>
                 <div
-                  className={`overflow-hidden transition-all duration-300 ${
-                    openIndex === i ? "max-h-96" : "max-h-0"
+                  className={`overflow-hidden transition-all duration-500 ${
+                    openIndex === i ? "max-h-[1000px]" : "max-h-0"
                   }`}
                 >
-                  <div className="px-5 md:px-6 pb-4 text-sm md:text-lg text-[#555] leading-relaxed hover:text-[#aa8453] transition-colors">
+                  <div className="px-5 md:px-6 pb-4 text-sm md:text-lg text-[#555] leading-relaxed whitespace-pre-line transition-colors">
                     {item.answer}
                   </div>
                 </div>
